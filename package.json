@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "jest-esm-transformer": "^1.0.0"
+  }
+}

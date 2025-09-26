@@ -1,0 +1,46 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "dev:webpay": "npm run setup:webpay && npm run dev",
+    "setup:webpay": "node scripts/setup-webpay.js",
+    "ngrok": "ngrok http 5555",
+    "dev:ngrok": "concurrently \"npm run dev\" \"npm run ngrok\"",
+    "test:webpay": "node scripts/test-webpay.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "axios": "^1.9.0",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.20.3",
+    "crypto-js": "^4.2.0",
+    "date-fns": "^4.1.0",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "helmet": "^8.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^7.0.3",
+    "socket.io": "^4.8.1",
+    "transbank-sdk": "^6.1.0",
+    "validator": "^13.12.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.28.4",
+    "@babel/preset-env": "^7.28.3",
+    "babel-jest": "^30.1.2",
+    "concurrently": "^7.6.0",
+    "ngrok": "^5.0.0-beta.2",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.1.4",
+    "vitest": "^3.2.4"
+  }
+}

@@ -1,22 +1,18 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useRef } from 'react';
 import axios from 'axios';
 
-// Carga condicional de leaflet para evitar errores SSR o en test
-let L; // leaflet namespace
-try {
-  // eslint-disable-next-line global-require
-  L = require('leaflet');
-  // Fix default icon path if leaflet loaded
-  if (L && L.Icon && L.Icon.Default) {
-    delete L.Icon.Default.prototype._getIconUrl;
-    L.Icon.Default.mergeOptions({
-      iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
-      iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
-      shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png'
-    });
-  }
-} catch (e) {
-  // ignore if not available
+// Importar Leaflet (ESM) y su CSS para que funcione bien en Vite
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+// Configurar iconos por defecto (rutas correctas para Vite)
+if (L && L.Icon && L.Icon.Default) {
+  delete L.Icon.Default.prototype._getIconUrl;
+  L.Icon.Default.mergeOptions({
+    iconRetinaUrl: new URL('leaflet/dist/images/marker-icon-2x.png', import.meta.url).toString(),
+    iconUrl: new URL('leaflet/dist/images/marker-icon.png', import.meta.url).toString(),
+    shadowUrl: new URL('leaflet/dist/images/marker-shadow.png', import.meta.url).toString()
+  });
 }
 
 /*
@@ -41,6 +37,7 @@ const VetMap = () => {
   const [radiusKm, setRadiusKm] = useState(5);
   const [coords, setCoords] = useState(fallbackCenter);
   const [useGeo, setUseGeo] = useState(false);
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
 
   const fetchVets = useCallback(async () => {
     setLoading(true); setError('');
@@ -53,7 +50,7 @@ const VetMap = () => {
         params.append('radiusKm', radiusKm);
       }
       params.append('approved', 'true');
-      const url = `http://localhost:5555/api/vets/filter?${params.toString()}`;
+      const url = `${API_BASE}/api/vets/filter?${params.toString()}`;
       const { data } = await axios.get(url);
       setVets(data.vets || []);
     } catch (e) {
@@ -119,11 +116,43 @@ const VetMap = () => {
       {error && <p className="text-sm text-red-500">{error}</p>}
 
       <ul className="divide-y bg-white rounded shadow" id="lista-vets">
-        {vets.map(v => (
+        {vets.map(v => {
+          const isNew = !v?.ratings || v?.ratings?.total === 0 || v?.ratings?.total < 5;
+          const shouldShowAverage = v?.ratings?.showAverage && v?.ratings?.total >= 5;
+          
+          return (
           <li key={v._id} className="p-3 text-sm flex flex-col gap-1">
-            <span className="font-medium">{v.name}</span>
-            <span className="text-gray-600">{v.specialization || 'Sin especialidad'}</span>
-            <span className="text-gray-500">{v.region} - {v.comuna}</span>
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <span className="font-medium">{v.name}</span>
+                <span className="text-gray-600 block">{v.specialization || 'Sin especialidad'}</span>
+                <span className="text-gray-500">{v.region} - {v.comuna}</span>
+              </div>
+              {/* Rating o Badge Nuevo */}
+              <div className="flex-shrink-0 ml-2">
+                {isNew ? (
+                  <span className="inline-flex items-center px-2 py-0.5 bg-green-100 text-green-700 rounded text-xs font-semibold">
+                    Nuevo
+                  </span>
+                ) : shouldShowAverage && v?.ratings?.average > 0 ? (
+                  <div className="flex flex-col items-end gap-0.5">
+                    <div className="flex items-center gap-0.5">
+                      {[1, 2, 3, 4, 5].map((star) => (
+                        <svg
+                          key={star}
+                          className={`w-3 h-3 ${star <= v.ratings.average ? 'text-yellow-400' : 'text-gray-300'}`}
+                          fill="currentColor"
+                          viewBox="0 0 20 20"
+                        >
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+                    <span className="text-xs text-gray-500">({v.ratings.total})</span>
+                  </div>
+                ) : null}
+              </div>
+            </div>
             <div className="flex gap-2 flex-wrap text-xs">
               {(v.services || []).map(s => (
                 <span key={s} className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded">{serviceLabels[s] || s}</span>
@@ -133,7 +162,8 @@ const VetMap = () => {
               <span className="text-xs text-gray-400">~{(v.distancia/1000).toFixed(2)} km</span>
             )}
           </li>
-        ))}
+          );
+        })}
         {!loading && vets.length === 0 && <li className="p-3 text-sm text-gray-500">Sin resultados</li>}
       </ul>
     </div>
@@ -145,40 +175,72 @@ export default VetMap;
 // Sub-componente separado para evitar recrear lógica principal
 const LeafletMap = ({ vets, center }) => {
   const mapId = 'leaflet-map-container';
-  const [mapInstance, setMapInstance] = useState(null);
-  const [layerGroup, setLayerGroup] = useState(null);
+  const mapRef = useRef(null);
+  const layerGroupRef = useRef(null);
 
+  // Inicializar mapa una vez y cuando cambie el centro, recentrar
   useEffect(() => {
     if (!L) return;
-    if (!mapInstance) {
+
+    const container = L.DomUtil.get(mapId);
+    // Si el contenedor ya tiene un mapa adjunto (por HMR/fast refresh), resetea el id para permitir nueva instancia
+    if (container && container._leaflet_id && !mapRef.current) {
+      container._leaflet_id = null;
+    }
+
+    if (!mapRef.current) {
       const map = L.map(mapId).setView([center.lat, center.lng], 12);
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
       }).addTo(map);
-      const group = L.layerGroup().addTo(map);
-      setMapInstance(map);
-      setLayerGroup(group);
+      mapRef.current = map;
+      layerGroupRef.current = L.layerGroup().addTo(map);
+    } else {
+      // Recentrar si cambia el centro
+      mapRef.current.setView([center.lat, center.lng], mapRef.current.getZoom());
     }
-  }, [center, mapInstance]);
 
+    // Cleanup al desmontar componente
+    return () => {
+      // No eliminamos en cada render; sólo en unmount real
+    };
+  }, [center]);
+
+  // Renderizar marcadores cuando cambie la lista de veterinarios
   useEffect(() => {
-    if (!L || !mapInstance || !layerGroup) return;
-    layerGroup.clearLayers();
+    if (!L || !mapRef.current || !layerGroupRef.current) return;
+    const group = layerGroupRef.current;
+    group.clearLayers();
     vets.forEach(v => {
       if (v.location && v.location.coordinates && v.location.coordinates.length === 2) {
         const [lng, lat] = v.location.coordinates; // GeoJSON order
         const marker = L.marker([lat, lng]).bindPopup(`
-          <div style="font-size:12px;">
+          <div style="font-size:12px; line-height:1.3;">
             <strong>${v.name}</strong><br/>
             ${(v.services || []).map(s => `<span>${s}</span>`).join(', ')}<br/>
-            ${v.region || ''} - ${v.comuna || ''}
+            ${v.region || ''} - ${v.comuna || ''}<br/>
+            ${typeof v.distancia === 'number' ? `~${(v.distancia/1000).toFixed(2)} km` : ''}
+            <div style="margin-top:6px;">
+              <a href="/appointment/${v._id}" style="display:inline-block;background:#2563eb;color:white;padding:6px 10px;border-radius:6px;text-decoration:none;font-weight:600">Agendar</a>
+            </div>
           </div>
         `);
-        marker.addTo(layerGroup);
+        marker.addTo(group);
       }
     });
-  }, [vets, layerGroup]);
+  }, [vets]);
+
+  // Cleanup en unmount para evitar contenedor ya inicializado
+  useEffect(() => {
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+        mapRef.current = null;
+        layerGroupRef.current = null;
+      }
+    };
+  }, []);
 
   return <div id={mapId} className="w-full h-full" />;
 };

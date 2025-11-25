@@ -1,3 +1,62 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Variables globales de colores VetGoNow */
+:root {
+  /* Colores Principales */
+  --vet-primary: #1A4B56;           /* Azul Veterinario (Principal) */
+  --vet-secondary: #2A85B7;         /* Azul Secundario (Aqua/Turquesa) */
+  --vet-accent: #F7941D;            /* Naranja Acción (Acento) */
+  
+  /* Colores Neutros */
+  --vet-white: #FFFFFF;             /* Blanco Puro */
+  --vet-gray-light: #F0F0F0;        /* Gris Claro/Neutro */
+  --vet-gray-medium: #E0E0E0;       /* Gris Medio (alternativa) */
+  
+  /* Variaciones para hover y estados */
+  --vet-primary-dark: #0F2E35;      /* Azul Veterinario más oscuro */
+  --vet-primary-light: #2A6B7A;     /* Azul Veterinario más claro */
+  --vet-secondary-dark: #1E6A8F;    /* Azul Secundario más oscuro */
+  --vet-secondary-light: #4ECDC4;   /* Azul Secundario más claro (alternativa fresca) */
+  --vet-accent-dark: #D67A0A;       /* Naranja más oscuro */
+  --vet-accent-light: #FFA64D;       /* Naranja más claro */
+
+  /* ========== PALETA DEL PORTAL DEL TUTOR ========== */
+  /* Sidebar y navegación del tutor */
+  --tutor-sidebar: #2E7D70;         /* Azul Oceánico - Sidebar del tutor */
+  --tutor-sidebar-hover: #3A9283;   /* Hover del sidebar más claro */
+  --tutor-sidebar-active: #4ECDC4;  /* Estado activo con color secundario */
+  
+  /* Fondo y contenido del tutor */
+  --tutor-bg-primary: #F8F9FA;      /* Fondo principal (Gris Claro) */
+  --tutor-bg-secondary: #E9ECEF;    /* Fondo secundario (Gris Medio Suave) */
+  
+  /* Texto del tutor */
+  --tutor-text-primary: #212529;    /* Texto principal (Negro Oscuro) */
+  --tutor-text-secondary: #6C757D;  /* Texto secundario (Gris) */
+  
+  /* Botones y acciones del tutor */
+  --tutor-btn-primary: #F7941D;     /* Botón primario (Naranja "GoNow") */
+  --tutor-btn-primary-hover: #E8850B; /* Hover del botón primario */
+  --tutor-btn-secondary: #4ECDC4;   /* Botón secundario (Azul Aqua "GoNow") */
+  --tutor-btn-secondary-hover: #3FB8B0; /* Hover del botón secundario */
+  
+  /* Estados y alertas del tutor */
+  --tutor-danger: #DC3545;          /* Rojo Alerta/Peligro */
+}
+
+/* Estilos para ocultar scrollbar en carrusel móvil */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE y Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari y Opera */
+}
+
+/* Smooth scrolling para carrusel */
+.scrollbar-hide {
+  scroll-behavior: smooth;
+}

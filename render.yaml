@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: vetgonow-backend
+    env: node
+    plan: free
+    buildCommand: cd Backend && npm install
+    startCommand: cd Backend && npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        fromService:
+          type: web
+          name: vetgonow-backend
+          property: port
+    healthCheckPath: /health
+

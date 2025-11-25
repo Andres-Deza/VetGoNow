@@ -17,7 +17,7 @@ describe('Login', () => {
 });
   it('permite login con datos del seed', async () => {
     render(<Login />);
-    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'juan.1@VetGestion.com' } });
+    fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'juan.1@VetGoNow.com' } });
     fireEvent.change(screen.getByLabelText(/contraseña/i), { target: { value: 'usuario1pass' } });
     fireEvent.click(screen.getByRole('button', { name: /login/i }));
     expect(await screen.findByText(/dashboard/i)).toBeInTheDocument();

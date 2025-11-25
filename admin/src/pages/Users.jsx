@@ -13,7 +13,7 @@ const Users = () => {
     const fetchUsersAndPets = async () => {
       try {
         const token = localStorage.getItem('token');
-        if (!token) throw new Error('No token found. Please log in.');
+        if (!token) throw new Error('No se encontró token. Por favor inicia sesión.');
 
         const response = await axios.get('http://localhost:5555/api/users/role/user', {
           headers: { Authorization: `Bearer ${token}` }
@@ -53,11 +53,11 @@ const Users = () => {
   }, [navigate]);
 
 const handleRemove = async (userId) => {
-  if (!window.confirm('Are you sure you want to remove this user and all their pets?')) return;
+  if (!window.confirm('¿Estás seguro de que deseas eliminar este usuario y todas sus mascotas?')) return;
 
   try {
     const token = localStorage.getItem('token');
-    if (!token) throw new Error('No token found');
+    if (!token) throw new Error('No se encontró token');
 
     // Delete all pets of the user
     await axios.delete(`http://localhost:5555/api/pets/user/${userId}`, {
@@ -71,34 +71,34 @@ const handleRemove = async (userId) => {
 
     // Update local state
     setUsers(users.filter(user => user._id !== userId));
-    alert('User and their pets removed successfully');
+    alert('Usuario y sus mascotas eliminados exitosamente');
   } catch (err) {
-    console.error('❌ Error removing user and pets:', err);
-    alert(err.response?.data?.message || 'Failed to remove user and pets');
+    console.error('Error eliminando usuario y mascotas:', err);
+    alert(err.response?.data?.message || 'Error al eliminar usuario y mascotas');
   }
 };
 
 
 
-  if (loading) return <div className="p-4">Loading...</div>;
+  if (loading) return <div className="p-4">Cargando...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
 
 return (
-  <div className="p-6">
-    <h1 className="text-3xl font-bold mb-6">Manage Users</h1>
+  <div className="p-2 md:p-4 lg:p-6">
+    <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4 md:mb-6">Gestionar Usuarios</h1>
     {users.length === 0 ? (
-      <p>No users found.</p>
+      <p className="text-center text-gray-500 py-8">No se encontraron usuarios.</p>
     ) : (
-      <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-3 md:gap-4 lg:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {users.map(user => (
           <div
             key={user._id}
-            className="w-full h-[220px] max-w-xs bg-white rounded-xl shadow-md p-4 flex flex-col justify-between overflow-hidden"
+            className="w-full min-h-[200px] md:h-[220px] max-w-xs mx-auto bg-white rounded-lg md:rounded-xl shadow-md p-3 md:p-4 flex flex-col justify-between overflow-hidden"
           >
             <div className="flex items-center space-x-4 mb-3">
               <img
                 src={user.avatar || avatar} // fallback avatar image path
-                alt={`${user.name} avatar`}
+                alt={`Avatar de ${user.name}`}
                 className="w-14 h-14 rounded-full object-cover shadow"
               />
               <div className="flex flex-col">
@@ -109,28 +109,28 @@ return (
             </div>
 
             <div className="text-sm text-gray-700 overflow-y-auto max-h-12 flex items-center gap-2">
-              <span className="font-medium mr-2">Pets:</span>
+              <span className="font-medium mr-2">Mascotas:</span>
               {user.pets.length > 0 ? (
                 user.pets.map(pet => (
                   <div key={pet._id} className="flex items-center space-x-1">
                     <img
                       src={pet.image || '/default-pet.png'} // fallback image if none
-                      alt={pet.name}
+                      alt={`Mascota ${pet.name}`}
                       className="w-6 h-6 rounded-full object-cover"
                     />
                     <span>{pet.name}</span>
                   </div>
                 ))
               ) : (
-                'No pets'
+                'Sin mascotas'
               )}
             </div>
 
             <button
               onClick={() => handleRemove(user._id)}
-              className="mt-4 bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm self-start"
+              className="mt-3 md:mt-4 bg-red-500 text-white px-3 py-1.5 rounded hover:bg-red-600 text-sm self-start transition-colors"
             >
-              Remove
+              Eliminar
             </button>
           </div>
         ))}

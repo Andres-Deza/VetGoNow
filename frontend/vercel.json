@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "https://1c0542d3bcd3.ngrok-free.app/api/$1"
+      "destination": "https://vetgonow-backend.onrender.com/api/$1"
     }
   ]
 }

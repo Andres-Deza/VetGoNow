@@ -1,15 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="Logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>VetGestion</title>
+    <meta name="description" content="VetGoNow - Plataforma de atención veterinaria" />
+    <title>VetGoNow</title>
+    <!-- Preconnect para recursos externos -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+    <link rel="preconnect" href="https://sdk.mercadopago.com" />
+    <!-- SDK de Mercado Pago para captura de tarjetas -->
+    <script src="https://sdk.mercadopago.com/js/v2" defer></script>
+    <!-- Los scripts externos se cargan solo cuando se necesitan -->
   </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    <script src="https://khalti.com/static/khalti-checkout.js"></script>
+    <!-- Scripts externos cargados bajo demanda -->
   </body>
 </html>

@@ -22,10 +22,10 @@ pids
 **/.env
 **/.env.*
 .env.local
-.env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
 
 # Build output
 /**/build
@@ -64,3 +64,65 @@ Thumbs.db
 .yarn/build-state.yml
 .yarn/install-state.gz
 .yarn/versions
+
+# Ignore .ipynb files anywhere in the repo
+**/*.ipynb
+/ejemplo_Pages
+/.windsurf
+.cursorrules
+
+# Test files and screenshots (keep test files in tests/ directory)
+**/cypress/screenshots/**
+**/cypress/videos/**
+# Only ignore test files in root, keep tests in tests/ directories
+/*.test.js
+/*.test.jsx
+/*.spec.js
+/*.spec.jsx
+
+# Development scripts
+*.ps1
+*.bat
+*.sh
+
+# Drawio files
+*.drawio
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.swp
+*.swo
+*~
+
+# Uploads folder (contains user-generated content)
+Backend/uploads/*
+!Backend/uploads/.gitkeep
+
+# Tesseract models (keep if needed, uncomment if you want to ignore)
+# *.traineddata
+
+# Docker
+.dockerignore
+
+# Google Cloud
+.gcloudignore
+
+# Firebase
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Development tools
+/tools/
+
+# Documentation - Non-essential markdown files
+ANALISIS-INTEGRACION-GEMINI.md
+GUIA-CREDITOS-GOOGLE-CLOUD.md
+GUIA-GEMINI-SETUP.md
+HABILITAR-GEMINI-API.md
+RESUMEN-CONFIGURACION-GEMINI.md
+RESUMEN-IMPLEMENTACION-IA-IMAGENES.md
+SOLUCION-GEMINI-404.md

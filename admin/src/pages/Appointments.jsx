@@ -16,7 +16,7 @@ const Appointments = () => {
   const [petNames, setPetNames] = useState({});
 
   const fetchVetName = async (vetId) => {
-    if (!vetId) return 'Unknown Vet';
+    if (!vetId) return 'Veterinario Desconocido';
     const id = typeof vetId === 'object' ? vetId._id || vetId?.$oid : vetId;
     if (vetNames[id]) return vetNames[id];
 
@@ -24,13 +24,13 @@ const Appointments = () => {
       const { data } = await axios.get(`http://localhost:5555/api/vets/findvetsname/all/${id}`);
       return data.name;
     } catch (err) {
-      console.error('Error fetching vet name:', err);
-      return 'Unknown Vet';
+      console.error('Error obteniendo nombre del veterinario:', err);
+      return 'Veterinario Desconocido';
     }
   };
 
   const fetchOwnerName = async (ownerId) => {
-    if (!ownerId) return 'Unknown Owner';
+    if (!ownerId) return 'Dueño Desconocido';
     const id = typeof ownerId === 'object' ? ownerId._id : ownerId;
     if (ownerNames[id]) return ownerNames[id];
 
@@ -38,12 +38,12 @@ const Appointments = () => {
       const { data } = await axios.get(`http://localhost:5555/api/users/findownersname/all/${id}`);
       return data.user.name;
     } catch {
-      return 'Unknown Owner';
+      return 'Dueño Desconocido';
     }
   };
 
   const fetchPetName = async (petId) => {
-    if (!petId) return 'Unknown Pet';
+    if (!petId) return 'Mascota Desconocida';
     const id = typeof petId === 'object' ? petId._id : petId;
     if (petNames[id]) return petNames[id];
 
@@ -51,7 +51,7 @@ const Appointments = () => {
       const { data } = await axios.get(`http://localhost:5555/api/pets/findpetsname/all/${id}`);
       return data.pet.name;
     } catch {
-      return 'Unknown Pet';
+      return 'Mascota Desconocida';
     }
   };
 
@@ -60,7 +60,7 @@ const Appointments = () => {
       try {
         setLoading(true);
         const token = localStorage.getItem('token');
-        if (!token) throw new Error('No token found, please login.');
+        if (!token) throw new Error('No se encontró token, por favor inicia sesión.');
 
         const { data } = await axios.get('http://localhost:5555/api/appointments/allappointments/fetching', {
           headers: { Authorization: `Bearer ${token}` },
@@ -96,7 +96,7 @@ const Appointments = () => {
         setAppointments(appointments);
         setLoading(false);
       } catch (err) {
-        setError(err.message || 'Failed to load appointments');
+        setError(err.message || 'Error al cargar las citas');
         setLoading(false);
       }
     };
@@ -117,32 +117,32 @@ const Appointments = () => {
     return matchesVet && matchesOwner && matchesPet && matchesStatus;
   });
 
-  if (loading) return <div className="p-4">Loading appointments...</div>;
+  if (loading) return <div className="p-4">Cargando citas...</div>;
   if (error) return <div className="p-4 text-red-500">{error}</div>;
 
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">All Appointments</h1>
+    <div className="p-2 md:p-4">
+      <h1 className="text-xl md:text-2xl font-bold mb-3 md:mb-4">Todas las Citas</h1>
 
       {/* Filters */}
-      <div className="flex gap-4 mb-6 flex-wrap items-center">
+      <div className="flex gap-2 md:gap-4 mb-4 md:mb-6 flex-wrap items-center">
         <input
           type="text"
-          placeholder="Filter by Vet Name"
+          placeholder="Filtrar por Veterinario"
           value={filterVet}
           onChange={e => setFilterVet(e.target.value)}
           className="border px-4 py-2 rounded w-full sm:w-auto"
         />
         <input
           type="text"
-          placeholder="Filter by Pet Name"
+          placeholder="Filtrar por Mascota"
           value={filterPet}
           onChange={e => setFilterPet(e.target.value)}
           className="border px-4 py-2 rounded w-full sm:w-auto"
         />
         <input
           type="text"
-          placeholder="Filter by Owner Name"
+          placeholder="Filtrar por Dueño"
           value={filterOwner}
           onChange={e => setFilterOwner(e.target.value)}
           className="border px-4 py-2 rounded w-full sm:w-auto"
@@ -152,10 +152,10 @@ const Appointments = () => {
           onChange={e => setFilterStatus(e.target.value)}
           className="border px-4 py-2 rounded w-full sm:w-auto"
         >
-          <option value="all">All Statuses</option>
-          <option value="pending">Pending</option>
-          <option value="completed">Completed</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="all">Todos los Estados</option>
+          <option value="pending">Pendiente</option>
+          <option value="completed">Completada</option>
+          <option value="cancelled">Cancelada</option>
         </select>
         <button
           onClick={() => {
@@ -164,61 +164,107 @@ const Appointments = () => {
             setFilterOwner('');
             setFilterStatus('all');
           }}
-          className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded whitespace-nowrap"
+          className="bg-red-500 hover:bg-red-600 text-white px-3 md:px-4 py-2 rounded text-sm md:text-base whitespace-nowrap"
         >
-          Clear Filters
+          Limpiar Filtros
         </button>
       </div>
 
       {filteredAppointments.length === 0 ? (
-        <div>No appointments found matching your filters.</div>
+        <div className="text-center text-gray-500 py-8">No se encontraron citas que coincidan con los filtros.</div>
       ) : (
-        <div className="overflow-x-auto">
-          <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
-            <thead>
-              <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
-                <th className="p-3 border-b">Vet</th>
-                <th className="p-3 border-b">Owner</th>
-                <th className="p-3 border-b">Pet</th>
-                <th className="p-3 border-b">Date</th>
-                <th className="p-3 border-b">Time</th>
-                <th className="p-3 border-b">Type</th>
-                <th className="p-3 border-b">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredAppointments.map(app => {
-                const vetId = app.vetId?._id || app.vetId;
-                const userId = app.userId?._id || app.userId;
-                const petId = app.petId?._id || app.petId;
+        <>
+          {/* Mobile: Card View */}
+          <div className="md:hidden space-y-3">
+            {filteredAppointments.map(app => {
+              const vetId = app.vetId?._id || app.vetId;
+              const userId = app.userId?._id || app.userId;
+              const petId = app.petId?._id || app.petId;
 
-                return (
-                  <tr key={app._id} className="border-b hover:bg-gray-50 text-sm">
-                    <td className="p-3">{vetNames[vetId] || 'Loading...'}</td>
-                    <td className="p-3">{ownerNames[userId] || 'Loading...'}</td>
-                    <td className="p-3">{petNames[petId] || 'Loading...'}</td>
-                    <td className="p-3">{new Date(app.appointmentDate).toLocaleDateString()}</td>
-                    <td className="p-3">{app.scheduledTime}</td>
-                    <td className="p-3">{app.appointmentType}</td>
-                    <td className="p-3">
-                      <span
-                        className={`inline-block px-3 py-1 rounded-full text-white text-xs font-semibold
-                          ${
-                            app.status === 'completed' ? 'bg-green-600' :
-                            app.status === 'pending' ? 'bg-yellow-500' :
-                            app.status === 'cancelled' ? 'bg-red-600' :
-                            'bg-gray-400'
-                          }`}
-                      >
-                        {app.status.charAt(0).toUpperCase() + app.status.slice(1)}
-                      </span>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
+              return (
+                <div key={app._id} className="bg-white border border-gray-200 rounded-lg p-4 shadow-sm">
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex-1">
+                      <p className="font-semibold text-gray-900">{vetNames[vetId] || 'Cargando...'}</p>
+                      <p className="text-sm text-gray-600">{ownerNames[userId] || 'Cargando...'}</p>
+                    </div>
+                    <span
+                      className={`inline-block px-2 py-1 rounded-full text-white text-xs font-semibold whitespace-nowrap ml-2
+                        ${
+                          app.status === 'completed' ? 'bg-green-600' :
+                          app.status === 'pending' ? 'bg-yellow-500' :
+                          app.status === 'cancelled' ? 'bg-red-600' :
+                          'bg-gray-400'
+                        }`}
+                    >
+                      {app.status === 'pending' ? 'Pendiente' : 
+                       app.status === 'completed' ? 'Completada' : 
+                       app.status === 'cancelled' ? 'Cancelada' : 
+                       app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                    </span>
+                  </div>
+                  <div className="space-y-1 text-sm">
+                    <p><span className="font-medium">Mascota:</span> {petNames[petId] || 'Cargando...'}</p>
+                    <p><span className="font-medium">Fecha:</span> {new Date(app.appointmentDate).toLocaleDateString()}</p>
+                    <p><span className="font-medium">Hora:</span> {app.scheduledTime}</p>
+                    <p><span className="font-medium">Tipo:</span> {app.appointmentType}</p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Desktop: Table View */}
+          <div className="hidden md:block overflow-x-auto">
+            <table className="min-w-full bg-white border border-gray-200 shadow-sm rounded-lg">
+              <thead>
+                <tr className="bg-gray-100 text-left text-sm font-semibold text-gray-700">
+                  <th className="p-3 border-b">Veterinario</th>
+                  <th className="p-3 border-b">Dueño</th>
+                  <th className="p-3 border-b">Mascota</th>
+                  <th className="p-3 border-b">Fecha</th>
+                  <th className="p-3 border-b">Hora</th>
+                  <th className="p-3 border-b">Tipo</th>
+                  <th className="p-3 border-b">Estado</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredAppointments.map(app => {
+                  const vetId = app.vetId?._id || app.vetId;
+                  const userId = app.userId?._id || app.userId;
+                  const petId = app.petId?._id || app.petId;
+
+                  return (
+                    <tr key={app._id} className="border-b hover:bg-gray-50 text-sm">
+                      <td className="p-3">{vetNames[vetId] || 'Cargando...'}</td>
+                      <td className="p-3">{ownerNames[userId] || 'Cargando...'}</td>
+                      <td className="p-3">{petNames[petId] || 'Cargando...'}</td>
+                      <td className="p-3">{new Date(app.appointmentDate).toLocaleDateString()}</td>
+                      <td className="p-3">{app.scheduledTime}</td>
+                      <td className="p-3">{app.appointmentType}</td>
+                      <td className="p-3">
+                        <span
+                          className={`inline-block px-3 py-1 rounded-full text-white text-xs font-semibold
+                            ${
+                              app.status === 'completed' ? 'bg-green-600' :
+                              app.status === 'pending' ? 'bg-yellow-500' :
+                              app.status === 'cancelled' ? 'bg-red-600' :
+                              'bg-gray-400'
+                            }`}
+                        >
+                          {app.status === 'pending' ? 'Pendiente' : 
+                           app.status === 'completed' ? 'Completada' : 
+                           app.status === 'cancelled' ? 'Cancelada' : 
+                           app.status.charAt(0).toUpperCase() + app.status.slice(1)}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+        </>
       )}
     </div>
   );

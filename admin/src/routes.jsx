@@ -3,8 +3,12 @@ import { useEffect } from 'react';
 import Dashboard from './pages/Dashboard';
 import Users from './pages/Users';
 import Vets from './pages/Vets';
+import EditVet from './pages/EditVet';
 import Appointments from './pages/Appointments';
 import Revenue from './pages/Revenue';
+import VetReliability from './pages/VetReliability';
+import Pricing from './pages/Pricing';
+import CommissionManagement from './pages/CommissionManagement';
 import Login from './pages/Login';
 import Register from './pages/Register';
 
@@ -14,7 +18,7 @@ const ProtectedRoute = ({ children }) => {
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {
-      console.log('❌ ProtectedRoute: Access denied, redirecting to /login');
+      console.log('ProtectedRoute: Acceso denegado, redirigiendo a /login');
     }
   }, [user]);
 
@@ -44,12 +48,28 @@ const AppRoutes = () => {
         element={<ProtectedRoute><Vets /></ProtectedRoute>}
       />
       <Route
+        path="/admin/vets/:id/edit"
+        element={<ProtectedRoute><EditVet /></ProtectedRoute>}
+      />
+      <Route
         path="/admin/appointments"
         element={<ProtectedRoute><Appointments /></ProtectedRoute>}
       />
       <Route
         path="/admin/revenue"
         element={<ProtectedRoute><Revenue /></ProtectedRoute>}
+      />
+      <Route
+        path="/admin/vet-reliability"
+        element={<ProtectedRoute><VetReliability /></ProtectedRoute>}
+      />
+      <Route
+        path="/admin/pricing"
+        element={<ProtectedRoute><Pricing /></ProtectedRoute>}
+      />
+      <Route
+        path="/admin/commissions"
+        element={<ProtectedRoute><CommissionManagement /></ProtectedRoute>}
       />
       <Route
         path="/admin/register"

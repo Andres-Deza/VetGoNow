@@ -33,8 +33,9 @@ const VetAssignment = ({ mode, location, assignment, onChange, onVetSelect }) =>
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
+      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
       const response = await axios.get(
-        `http://localhost:5555/api/emergency/nearby-vets?lat=${location.lat}&lng=${location.lng}&maxDistance=10`,
+        `${API_BASE}/api/emergency/nearby-vets?lat=${location.lat}&lng=${location.lng}&maxDistance=10`,
         {
           headers: { Authorization: `Bearer ${token}` }
         }

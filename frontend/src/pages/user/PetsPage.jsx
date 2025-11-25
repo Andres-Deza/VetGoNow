@@ -4,6 +4,8 @@ import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import PetAvatar from "../../components/PetAvatar";
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+
 const dogBreeds = [
   "Mestizo",
   "Labrador Retriever",
@@ -175,7 +177,7 @@ const PetsPage = () => {
         setInitialLoading(false);
         return;
       }
-      const res = await axios.get(`http://localhost:5555/api/pets/user/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
+      const res = await axios.get(`${API_BASE}/api/pets/user/${userId}`, { headers: { Authorization: `Bearer ${token}` } });
       setPets(res.data);
     } catch (error) {
       console.error("Error fetching pets:", error.response?.data || error.message);
@@ -434,7 +436,7 @@ const PetsPage = () => {
       };
       
       const res = await axios.post(
-        "http://localhost:5555/api/pets",
+        `${API_BASE}/api/pets`,
         petData,
         { headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" } }
       );
@@ -492,7 +494,7 @@ const PetsPage = () => {
     }
 
     try {
-      await axios.delete(`http://localhost:5555/api/pets/${deletePetId}`, { headers: { Authorization: `Bearer ${token}` } });
+      await axios.delete(`${API_BASE}/api/pets/${deletePetId}`, { headers: { Authorization: `Bearer ${token}` } });
       setPets((prevPets) => prevPets.filter((pet) => pet._id !== deletePetId));
       setDeletePetId(null);
     } catch (error) {

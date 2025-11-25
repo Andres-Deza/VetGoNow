@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import axios from "axios";
 
+const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+
 const WaitingPage = () => {
   const [certificateImage, setCertificateImage] = useState("");
 
@@ -24,7 +26,7 @@ const WaitingPage = () => {
         console.log("Submitting certificate for user ID:", user.id); // ✅ Print user ID
 
         await axios.put(
-        `http://localhost:5555/api/vets/${user.id}/certificate`,
+        `${API_BASE}/api/vets/${user.id}/certificate`,
         { certificateImage },
         { headers: { Authorization: `Bearer ${token}` } }
         );

@@ -5,6 +5,33 @@ import { io } from "socket.io-client";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "";
 
+// Función helper para formatear fecha evitando problemas de zona horaria
+// Si la fecha viene como string ISO, la parsea manualmente para evitar conversión UTC
+const formatAppointmentDate = (dateString) => {
+  if (!dateString) return '';
+  
+  // Si es un string ISO (ej: "2024-01-15T00:00:00.000Z"), extraer solo la parte de fecha
+  if (typeof dateString === 'string' && dateString.includes('T')) {
+    const datePart = dateString.split('T')[0]; // "2024-01-15"
+    const [year, month, day] = datePart.split('-').map(Number);
+    // Crear fecha en hora local usando los componentes
+    const date = new Date(year, month - 1, day);
+    return date.toLocaleDateString('es-CL', { 
+      year: 'numeric', 
+      month: '2-digit', 
+      day: '2-digit' 
+    });
+  }
+  
+  // Si es un objeto Date o string simple, usar directamente
+  const date = new Date(dateString);
+  return date.toLocaleDateString('es-CL', { 
+    year: 'numeric', 
+    month: '2-digit', 
+    day: '2-digit' 
+  });
+};
+
 const MyAppointments = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
@@ -523,7 +550,7 @@ const MyAppointments = () => {
                         <div className="min-w-0 flex-1">
                           <p className="font-semibold text-sm md:text-base truncate">Vet: Dr. {a.vetName || a.vetId}</p>
                           <p className="text-xs md:text-sm text-gray-600 truncate">Pet: {a.petName || a.petId}</p>
-                          <p className="text-xs md:text-sm text-gray-600">Fecha: {new Date(a.appointmentDate).toLocaleDateString()}</p>
+                          <p className="text-xs md:text-sm text-gray-600">Fecha: {formatAppointmentDate(a.appointmentDate)}</p>
                           <p className="text-xs md:text-sm text-gray-600">Hora: {a.scheduledTime}</p>
                           <p className="text-xs md:text-sm text-gray-600">
                             <strong>Tipo:</strong>{" "}
@@ -573,7 +600,7 @@ const MyAppointments = () => {
                         <div className="min-w-0 flex-1">
                           <p className="font-semibold text-sm md:text-base truncate">Vet: Dr. {a.vetName || a.vetId}</p>
                           <p className="text-xs md:text-sm text-gray-600 truncate">Pet: {a.petName || a.petId}</p>
-                          <p className="text-xs md:text-sm text-gray-600">Fecha: {new Date(a.appointmentDate).toLocaleDateString()}</p>
+                          <p className="text-xs md:text-sm text-gray-600">Fecha: {formatAppointmentDate(a.appointmentDate)}</p>
                           <p className="text-xs md:text-sm text-gray-600">Hora: {a.scheduledTime}</p>
                           <p className="text-xs md:text-sm text-gray-600">
                             <strong>Tipo:</strong>{" "}
@@ -654,7 +681,7 @@ const MyAppointments = () => {
                             <p className="text-xs md:text-sm font-semibold text-gray-800 truncate">{a.petName || a.petId}</p>
                             <p className="text-xs text-gray-500 truncate">{a.vetName || "Unknown Vet"}</p>
                             <p className="text-xs text-gray-500">
-                              {new Date(a.appointmentDate).toLocaleDateString()}
+                              {formatAppointmentDate(a.appointmentDate)}
                             </p>
                             <p className="text-xs text-gray-500">
                               <strong>Tipo:</strong>{" "}

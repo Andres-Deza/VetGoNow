@@ -40,6 +40,12 @@ const allowedOrigins = [
   'http://localhost:5174', // frontend client (dev)
   'http://localhost:5555', // maybe if using another port/server
   
+  // URLs de producción en Vercel
+  'https://vetgonow-frontend.vercel.app', // Frontend production
+  'https://vet-go-now-admin.vercel.app', // Admin production
+  'https://vetgonow-admin.vercel.app', // Admin production (alternativa)
+  
+  // URLs desde variables de entorno
   process.env.FRONTEND_URL, // Frontend production URL
   process.env.ADMIN_URL, // Admin production URL
 ].filter(Boolean); // Remove undefined values

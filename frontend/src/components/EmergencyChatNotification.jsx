@@ -4,7 +4,23 @@ import io from 'socket.io-client';
 import { requestNotificationPermission } from '../utils/permissions';
 
 const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
-const SOCKET_URL = import.meta.env.VITE_SOCKET_URL || 'http://localhost:5555';
+
+// Obtener URL de Socket.io de forma segura (evita permiso de red local en producción)
+const getSocketURL = () => {
+  if (import.meta.env.VITE_SOCKET_URL) {
+    return import.meta.env.VITE_SOCKET_URL;
+  }
+  if (import.meta.env.VITE_API_BASE) {
+    return import.meta.env.VITE_API_BASE;
+  }
+  // Solo usar localhost en desarrollo local
+  if (import.meta.env.DEV || window.location.hostname === 'localhost') {
+    return 'http://localhost:5555';
+  }
+  return null;
+};
+
+const SOCKET_URL = getSocketURL();
 
 const EmergencyChatNotification = ({ user }) => {
   const navigate = useNavigate();
@@ -25,6 +41,12 @@ const EmergencyChatNotification = ({ user }) => {
 
     // Solicitar permisos de notificación al montar
     requestNotificationPermission();
+
+    // Conectar al namespace de chat solo si hay URL configurada
+    if (!SOCKET_URL) {
+      console.warn('Socket.io deshabilitado: No se configuró VITE_SOCKET_URL o VITE_API_BASE');
+      return;
+    }
 
     // Conectar al namespace de chat
     const chatSocket = io(`${SOCKET_URL}/chat`, {

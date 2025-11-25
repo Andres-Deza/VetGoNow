@@ -602,46 +602,47 @@ const EmergencyRequestPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 pb-24 md:pb-8">
-      <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6">
-        {/* Header - Mejorado para móvil */}
-        <div className="mb-4 md:mb-8 pt-4 md:pt-8">
-          <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-2">
-            Solicitar Consulta Urgente
-          </h1>
-          <p className="text-sm md:text-base text-gray-600">
-            Completa el formulario para solicitar atención veterinaria urgente
-          </p>
-        </div>
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <div className="flex-1 overflow-y-auto pb-24 md:pb-8">
+        <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6">
+          {/* Header - Mejorado para móvil */}
+          <div className="mb-3 md:mb-8 pt-3 md:pt-8">
+            <h1 className="text-xl md:text-3xl font-bold text-gray-900 mb-1 md:mb-2">
+              Solicitar Consulta Urgente
+            </h1>
+            <p className="text-xs md:text-base text-gray-600">
+              Completa el formulario para solicitar atención veterinaria urgente
+            </p>
+          </div>
 
-        {/* Error message */}
-        {error && (
-          <div className="bg-red-50 border-l-4 border-red-500 p-3 md:p-4 mb-4 md:mb-6 rounded">
-            <div className="flex items-start gap-2">
-              <FaExclamationTriangle className="text-red-500 mt-0.5 flex-shrink-0" />
-              <p className="text-sm md:text-base text-red-800">{error}</p>
+          {/* Error message */}
+          {error && (
+            <div className="bg-red-50 border-l-4 border-red-500 p-3 md:p-4 mb-3 md:mb-6 rounded">
+              <div className="flex items-start gap-2">
+                <FaExclamationTriangle className="text-red-500 mt-0.5 flex-shrink-0" />
+                <p className="text-sm md:text-base text-red-800">{error}</p>
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="mb-6">
-          <p className="text-xs md:text-sm text-gray-500 uppercase tracking-wide">
-            Paso {currentStep + 1} de {totalSteps}
-          </p>
-          <div className="flex items-center gap-2 mt-3">
-            {steps.map((step, index) => (
-              <div
-                key={step.id}
-                className={`flex-1 h-1 rounded-full transition-colors ${
-                  index <= currentStep ? 'bg-blue-600' : 'bg-gray-200'
-                }`}
-              />
-            ))}
+          <div className="mb-4 md:mb-6">
+            <p className="text-xs md:text-sm text-gray-500 uppercase tracking-wide">
+              Paso {currentStep + 1} de {totalSteps}
+            </p>
+            <div className="flex items-center gap-2 mt-2 md:mt-3">
+              {steps.map((step, index) => (
+                <div
+                  key={step.id}
+                  className={`flex-1 h-1 rounded-full transition-colors ${
+                    index <= currentStep ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}
+                />
+              ))}
+            </div>
+            <h2 className="mt-3 md:mt-4 text-lg md:text-2xl font-semibold text-gray-900">
+              {steps[currentStep].title}
+            </h2>
           </div>
-          <h2 className="mt-4 text-xl md:text-2xl font-semibold text-gray-900">
-            {steps[currentStep].title}
-          </h2>
-        </div>
 
         {currentStep === 0 && (
           <>
@@ -863,55 +864,57 @@ const EmergencyRequestPage = () => {
           </>
         )}
 
-        {currentStep === 5 && mode === 'home' && (
-          <>
-            <div className="bg-white rounded-xl md:rounded-lg shadow-sm border border-gray-200 p-4 md:p-6 mb-4 md:mb-6">
-              <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
-                Resumen de la solicitud
-              </h3>
-              <dl className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-sm md:text-base text-gray-700">
-                <div>
-                  <dt className="font-medium text-gray-500">Mascota</dt>
-                  <dd className="text-gray-900">{pet?.name ?? 'Sin definir'}</dd>
-                </div>
-                <div>
-                  <dt className="font-medium text-gray-500">Tipo de atención</dt>
-                  <dd className="text-gray-900">
-                    {mode === 'home' ? 'Urgencia a domicilio' : 'Atención en clínica'}
-                  </dd>
-                </div>
-                <div>
-                  <dt className="font-medium text-gray-500">Motivo principal</dt>
-                  <dd className="text-gray-900">{reasonLabel}</dd>
-                </div>
-                <div>
-                  <dt className="font-medium text-gray-500">Ubicación</dt>
-                  <dd className="text-gray-900">{location?.address ?? 'Se coordinará con la clínica'}</dd>
-                </div>
-                <div>
-                  <dt className="font-medium text-gray-500">Veterinario</dt>
-                  <dd className="text-gray-900">
-                    {assignment.strategy === 'auto'
-                      ? 'Asignación automática'
-                      : selectedVet?.name ?? 'Selecciona un profesional'}
-                  </dd>
-                </div>
-              </dl>
-            </div>
+          {currentStep === 5 && mode === 'home' && (
+            <>
+              <div className="bg-white rounded-xl md:rounded-lg shadow-sm border border-gray-200 p-4 md:p-6 mb-4 md:mb-6">
+                <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
+                  Resumen de la solicitud
+                </h3>
+                <dl className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 text-sm md:text-base text-gray-700">
+                  <div>
+                    <dt className="font-medium text-gray-500">Mascota</dt>
+                    <dd className="text-gray-900">{pet?.name ?? 'Sin definir'}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-gray-500">Tipo de atención</dt>
+                    <dd className="text-gray-900">
+                      {mode === 'home' ? 'Urgencia a domicilio' : 'Atención en clínica'}
+                    </dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-gray-500">Motivo principal</dt>
+                    <dd className="text-gray-900">{reasonLabel}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-gray-500">Ubicación</dt>
+                    <dd className="text-gray-900">{location?.address ?? 'Se coordinará con la clínica'}</dd>
+                  </div>
+                  <div>
+                    <dt className="font-medium text-gray-500">Veterinario</dt>
+                    <dd className="text-gray-900">
+                      {assignment.strategy === 'auto'
+                        ? 'Asignación automática'
+                        : selectedVet?.name ?? 'Selecciona un profesional'}
+                    </dd>
+                  </div>
+                </dl>
+              </div>
 
-            <CostSummary pricing={pricing} />
+              <CostSummary pricing={pricing} />
 
-            {pricing && (
-              <PaymentSection
-                payment={payment}
-                onChange={setPayment}
-              />
-            )}
-          </>
-        )}
+              {pricing && (
+                <PaymentSection
+                  payment={payment}
+                  onChange={setPayment}
+                />
+              )}
+            </>
+          )}
+        </div>
+      </div>
 
-        {/* Botonera inferior */}
-        <div className="fixed md:sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 md:p-4 shadow-lg z-50 md:rounded-lg md:-mx-4 md:px-4">
+      {/* Botonera inferior */}
+      <div className="fixed md:sticky bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 md:p-4 shadow-lg z-50 md:rounded-lg md:-mx-4 md:px-4">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center justify-between mb-3 md:mb-4">
               <div>
@@ -1034,7 +1037,6 @@ const EmergencyRequestPage = () => {
             )}
           </div>
         </div>
-      </div>
 
       {/* Debug Panel - Solo en desarrollo */}
       <DebugPanel

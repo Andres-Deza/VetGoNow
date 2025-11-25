@@ -8,7 +8,8 @@ import {
   payWithSavedCard,
   createPayment,
   getPublicKey,
-  createCardToken
+  createCardToken,
+  getPayments
 } from '../controllers/mercadopagoController.js';
 import { authenticate } from '../middleware/authmiddleware.js';
 
@@ -43,6 +44,9 @@ mercadopagoRouter.post('/pay', payWithSavedCard);
 
 // Crear pago con nueva tarjeta (token)
 mercadopagoRouter.post('/create-payment', createPayment);
+
+// Obtener lista de pagos (solo admin)
+mercadopagoRouter.get('/payments', getPayments);
 
 export default mercadopagoRouter;
 

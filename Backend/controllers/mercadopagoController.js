@@ -830,3 +830,120 @@ export const createPayment = async (req, res) => {
   }
 };
 
+/**
+ * Obtener lista de pagos desde MercadoPago
+ * Útil para ver todos los pagos realizados a través de la app
+ */
+export const getPayments = async (req, res) => {
+  if (!mercadoPagoClient) {
+    return res.status(503).json({ 
+      success: false,
+      message: 'Mercado Pago no está configurado' 
+    });
+  }
+
+  try {
+    const userId = req.userId || req.user?.id;
+    const { limit = 50, offset = 0, status, startDate, endDate } = req.query;
+
+    // Solo admins pueden ver todos los pagos
+    const user = await User.findById(userId);
+    if (!user || user.role !== 'admin') {
+      return res.status(403).json({ 
+        success: false,
+        message: 'Solo administradores pueden ver todos los pagos' 
+      });
+    }
+
+    const paymentClient = new Payment(mercadoPagoClient);
+    
+    // Construir query string para la búsqueda
+    const queryParams = new URLSearchParams();
+    queryParams.append('limit', limit.toString());
+    queryParams.append('offset', offset.toString());
+    if (status) {
+      queryParams.append('status', status);
+    }
+    if (startDate) {
+      queryParams.append('range', `date_created`);
+      queryParams.append('begin_date', startDate);
+    }
+    if (endDate) {
+      queryParams.append('end_date', endDate);
+    }
+
+    // Usar la API REST directamente para buscar pagos
+    // El SDK puede no tener search(), así que usamos fetch
+    const accessToken = process.env.MERCADOPAGO_ACCESS_TOKEN;
+    const searchUrl = `https://api.mercadopago.com/v1/payments/search?${queryParams.toString()}`;
+    
+    const searchResponse = await fetch(searchUrl, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    if (!searchResponse.ok) {
+      const errorData = await searchResponse.json();
+      throw new Error(errorData.message || 'Error al buscar pagos en MercadoPago');
+    }
+
+    const searchData = await searchResponse.json();
+
+    // Obtener información detallada de cada pago
+    const payments = await Promise.all(
+      (searchData.results || []).map(async (payment) => {
+        try {
+          const paymentInfo = await paymentClient.get({ id: payment.id });
+          return {
+            id: paymentInfo.id,
+            status: paymentInfo.status,
+            statusDetail: paymentInfo.status_detail,
+            transactionAmount: paymentInfo.transaction_amount,
+            currency: paymentInfo.currency_id,
+            dateCreated: paymentInfo.date_created,
+            dateApproved: paymentInfo.date_approved,
+            paymentMethodId: paymentInfo.payment_method_id,
+            paymentTypeId: paymentInfo.payment_type_id,
+            externalReference: paymentInfo.external_reference,
+            payer: paymentInfo.payer ? {
+              email: paymentInfo.payer.email,
+              identification: paymentInfo.payer.identification
+            } : null,
+            card: paymentInfo.card ? {
+              lastFourDigits: paymentInfo.card.last_four_digits,
+              brand: paymentInfo.card.first_six_digits ? 'Detectable' : 'Unknown'
+            } : null
+          };
+        } catch (err) {
+          console.error(`Error obteniendo detalles del pago ${payment.id}:`, err);
+          return {
+            id: payment.id,
+            error: 'No se pudieron obtener los detalles'
+          };
+        }
+      })
+    );
+
+    return res.status(200).json({
+      success: true,
+      pagination: {
+        total: searchData.paging?.total || payments.length,
+        limit: parseInt(limit),
+        offset: parseInt(offset)
+      },
+      payments
+    });
+
+  } catch (error) {
+    console.error('Error al obtener pagos:', error);
+    return res.status(500).json({ 
+      success: false,
+      message: 'Error al obtener pagos',
+      error: error.message 
+    });
+  }
+};
+

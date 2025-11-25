@@ -918,9 +918,13 @@ export const filterVets = async (req, res) => {
     }
 
     let geoStage = [];
+    let vets;
+    
     if (lat && lng && radiusKm) {
       const center = [parseFloat(lng), parseFloat(lat)];
       const meters = parseFloat(radiusKm) * 1000;
+      
+      // Buscar veterinarios con coordenadas usando geoNear
       geoStage = [
         {
           $geoNear: {
@@ -928,16 +932,51 @@ export const filterVets = async (req, res) => {
             distanceField: 'distancia',
             maxDistance: meters,
             spherical: true,
-            query
+            query: {
+              ...query,
+              location: { $exists: true, $ne: null }
+            }
           }
         },
         { $project: { password: 0 } }
       ];
-    }
-
-    let vets;
-    if (geoStage.length) {
-      vets = await Vet.aggregate(geoStage);
+      
+      const vetsWithLocation = await Vet.aggregate(geoStage);
+      
+      // También buscar clínicas sin coordenadas que coincidan con los filtros
+      // Solo incluir si hay filtros de región/comuna o si se busca específicamente por servicios de clínica
+      const queryWithoutLocation = {
+        ...query,
+        vetType: 'clinic',
+        $or: [
+          { location: { $exists: false } },
+          { location: null }
+        ]
+      };
+      
+      // Solo buscar clínicas sin coordenadas si hay filtros de región/comuna o si se busca el servicio 'consultas'
+      const shouldIncludeClinicsWithoutLocation = 
+        region || 
+        comuna || 
+        (services && services.includes('consultas'));
+      
+      let clinicsWithoutLocation = [];
+      if (shouldIncludeClinicsWithoutLocation) {
+        clinicsWithoutLocation = await Vet.find(queryWithoutLocation).select('-password');
+      }
+      
+      // Combinar resultados
+      vets = [...vetsWithLocation, ...clinicsWithoutLocation];
+      
+      // Eliminar duplicados por _id
+      const uniqueVets = new Map();
+      vets.forEach(vet => {
+        const id = vet._id?.toString() || vet._id;
+        if (!uniqueVets.has(id)) {
+          uniqueVets.set(id, vet);
+        }
+      });
+      vets = Array.from(uniqueVets.values());
     } else {
       vets = await Vet.find(query).select('-password');
     }

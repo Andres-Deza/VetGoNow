@@ -220,7 +220,7 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
   }
 
   return (
-    <div className="bg-white rounded-xl md:rounded-lg shadow-sm border border-gray-200 p-3 md:p-4 mb-4 md:mb-6">
+    <div className="bg-white rounded-xl md:rounded-lg shadow-sm border border-gray-200 p-3 md:p-4 mb-6 md:mb-6 pb-4 md:pb-4">
       <h3 className="text-base md:text-lg font-semibold text-gray-900 mb-3 md:mb-4">
         Ubicación y cobertura
       </h3>
@@ -414,7 +414,7 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
       </div>
 
       {/* Notas de acceso */}
-      <div className="mb-2">
+      <div className="mb-0">
         <label className="block text-xs md:text-sm font-medium text-gray-700 mb-2">
           Notas de acceso (opcional)
         </label>
@@ -432,9 +432,9 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
           }}
           placeholder="Ej: Conserjería 24/7, portón eléctrico, mascota agresiva, código de acceso..."
           rows="3"
-          className="w-full px-3 py-2 text-sm md:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[80px]"
+          className="w-full px-3 py-2 text-sm md:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[75px]"
         />
-        <p className="mt-1 text-xs text-gray-500">
+        <p className="mt-1.5 text-xs text-gray-500 mb-0">
           Información útil para que el veterinario pueda acceder fácilmente
         </p>
       </div>

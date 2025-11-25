@@ -603,7 +603,7 @@ const EmergencyRequestPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
-      <div className="flex-1 overflow-y-auto pb-24 md:pb-8">
+      <div className="flex-1 overflow-y-auto pb-28 md:pb-8">
         <div className="max-w-4xl mx-auto px-3 sm:px-4 md:px-6">
           {/* Header - Mejorado para móvil */}
           <div className="mb-3 md:mb-8 pt-3 md:pt-8">

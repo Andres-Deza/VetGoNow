@@ -7,6 +7,7 @@ import UserLayout from './layouts/UserLayout';
 import VetLayout from './layouts/VetLayout';
 import { initializeNotifications } from './utils/notifications';
 import { io } from 'socket.io-client';
+import VideoCallNotification from './components/VideoCallNotification';
 
 // ==================== PÁGINAS PÚBLICAS ====================
 import HomePage from './pages/public/HomePage';
@@ -211,6 +212,9 @@ const App = () => {
           </Suspense>
         </ErrorBoundary>
       </div>
+      
+      {/* Notificación global de videollamada - Aparece en todas las páginas */}
+      {user && user.role === 'user' && <VideoCallNotification userId={user.id} />}
       
       {shouldShowFooter && <Footer />}
     </>

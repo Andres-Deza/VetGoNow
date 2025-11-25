@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
-import VideoCallNotification from "../../components/VideoCallNotification";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "";
 
@@ -379,8 +378,6 @@ const MyAppointments = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Notificación de videollamada */}
-      {user && <VideoCallNotification userId={user.id} />}
       <div className="max-w-7xl mx-auto p-4 md:p-6">
         {/* Header con título y botón */}
         <div className="flex items-center justify-between mb-6 md:mb-8">
@@ -594,9 +591,23 @@ const MyAppointments = () => {
                           )}
                         </div>
                       </div>
-                      <span className="px-3 md:px-4 py-2 text-xs md:text-sm rounded-full bg-blue-300 text-blue-800 whitespace-nowrap flex-shrink-0">
-                        Programada
-                      </span>
+                      <div className="flex flex-col items-end gap-2 flex-shrink-0">
+                        <span className="px-3 md:px-4 py-2 text-xs md:text-sm rounded-full bg-blue-300 text-blue-800 whitespace-nowrap">
+                          Programada
+                        </span>
+                        {/* Botón para unirse a videollamada si es consulta en línea */}
+                        {a.appointmentType === "online consultation" && (
+                          <button
+                            onClick={() => navigate(`/client/video-call/${a._id}`)}
+                            className="px-3 md:px-4 py-2 text-xs md:text-sm bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors flex items-center justify-center gap-1.5 whitespace-nowrap"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            Unirse a videollamada
+                          </button>
+                        )}
+                      </div>
                     </div>
                   ))}
               </div>

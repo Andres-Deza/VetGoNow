@@ -4,7 +4,6 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 import PetAvatar from '../../components/PetAvatar';
 import RatingModal from '../../components/RatingModal';
-import VideoCallNotification from '../../components/VideoCallNotification';
 
 const UserHome = () => {
   const [user, setUser] = useState(null);
@@ -547,9 +546,6 @@ const UserHome = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 -mt-14 md:mt-0">
-      {/* Notificación de videollamada */}
-      {user && <VideoCallNotification userId={user.id} />}
-      
       {/* Header de bienvenida - Solo en móvil - Pegado al navbar */}
       <div className="md:hidden bg-vet-primary text-white px-4 py-4 pt-[4.5rem]">
         <div>

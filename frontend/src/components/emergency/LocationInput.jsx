@@ -241,7 +241,7 @@ const LocationInput = ({ location, onChange, savedAddresses = [] }) => {
 
       {/* Mapa */}
       {isLoaded && (
-        <div className="mb-4 rounded-lg overflow-hidden border border-gray-200" style={{ height: '250px' }}>
+        <div className="mb-4 rounded-lg overflow-hidden border border-gray-200" style={{ height: '200px' }}>
           <GoogleMapWrapper
             mapContainerStyle={{ width: '100%', height: '100%' }}
             center={mapCenter}
@@ -281,7 +281,7 @@ const LocationInput = ({ location, onChange, savedAddresses = [] }) => {
       )}
 
       {!isLoaded && (
-        <div className="w-full h-[250px] bg-gray-100 flex items-center justify-center rounded-lg border border-gray-200">
+        <div className="w-full h-[200px] bg-gray-100 flex items-center justify-center rounded-lg border border-gray-200">
           <p className="text-sm text-gray-500">Cargando mapa...</p>
         </div>
       )}

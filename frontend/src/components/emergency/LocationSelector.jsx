@@ -363,12 +363,12 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
       {/* Mapa */}
       <div className="mb-3 md:mb-4 rounded-lg overflow-hidden border border-gray-200">
         {!isLoaded ? (
-          <div className="w-full h-[250px] md:h-[300px] bg-gray-100 flex items-center justify-center">
+          <div className="w-full h-[200px] md:h-[300px] bg-gray-100 flex items-center justify-center">
             <p className="text-sm md:text-base text-gray-500">Cargando mapa...</p>
           </div>
         ) : (
           <GoogleMapWrapper
-            mapContainerStyle={{ width: '100%', height: '250px' }}
+            mapContainerStyle={{ width: '100%', height: '200px' }}
             className="md:h-[300px]"
             center={mapCenter}
             zoom={selectedLocation ? 15 : 12}
@@ -414,12 +414,11 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
       </div>
 
       {/* Notas de acceso */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-2">
+      <div className="mb-2">
+        <label className="block text-xs md:text-sm font-medium text-gray-700 mb-2">
           Notas de acceso (opcional)
         </label>
-        <input
-          type="text"
+        <textarea
           value={accessNotes}
           onChange={(e) => {
             setAccessNotes(e.target.value);
@@ -431,9 +430,13 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
               accessNotes: e.target.value
             });
           }}
-          placeholder="Ej: Conserjería 24/7, portón eléctrico, mascota agresiva..."
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Ej: Conserjería 24/7, portón eléctrico, mascota agresiva, código de acceso..."
+          rows="3"
+          className="w-full px-3 py-2 text-sm md:text-base border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-y min-h-[80px]"
         />
+        <p className="mt-1 text-xs text-gray-500">
+          Información útil para que el veterinario pueda acceder fácilmente
+        </p>
       </div>
     </div>
   );

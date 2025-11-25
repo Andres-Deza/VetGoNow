@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
-import { GoogleMap, useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
+import { useJsApiLoader, Marker, Autocomplete } from '@react-google-maps/api';
+import GoogleMapWrapper from '../../components/GoogleMapWrapper';
 import IDVerificationModalHuman from "../../components/auth/IDVerificationModalHuman";
 
 // Constante estática para las librerías de Google Maps (fuera del componente para evitar re-renders)
@@ -907,7 +908,7 @@ const VetRegisterPage = () => {
                 {/* Mapa */}
                 {isMapLoaded ? (
                   <div className="mb-4 rounded-xl overflow-hidden shadow-lg border-2 border-gray-200" style={{ height: '400px' }}>
-                    <GoogleMap
+                    <GoogleMapWrapper
                       mapContainerStyle={{ width: '100%', height: '100%' }}
                       center={mapCenter}
                       zoom={clinicLocation.lat ? 16 : 12}
@@ -969,7 +970,7 @@ const VetRegisterPage = () => {
                           }}
                         />
                       )}
-                    </GoogleMap>
+                    </GoogleMapWrapper>
                   </div>
                 ) : (
                   <div className="mb-4 rounded-xl overflow-hidden shadow-lg border-2 border-gray-200 bg-gray-100 flex items-center justify-center" style={{ height: '400px' }}>

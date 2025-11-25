@@ -14,6 +14,7 @@ import {
   Filler,
 } from "chart.js";
 import axios from "axios";
+import API_BASE from "../config/api.js";
 
 ChartJS.register(
   CategoryScale,
@@ -42,7 +43,7 @@ const Revenue = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:5555/api/admin/revenue/stats?period=${period}`,
+        `${API_BASE}/api/admin/revenue/stats?period=${period}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,

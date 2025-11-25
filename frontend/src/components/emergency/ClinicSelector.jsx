@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import axios from 'axios';
-import { useJsApiLoader, GoogleMap, Marker, InfoWindow } from '@react-google-maps/api';
+import { useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import GoogleMapWrapper from '../GoogleMapWrapper';
 import { FaStar, FaMapMarkerAlt, FaClock, FaCheckCircle, FaHospital, FaList, FaMap } from 'react-icons/fa';
 
 const ClinicSelector = ({ location, assignment, onChange, onVetSelect, showDistance = false }) => {
@@ -276,7 +277,7 @@ const ClinicSelector = ({ location, assignment, onChange, onVetSelect, showDista
       ) : (
         <div className="rounded-lg overflow-hidden border border-gray-200" style={{ height: '500px' }}>
           {isLoaded ? (
-            <GoogleMap
+            <GoogleMapWrapper
               mapContainerStyle={{ width: '100%', height: '100%' }}
               center={mapCenter}
               zoom={12}
@@ -358,7 +359,7 @@ const ClinicSelector = ({ location, assignment, onChange, onVetSelect, showDista
                   </InfoWindow>
                 );
               })()}
-            </GoogleMap>
+            </GoogleMapWrapper>
           ) : (
             <div className="w-full h-full bg-gray-100 flex items-center justify-center">
               <p className="text-sm text-gray-500">Cargando mapa...</p>

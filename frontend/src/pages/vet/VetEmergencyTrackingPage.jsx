@@ -2,7 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { io } from 'socket.io-client';
 import axios from 'axios';
-import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer } from '@react-google-maps/api';
+import { useJsApiLoader, Marker, DirectionsRenderer } from '@react-google-maps/api';
+import GoogleMapWrapper from '../../components/GoogleMapWrapper';
 import { FaMapMarkerAlt, FaPhone, FaCheckCircle, FaNotesMedical, FaArrowRight } from 'react-icons/fa';
 
 // Función helper para crear iconos personalizados según el estado
@@ -761,7 +762,7 @@ const VetEmergencyTrackingPage = () => {
         {/* Mapa */}
         {isLoaded && emergency.location && (
           <div className="h-96 relative">
-            <GoogleMap
+            <GoogleMapWrapper
               mapContainerStyle={{ width: '100%', height: '100%' }}
               center={myLocation || {
                 lat: emergency.location.lat,
@@ -806,7 +807,7 @@ const VetEmergencyTrackingPage = () => {
                   }}
                 />
               )}
-            </GoogleMap>
+            </GoogleMapWrapper>
           </div>
         )}
 

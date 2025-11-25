@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useJsApiLoader, GoogleMap, Autocomplete } from '@react-google-maps/api';
+import { useJsApiLoader, Autocomplete } from '@react-google-maps/api';
+import GoogleMapWrapper from '../GoogleMapWrapper';
 import { FaMapMarkerAlt, FaLocationArrow, FaStar } from 'react-icons/fa';
 
 const LocationInput = ({ location, onChange, savedAddresses = [] }) => {
@@ -240,9 +241,9 @@ const LocationInput = ({ location, onChange, savedAddresses = [] }) => {
 
       {/* Mapa */}
       {isLoaded && (
-        <div className="mb-4 rounded-lg overflow-hidden border border-gray-200">
-          <GoogleMap
-            mapContainerStyle={{ width: '100%', height: '250px' }}
+        <div className="mb-4 rounded-lg overflow-hidden border border-gray-200" style={{ height: '250px' }}>
+          <GoogleMapWrapper
+            mapContainerStyle={{ width: '100%', height: '100%' }}
             center={mapCenter}
             zoom={selectedLocation ? 15 : 12}
             onClick={handleMapClick}
@@ -275,7 +276,7 @@ const LocationInput = ({ location, onChange, savedAddresses = [] }) => {
                 </div>
               </div>
             )}
-          </GoogleMap>
+          </GoogleMapWrapper>
         </div>
       )}
 

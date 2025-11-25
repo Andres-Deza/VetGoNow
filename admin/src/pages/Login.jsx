@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_BASE from "../config/api.js";
 
 const Login = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -16,7 +17,7 @@ const Login = () => {
     e.preventDefault();
     setError("");
     try {
-      const response = await axios.post("http://localhost:5555/api/admin/login", {
+      const response = await axios.post(`${API_BASE}/api/admin/login`, {
         email: formData.email,
         password: formData.password,
         role: "admin",

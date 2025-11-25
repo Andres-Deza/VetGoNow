@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
+import API_BASE from '../config/api.js';
 
 const regions = [
   "Arica y Parinacota",
@@ -61,7 +62,7 @@ const EditVet = () => {
   const fetchVet = async () => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get(`http://localhost:5555/api/vets/${id}`, {
+      const response = await axios.get(`${API_BASE}/api/vets/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setVet(response.data);
@@ -123,7 +124,7 @@ const EditVet = () => {
       delete updateData.location;
 
       const response = await axios.put(
-        `http://localhost:5555/api/vets/admin/${id}`,
+        `${API_BASE}/api/vets/admin/${id}`,
         updateData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -149,7 +150,7 @@ const EditVet = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:5555/api/vets/admin/${id}/reset-password`,
+        `${API_BASE}/api/vets/admin/${id}/reset-password`,
         { newPassword },
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -166,7 +167,7 @@ const EditVet = () => {
     try {
       const token = localStorage.getItem('token');
       await axios.put(
-        `http://localhost:5555/api/vets/admin/${id}/verification-status`,
+        `${API_BASE}/api/vets/admin/${id}/verification-status`,
         { verificationStatus, notes: verificationNotes },
         { headers: { Authorization: `Bearer ${token}` } }
       );

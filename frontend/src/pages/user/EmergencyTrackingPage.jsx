@@ -2,7 +2,8 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { io } from 'socket.io-client';
-import { GoogleMap, useJsApiLoader, Marker, DirectionsRenderer } from '@react-google-maps/api';
+import { useJsApiLoader, Marker, DirectionsRenderer } from '@react-google-maps/api';
+import GoogleMapWrapper from '../../components/GoogleMapWrapper';
 import PetAvatar from '../../components/PetAvatar';
 import RatingModal from '../../components/RatingModal';
 
@@ -941,7 +942,7 @@ const EmergencyTrackingPage = () => {
       {/* Mapa */}
       {isLoaded && emergency.location && (
         <div className="h-80 relative">
-          <GoogleMap
+          <GoogleMapWrapper
             mapContainerStyle={{ width: '100%', height: '100%' }}
             center={{
               lat: emergency.location.lat,
@@ -1020,7 +1021,7 @@ const EmergencyTrackingPage = () => {
                 }}
               />
             )}
-          </GoogleMap>
+          </GoogleMapWrapper>
           
           {/* Overlay visual según el estado */}
           {status === 'pending' && (

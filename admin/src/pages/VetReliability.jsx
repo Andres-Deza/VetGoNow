@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import API_BASE from '../config/api.js';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -42,7 +43,7 @@ const VetReliability = () => {
       try {
         const token = localStorage.getItem('token');
         const { data } = await axios.get(
-          'http://localhost:5555/api/admin/vets/reliability-stats',
+          `${API_BASE}/api/admin/vets/reliability-stats`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
         setStats(data);

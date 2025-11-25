@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { useJsApiLoader, GoogleMap, Autocomplete, Marker } from '@react-google-maps/api';
+import { useJsApiLoader, Autocomplete, Marker } from '@react-google-maps/api';
+import GoogleMapWrapper from './GoogleMapWrapper';
 import { FaMapMarkerAlt, FaLocationArrow, FaTimes, FaSave, FaSpinner } from 'react-icons/fa';
 
 // Constante fuera del componente para evitar re-renders
@@ -277,7 +278,7 @@ const AddressModal = ({ isOpen, onClose, onSave, editingAddress }) => {
 
           <div className="h-64 w-full border border-gray-300 rounded-md overflow-hidden">
             {isLoaded && !loadingMap ? (
-              <GoogleMap
+              <GoogleMapWrapper
                 mapContainerStyle={{ width: '100%', height: '100%' }}
                 center={mapCenter}
                 zoom={selectedLocation ? 15 : 12}
@@ -291,7 +292,7 @@ const AddressModal = ({ isOpen, onClose, onSave, editingAddress }) => {
                 }}
               >
                 {selectedLocation && <Marker position={selectedLocation} />}
-              </GoogleMap>
+              </GoogleMapWrapper>
             ) : (
               <div className="flex items-center justify-center h-full bg-gray-100 text-gray-500">
                 {loadError ? 'Error al cargar el mapa' : 'Cargando mapa...'}

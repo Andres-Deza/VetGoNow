@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import avatar from '../../../Backend/uploads/avatar.png';
+import API_BASE from '../config/api.js';
+// Avatar por defecto - usar imagen del backend o placeholder
+const defaultAvatar = '/avatar.png';
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -15,7 +17,7 @@ const Users = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No se encontró token. Por favor inicia sesión.');
 
-        const response = await axios.get('http://localhost:5555/api/users/role/user', {
+        const response = await axios.get(`${API_BASE}/api/users/role/user`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -24,7 +26,7 @@ const Users = () => {
         const usersWithPets = await Promise.all(
           fetchedUsers.map(async user => {
             try {
-              const petRes = await axios.get(`http://localhost:5555/api/pets/userpet/${user._id}`, {
+              const petRes = await axios.get(`${API_BASE}/api/pets/userpet/${user._id}`, {
                 headers: { Authorization: `Bearer ${token}` }
               });
               return { ...user, pets: petRes.data.pets || [] };
@@ -60,12 +62,12 @@ const handleRemove = async (userId) => {
     if (!token) throw new Error('No se encontró token');
 
     // Delete all pets of the user
-    await axios.delete(`http://localhost:5555/api/pets/user/${userId}`, {
+    await axios.delete(`${API_BASE}/api/pets/user/${userId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
     // Then delete the user
-    await axios.delete(`http://localhost:5555/api/users/${userId}`, {
+    await axios.delete(`${API_BASE}/api/users/${userId}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
@@ -97,7 +99,7 @@ return (
           >
             <div className="flex items-center space-x-4 mb-3">
               <img
-                src={user.avatar || avatar} // fallback avatar image path
+                src={user.avatar || defaultAvatar} // fallback avatar image path
                 alt={`Avatar de ${user.name}`}
                 className="w-14 h-14 rounded-full object-cover shadow"
               />

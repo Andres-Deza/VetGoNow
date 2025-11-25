@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Save, DollarSign, AlertCircle } from 'lucide-react';
+import API_BASE from '../config/api.js';
 
 const Pricing = () => {
   const [loading, setLoading] = useState(true);
@@ -57,7 +58,7 @@ const Pricing = () => {
           return;
         }
 
-        const response = await axios.get('http://localhost:5555/api/pricing', {
+        const response = await axios.get(`${API_BASE}/api/pricing`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -146,7 +147,7 @@ const Pricing = () => {
         return;
       }
 
-      const response = await axios.put('http://localhost:5555/api/pricing', pricing, {
+      const response = await axios.put(`${API_BASE}/api/pricing`, pricing, {
         headers: { Authorization: `Bearer ${token}` }
       });
 

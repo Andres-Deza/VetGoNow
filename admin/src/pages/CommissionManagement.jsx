@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Save, DollarSign, AlertCircle, Info, TrendingUp } from 'lucide-react';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+import API_BASE from '../config/api.js';
 
 const formatCurrency = (value) => {
   return new Intl.NumberFormat('es-CL', {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import API_BASE from '../config/api.js';
 
 const Appointments = () => {
   const [appointments, setAppointments] = useState([]);
@@ -21,7 +22,7 @@ const Appointments = () => {
     if (vetNames[id]) return vetNames[id];
 
     try {
-      const { data } = await axios.get(`http://localhost:5555/api/vets/findvetsname/all/${id}`);
+      const { data } = await axios.get(`${API_BASE}/api/vets/findvetsname/all/${id}`);
       return data.name;
     } catch (err) {
       console.error('Error obteniendo nombre del veterinario:', err);
@@ -35,7 +36,7 @@ const Appointments = () => {
     if (ownerNames[id]) return ownerNames[id];
 
     try {
-      const { data } = await axios.get(`http://localhost:5555/api/users/findownersname/all/${id}`);
+      const { data } = await axios.get(`${API_BASE}/api/users/findownersname/all/${id}`);
       return data.user.name;
     } catch {
       return 'Dueño Desconocido';
@@ -48,7 +49,7 @@ const Appointments = () => {
     if (petNames[id]) return petNames[id];
 
     try {
-      const { data } = await axios.get(`http://localhost:5555/api/pets/findpetsname/all/${id}`);
+      const { data } = await axios.get(`${API_BASE}/api/pets/findpetsname/all/${id}`);
       return data.pet.name;
     } catch {
       return 'Mascota Desconocida';
@@ -62,7 +63,7 @@ const Appointments = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No se encontró token, por favor inicia sesión.');
 
-        const { data } = await axios.get('http://localhost:5555/api/appointments/allappointments/fetching', {
+        const { data } = await axios.get(`${API_BASE}/api/appointments/allappointments/fetching`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 

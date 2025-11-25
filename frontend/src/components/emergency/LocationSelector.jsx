@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { GoogleMap, useJsApiLoader, Circle, OverlayView } from '@react-google-maps/api';
+import { useJsApiLoader, Circle, OverlayView } from '@react-google-maps/api';
+import GoogleMapWrapper from '../GoogleMapWrapper';
 import { FaMapMarkerAlt, FaLocationArrow } from 'react-icons/fa';
 
 const containerStyle = {
@@ -366,7 +367,7 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
             <p className="text-sm md:text-base text-gray-500">Cargando mapa...</p>
           </div>
         ) : (
-          <GoogleMap
+          <GoogleMapWrapper
             mapContainerStyle={{ width: '100%', height: '250px' }}
             className="md:h-[300px]"
             center={mapCenter}
@@ -408,7 +409,7 @@ const LocationSelector = ({ mode, location, onChange, onVetsLoad }) => {
                 />
               </>
             )}
-          </GoogleMap>
+          </GoogleMapWrapper>
         )}
       </div>
 

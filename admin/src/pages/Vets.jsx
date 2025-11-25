@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import avatar from '../../../Backend/uploads/avatar.png';
+import API_BASE from '../config/api.js';
+// Avatar por defecto - usar imagen del backend o placeholder
+const defaultAvatar = '/avatar.png';
 
 const Vets = () => {
   const [vets, setVets] = useState([]);
@@ -25,7 +27,7 @@ const Vets = () => {
         console.log(`📡 Fetching appointment count for vet ID: ${vetId}`);
 
         const response = await axios.get(
-          `http://localhost:5555/api/vets/${vetId}/appointments/count`,
+          `${API_BASE}/api/vets/${vetId}/appointments/count`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
@@ -44,7 +46,7 @@ const Vets = () => {
         const token = localStorage.getItem('token');
         if (!token) throw new Error('No se encontró token. Por favor inicia sesión.');
 
-        const response = await axios.get('http://localhost:5555/api/vets/role/vet', {
+        const response = await axios.get(`${API_BASE}/api/vets/role/vet`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -110,7 +112,7 @@ const Vets = () => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.put(
-        `http://localhost:5555/api/vets/role/vet/${vetId}/approve`,
+        `${API_BASE}/api/vets/role/vet/${vetId}/approve`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -127,7 +129,7 @@ const Vets = () => {
     if (!window.confirm('¿Estás seguro de que deseas eliminar este veterinario?')) return;
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`http://localhost:5555/api/vets/role/vet/${vetId}`, {
+      await axios.delete(`${API_BASE}/api/vets/role/vet/${vetId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setVets(vets.filter(vet => vet._id !== vetId));
@@ -210,7 +212,7 @@ return (
             className="border rounded-xl shadow-md p-4 md:p-6 flex flex-col items-center bg-white w-full max-w-sm mx-auto"
           >
             <img
-              src={avatar} // fallback avatar image
+              src={defaultAvatar} // fallback avatar image
               alt={`Avatar de ${vet.name}`}
               className="w-24 h-24 object-cover rounded-full mb-4 border"
             />
@@ -423,7 +425,7 @@ return (
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Cédula Frontal</p>
                     <a 
-                      href={`http://localhost:5555/${selectedVet.frontIdImage}`} 
+                      href={`${API_BASE}/${selectedVet.frontIdImage}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm"
@@ -436,7 +438,7 @@ return (
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Cédula Reverso</p>
                     <a 
-                      href={`http://localhost:5555/${selectedVet.backIdImage}`} 
+                      href={`${API_BASE}/${selectedVet.backIdImage}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm"
@@ -449,7 +451,7 @@ return (
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Documento de Identidad</p>
                     <a 
-                      href={`http://localhost:5555/${selectedVet.nationalIdDocument}`} 
+                      href={`${API_BASE}/${selectedVet.nationalIdDocument}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm"
@@ -462,7 +464,7 @@ return (
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Licencia Municipal</p>
                     <a 
-                      href={`http://localhost:5555/${selectedVet.municipalLicenseDocument}`} 
+                      href={`${API_BASE}/${selectedVet.municipalLicenseDocument}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm"
@@ -475,7 +477,7 @@ return (
                   <div>
                     <p className="text-sm text-gray-600 mb-1">Inicio de Actividades SII</p>
                     <a 
-                      href={`http://localhost:5555/${selectedVet.siiActivityStartDocument}`} 
+                      href={`${API_BASE}/${selectedVet.siiActivityStartDocument}`} 
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="text-blue-600 hover:underline text-sm"

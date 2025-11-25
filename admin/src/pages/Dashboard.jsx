@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API_BASE from "../config/api.js";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -61,7 +62,7 @@ const Dashboard = () => {
         const config = { headers: { Authorization: `Bearer ${token}` } };
 
         const { data } = await axios.get(
-          "http://localhost:5555/api/admin/dashboard/stats",
+          `${API_BASE}/api/admin/dashboard/stats`,
           config
         );
 
@@ -86,7 +87,7 @@ const Dashboard = () => {
         const config = { headers: { Authorization: `Bearer ${token}` } };
 
         const { data } = await axios.get(
-          "http://localhost:5555/api/admin/emergencies/time-stats",
+          `${API_BASE}/api/admin/emergencies/time-stats`,
           config
         );
 

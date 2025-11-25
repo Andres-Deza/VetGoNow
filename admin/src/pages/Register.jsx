@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import API_BASE from "../config/api.js";
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -34,7 +35,7 @@ const Register = () => {
     setError("");
 
     try {
-      const response = await axios.post("http://localhost:5555/api/admin/register", data, {
+      const response = await axios.post(`${API_BASE}/api/admin/register`, data, {
         headers: { "Content-Type": "application/json" }
       });
 

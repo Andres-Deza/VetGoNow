@@ -234,34 +234,171 @@ export const saveCard = async (req, res) => {
     // Asegurar que el usuario tenga un customerId en Mercado Pago
     if (!user.mercadoPagoCustomerId) {
       try {
+        // Validar y formatear datos antes de crear el cliente
+        const email = user.email || 'usuario@example.com';
+        if (!email || !email.includes('@')) {
+          throw new Error('Email inválido o faltante');
+        }
+
+        // Separar nombre y apellido
+        const nameParts = (user.name || 'Usuario').trim().split(' ');
+        const firstName = nameParts[0] || 'Usuario';
+        const lastName = nameParts.slice(1).join(' ') || '';
+
+        // Formatear teléfono correctamente para Mercado Pago
+        // Mercado Pago requiere: area_code (string de 2 dígitos) y number (string de 8-9 dígitos)
+        let phoneFormatted = null;
+        if (user.phoneNumber) {
+          // Limpiar el número de teléfono (remover espacios, guiones, +, etc.)
+          const cleanPhone = user.phoneNumber.replace(/[\s\-\(\)\+]/g, '');
+          
+          // Si empieza con 56 (código de país de Chile), removerlo
+          let phoneNumber = cleanPhone.startsWith('56') ? cleanPhone.substring(2) : cleanPhone;
+          
+          // Si empieza con 9 (móvil chileno), el área es 9 y el número es el resto
+          if (phoneNumber.length >= 8) {
+            if (phoneNumber.startsWith('9')) {
+              // Móvil chileno: área debe ser "09" (2 dígitos), número es el resto (8 dígitos)
+              const mobileNumber = phoneNumber.substring(1);
+              if (mobileNumber.length === 8) {
+                phoneFormatted = {
+                  area_code: '09', // Mercado Pago requiere 2 dígitos
+                  number: mobileNumber
+                };
+              } else {
+                // Si no tiene exactamente 8 dígitos después del 9, usar formato alternativo
+                phoneFormatted = {
+                  area_code: '09',
+                  number: phoneNumber.substring(phoneNumber.length - 8) || phoneNumber
+                };
+              }
+            } else if (phoneNumber.length >= 9) {
+              // Fijo: primeros 2 dígitos son área, resto es número
+              phoneFormatted = {
+                area_code: phoneNumber.substring(0, 2),
+                number: phoneNumber.substring(2)
+              };
+            } else {
+              // Si tiene menos de 8 dígitos, intentar formatear
+              if (phoneNumber.length >= 6) {
+                // Tomar los últimos 8 dígitos o el número completo si es menor
+                const lastDigits = phoneNumber.substring(phoneNumber.length - 8) || phoneNumber;
+                phoneFormatted = {
+                  area_code: '09', // Usar área móvil por defecto
+                  number: lastDigits.padStart(8, '0') // Asegurar 8 dígitos
+                };
+              } else {
+                // Si tiene muy pocos dígitos, no incluir teléfono
+                phoneFormatted = null;
+                console.warn('Número de teléfono muy corto, omitiendo teléfono del cliente');
+              }
+            }
+            
+            // Validar formato final
+            if (phoneFormatted) {
+              // Validar que el número tenga entre 8 y 9 dígitos y área tenga 2 dígitos
+              if (phoneFormatted.number.length < 8 || phoneFormatted.number.length > 9 || 
+                  phoneFormatted.area_code.length !== 2) {
+                console.warn('Formato de teléfono inválido después de procesamiento, omitiendo');
+                phoneFormatted = null;
+              }
+            }
+          }
+        }
+
+        // Construir el body del cliente con validación estricta
+        // Mercado Pago requiere: email, first_name (mínimo)
+        const customerBody = {
+          email: email
+        };
+        
+        // Agregar nombre (requerido)
+        if (firstName && firstName.trim() !== '') {
+          customerBody.first_name = firstName.trim();
+        } else {
+          // Si no hay nombre, usar "Usuario" como fallback
+          customerBody.first_name = 'Usuario';
+        }
+        
+        // Agregar apellido solo si existe (opcional pero recomendado)
+        if (lastName && lastName.trim() !== '') {
+          customerBody.last_name = lastName.trim();
+        } else {
+          // Si no hay apellido, usar un espacio o el mismo nombre
+          customerBody.last_name = ' ';
+        }
+        
+        // Solo agregar phone si está formateado correctamente
+        // Mercado Pago requiere: area_code (2 dígitos) y number (8-9 dígitos)
+        if (phoneFormatted && phoneFormatted.area_code && phoneFormatted.number) {
+          // Validar formato del área (debe ser string de 2 dígitos)
+          const areaCode = phoneFormatted.area_code.toString().padStart(2, '0');
+          const phoneNumber = phoneFormatted.number.toString();
+          
+          // Validar que el número tenga entre 8 y 9 dígitos
+          if (phoneNumber.length >= 8 && phoneNumber.length <= 9 && areaCode.length === 2) {
+            customerBody.phone = {
+              area_code: areaCode,
+              number: phoneNumber
+            };
+          } else {
+            console.warn('Formato de teléfono inválido, omitiendo:', {
+              area_code: areaCode,
+              number: phoneNumber,
+              numberLength: phoneNumber.length
+            });
+          }
+        }
+
+        console.log('Creando cliente de Mercado Pago con datos:', {
+          email: customerBody.email,
+          first_name: customerBody.first_name,
+          last_name: customerBody.last_name,
+          hasPhone: !!customerBody.phone,
+          phone: customerBody.phone
+        });
+
         // Crear customer directamente aquí
         const customer = new Customer(mercadoPagoClient);
         const customerData = await customer.create({
-          body: {
-            email: user.email || 'usuario@example.com',
-            first_name: user.name ? (user.name.split(' ')[0] || user.name) : 'Usuario',
-            last_name: user.name ? (user.name.split(' ').slice(1).join(' ') || '') : '',
-            phone: user.phoneNumber && user.phoneNumber.length >= 2 ? {
-              area_code: user.phoneNumber.substring(0, 2),
-              number: user.phoneNumber.substring(2)
-            } : undefined
-          }
+          body: customerBody
         });
+        
         user.mercadoPagoCustomerId = customerData.id;
         await user.save();
-        console.log('Cliente de Mercado Pago creado:', customerData.id);
+        console.log('Cliente de Mercado Pago creado exitosamente:', customerData.id);
       } catch (customerError) {
         console.error('Error al crear cliente en Mercado Pago:', customerError);
         console.error('Detalles del error:', {
           message: customerError.message,
           cause: customerError.cause,
-          response: customerError.response?.data || customerError.response
+          response: customerError.response?.data || customerError.response,
+          stack: customerError.stack
         });
+        
+        // Extraer mensaje de error más específico
+        let errorMessage = customerError.message || 'Error desconocido';
+        if (customerError.response?.data) {
+          const mpError = customerError.response.data;
+          if (mpError.message) {
+            errorMessage = mpError.message;
+          } else if (mpError.cause && Array.isArray(mpError.cause)) {
+            errorMessage = mpError.cause.map(c => c.description || c.message).join(', ');
+          }
+        }
+        
         return res.status(500).json({ 
           success: false,
           message: 'Error al crear cliente en Mercado Pago',
-          error: customerError.message || 'Error desconocido',
-          details: process.env.NODE_ENV === 'development' ? customerError.response?.data : undefined
+          error: errorMessage,
+          details: process.env.NODE_ENV === 'development' ? {
+            userData: {
+              email: user.email,
+              name: user.name,
+              phoneNumber: user.phoneNumber
+            },
+            mpError: customerError.response?.data
+          } : undefined
         });
       }
     }

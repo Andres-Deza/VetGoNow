@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import avatar from '../../../Backend/uploads/avatar.png';
 import StarRating from '../../components/StarRating';
+
+// Avatar por defecto para veterinarios (desde public/)
+const defaultAvatar = '/veterinarian.png';
 
 const VetPage = () => {
   const [vets, setVets] = useState([]);
@@ -19,7 +21,8 @@ const VetPage = () => {
   useEffect(() => {
     const fetchVets = async () => {
       try {
-        const res = await axios.get("http://localhost:5555/api/vets");
+        const API_BASE = import.meta.env.VITE_API_BASE || '';
+        const res = await axios.get(`${API_BASE}/api/vets`);
         setVets(res.data);
       } catch (error) {
         console.error("Error fetching vets:", error);
@@ -91,9 +94,12 @@ const VetPage = () => {
               onClick={() => navigate(`/appointment/${vet._id}`)}
             >
               <img
-                src={avatar}
+                src={vet.profileImage || defaultAvatar}
                 alt={vet.name}
                 className="w-32 h-32 rounded-full object-cover border-2 border-blue-600 mb-4"
+                onError={(e) => {
+                  e.target.src = defaultAvatar;
+                }}
               />
               <h3 className="text-2xl font-semibold text-gray-900 mb-1 text-center">{vet.name || "N/A"}</h3>
               {/* Rating o Badge Nuevo */}

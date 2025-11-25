@@ -186,11 +186,15 @@ export const getOrCreateMercadoPagoCustomer = async (req, res) => {
 export const saveCard = async (req, res) => {
   if (!mercadoPagoClient) {
     return res.status(503).json({ 
+      success: false,
       message: 'Mercado Pago no está configurado. Por favor configura MERCADOPAGO_ACCESS_TOKEN en las variables de entorno.' 
     });
   }
   
   try {
+    console.log('=== Iniciando saveCard ===');
+    console.log('Request body:', JSON.stringify(req.body, null, 2));
+    console.log('Request headers:', { authorization: req.headers.authorization ? 'Present' : 'Missing' });
     const userId = req.userId || req.user?.id;
     let { cardToken, paymentId, cardholderName, cardData: cardDataFromBody } = req.body;
 
@@ -464,19 +468,22 @@ export const saveCard = async (req, res) => {
       throw saveError; // Re-lanzar para que el catch general lo maneje
     }
   } catch (error) {
-    console.error('Error al guardar tarjeta:', error);
+    console.error('=== Error al guardar tarjeta ===');
+    console.error('Error completo:', error);
     console.error('Error stack:', error.stack);
     console.error('Error details:', {
       message: error.message,
       name: error.name,
       code: error.code,
-      cause: error.cause
+      cause: error.cause,
+      response: error.response?.data || error.response
     });
     
     // Manejar errores específicos de Mercado Pago
     if (error.response || error.cause) {
       const mercadoPagoError = error.response?.data || error.cause;
-      return res.status(500).json({ 
+      console.error('Error de Mercado Pago:', mercadoPagoError);
+      return res.status(500).json({
         success: false,
         message: 'Error al guardar tarjeta en Mercado Pago',
         error: mercadoPagoError?.message || error.message || 'Error desconocido',

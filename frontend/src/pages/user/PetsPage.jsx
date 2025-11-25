@@ -4,7 +4,7 @@ import { FaTrash } from "react-icons/fa";
 import axios from "axios";
 import PetAvatar from "../../components/PetAvatar";
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 const dogBreeds = [
   "Mestizo",

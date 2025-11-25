@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FaDollarSign, FaCreditCard, FaCalendarAlt, FaCheckCircle, FaClock, FaBan, FaUniversity } from 'react-icons/fa';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 const formatCurrency = (value) => {
   return new Intl.NumberFormat('es-CL', {

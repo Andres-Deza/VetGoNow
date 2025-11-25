@@ -33,7 +33,7 @@ const VetAssignment = ({ mode, location, assignment, onChange, onVetSelect }) =>
     setLoading(true);
     try {
       const token = localStorage.getItem('token');
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
       const response = await axios.get(
         `${API_BASE}/api/emergency/nearby-vets?lat=${location.lat}&lng=${location.lng}&maxDistance=10`,
         {

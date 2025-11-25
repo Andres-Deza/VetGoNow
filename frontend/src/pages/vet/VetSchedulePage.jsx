@@ -8,7 +8,7 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { useNavigate } from 'react-router-dom';
 import CancelAppointmentModal from '../../components/vet/CancelAppointmentModal';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 // Configurar moment en español
 moment.locale('es');

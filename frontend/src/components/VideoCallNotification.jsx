@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import io from 'socket.io-client';
 import { requestNotificationPermission } from '../utils/permissions';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 const VideoCallNotification = ({ userId }) => {
   const navigate = useNavigate();

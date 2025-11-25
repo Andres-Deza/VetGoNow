@@ -140,7 +140,7 @@ const VetEmergencyTrackingPage = () => {
   const { emergencyId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
   const GOOGLE_MAPS_KEY = import.meta.env.VITE_GOOGLE_MAPS_KEY || '';
   
   const [emergency, setEmergency] = useState(null);

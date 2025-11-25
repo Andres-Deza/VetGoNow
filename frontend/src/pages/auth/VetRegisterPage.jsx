@@ -29,7 +29,7 @@ const COMUNAS_RM = [
 const VetRegisterPage = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5555";
+  const API_BASE = import.meta.env.VITE_API_BASE || "";
   // Wizard: 1) Cuenta, 2) Tipo y servicios, 3) Documentos y selfie
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;

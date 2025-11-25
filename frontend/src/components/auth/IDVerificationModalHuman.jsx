@@ -4,7 +4,7 @@ import { Human } from '@vladmandic/human';
 import Tesseract from 'tesseract.js';
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '';
 
 const VERIFICATION_STEPS = {
   FRONT_ID: {

@@ -1,8 +1,17 @@
 import axios from 'axios';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+// Solo usar VITE_API_BASE, sin fallback a localhost
+const API_BASE = import.meta.env.VITE_API_BASE;
 
-axios.defaults.baseURL = API_BASE;
+if (!API_BASE) {
+  console.error('VITE_API_BASE no está configurado. Por favor configura esta variable de entorno.');
+}
+
+axios.defaults.baseURL = API_BASE || '';
+
+// Exportar API_BASE para uso en otros componentes
+export { API_BASE };
+export default axios;
 
 const shouldForceLogout = (status, message, url) => {
   if (!status && !message) {
@@ -111,6 +120,4 @@ axios.interceptors.response.use(
   },
 );
 
-// Export axios instance
-export default axios;
 

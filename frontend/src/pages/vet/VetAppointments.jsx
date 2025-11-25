@@ -6,7 +6,7 @@ import CancelAppointmentModal from "../../components/vet/CancelAppointmentModal"
 import RejectEmergencyModal from "../../components/vet/RejectEmergencyModal";
 import ReportIncidentModal from "../../components/vet/ReportIncidentModal";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5555";
+const API_BASE = import.meta.env.VITE_API_BASE || "";
 
 const REASON_LABELS = {
   trauma: "Golpe / Trauma",

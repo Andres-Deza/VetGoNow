@@ -4,7 +4,7 @@ import axios from "axios";
 import { io } from "socket.io-client";
 import avatar from "../avatar.png";
 
-const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5555";
+const API_BASE = import.meta.env.VITE_API_BASE || "";
 
 const REASON_LABELS = {
   trauma: "Golpe / Trauma",

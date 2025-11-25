@@ -36,7 +36,7 @@ const formatCriticalFlag = (flag) =>
 
 const VetEmergenciesPage = () => {
   const navigate = useNavigate();
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
   
   const CACHE_KEY = 'vet:emergencies:persistent';
   const REJECTED_CACHE_KEY = 'vet:emergencies:rejected';

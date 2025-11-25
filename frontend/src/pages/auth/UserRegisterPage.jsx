@@ -13,7 +13,7 @@ const UserRegisterPage = () => {
   const [error, setError] = useState("");
   const [isTokenVerified, setIsTokenVerified] = useState(false);
 
-  const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:5555";
+  const API_BASE = import.meta.env.VITE_API_BASE || "";
   const navigate = useNavigate();
 
   const handleSendToken = async () => {

@@ -162,7 +162,7 @@ const DebugPanel = ({ pet, mode, triage, location, assignment, pricing, consent,
             <div className="border-t pt-3">
               <h3 className="font-semibold text-sm text-gray-700 mb-2">Configuración:</h3>
               <div className="text-xs bg-gray-50 p-2 rounded">
-                <div><strong>API_BASE:</strong> {import.meta.env.VITE_API_BASE || 'http://localhost:5555'}</div>
+                <div><strong>API_BASE:</strong> {import.meta.env.VITE_API_BASE || 'No configurado'}</div>
                 <div><strong>DEV:</strong> {import.meta.env.DEV ? 'Sí' : 'No'}</div>
               </div>
             </div>
@@ -193,7 +193,7 @@ const DebugPanel = ({ pet, mode, triage, location, assignment, pricing, consent,
                   const data = {
                     pet, mode, triage, location, assignment, pricing, consent, payment,
                     token: localStorage.getItem('token'),
-                    apiBase: import.meta.env.VITE_API_BASE || 'http://localhost:5555'
+                    apiBase: import.meta.env.VITE_API_BASE || ''
                   };
                   navigator.clipboard.writeText(JSON.stringify(data, null, 2));
                   alert('Datos copiados al portapapeles!');

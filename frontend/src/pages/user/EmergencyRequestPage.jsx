@@ -74,7 +74,7 @@ const EmergencyRequestPage = () => {
   useEffect(() => {
     const fetchPricingConfig = async () => {
       try {
-        const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+        const API_BASE = import.meta.env.VITE_API_BASE || '';
         // Obtener configuración de precios pública (endpoint público, no requiere autenticación)
         const response = await axios.get(`${API_BASE}/api/pricing/public`);
         
@@ -98,7 +98,7 @@ const EmergencyRequestPage = () => {
         const token = localStorage.getItem('token');
         if (!token) return;
 
-        const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+        const API_BASE = import.meta.env.VITE_API_BASE || '';
         const response = await axios.get(`${API_BASE}/api/addresses`, {
           headers: {
             Authorization: `Bearer ${token}`
@@ -192,7 +192,7 @@ const EmergencyRequestPage = () => {
   const fetchPet = async (petId) => {
     try {
       const token = localStorage.getItem('token');
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
       
       // Cargar mascota
       const response = await axios.get(
@@ -274,7 +274,7 @@ const EmergencyRequestPage = () => {
       setPricingLoading(true);
       try {
         const token = localStorage.getItem('token');
-        const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+        const API_BASE = import.meta.env.VITE_API_BASE || '';
         
         const isCritical = Array.isArray(triage?.criticalFlags) && triage.criticalFlags.length > 0;
         
@@ -387,7 +387,7 @@ const EmergencyRequestPage = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
       
       // Crear la solicitud de urgencia
       const payloadLocation = mode === 'home'
@@ -463,7 +463,7 @@ const EmergencyRequestPage = () => {
         }
       } else if (error.request) {
         // La petición se hizo pero no hubo respuesta
-        errorMessage = 'No se pudo conectar con el servidor. Verifica que el backend esté corriendo en http://localhost:5555';
+        errorMessage = 'No se pudo conectar con el servidor. Verifica que VITE_API_BASE esté configurado correctamente.';
       } else {
         // Algo pasó al configurar la petición
         errorMessage = `Error: ${error.message}`;

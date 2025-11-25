@@ -33,7 +33,7 @@ const PaymentSection = ({ payment, onChange }) => {
   const loadMercadoPagoPublicKey = async () => {
     try {
       setCardCaptureError(null);
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
       console.log('Solicitando Public Key desde:', `${API_BASE}/api/payment/mercadopago/public-key`);
       
       const response = await axios.get(`${API_BASE}/api/payment/mercadopago/public-key`);
@@ -218,7 +218,7 @@ const PaymentSection = ({ payment, onChange }) => {
               // Guardar la tarjeta después de generar el token
               try {
                 const token = localStorage.getItem('token');
-                const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+                const API_BASE = import.meta.env.VITE_API_BASE || '';
                 await axios.post(`${API_BASE}/api/payment/mercadopago/save-card`, {
                   cardToken: tokenData.token,
                   cardholderName: tokenData.cardholderName || '',

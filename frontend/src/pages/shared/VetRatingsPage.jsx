@@ -15,7 +15,7 @@ const VetRatingsPage = () => {
   const [totalPages, setTotalPages] = useState(1);
   const limit = 10;
 
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
 
   useEffect(() => {
     const fetchRatings = async () => {

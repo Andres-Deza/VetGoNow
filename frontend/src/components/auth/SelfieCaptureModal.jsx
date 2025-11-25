@@ -112,7 +112,7 @@ const SelfieCaptureModal = ({ open, onClose, onComplete }) => {
         setLoading(false);
       } else {
         // Completar: enviar evidencia al backend con score básico
-        const API_BASE = import.meta.env?.VITE_API_BASE || 'http://localhost:5555';
+        const API_BASE = import.meta.env?.VITE_API_BASE || '';
         try {
           const form = new FormData();
           // score aproximado = promedio de diffs entre pares consecutivos

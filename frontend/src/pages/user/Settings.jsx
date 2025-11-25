@@ -4,7 +4,7 @@ import { FaCreditCard, FaTrash, FaStar, FaSpinner, FaMapMarkerAlt, FaEdit } from
 import CardCapture from '../../components/emergency/CardCapture';
 import AddressModal from '../../components/AddressModal';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
 const Settings = () => {
   const [loading, setLoading] = useState(true);

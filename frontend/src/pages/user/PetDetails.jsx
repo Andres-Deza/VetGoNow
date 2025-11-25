@@ -242,7 +242,7 @@ const PetDetails = () => {
         return;
       }
 
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
       
       const petData = {
         name: formData.name,
@@ -311,7 +311,7 @@ const PetDetails = () => {
         return;
       }
 
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
 
       const response = await axios.delete(
         `${API_BASE}/api/pets/${pet._id}`,

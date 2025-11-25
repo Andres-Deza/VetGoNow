@@ -26,7 +26,7 @@ const RatingForm = ({
   const [error, setError] = useState(null);
   const [showCategories, setShowCategories] = useState(false);
 
-  const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+  const API_BASE = import.meta.env.VITE_API_BASE || '';
   const token = localStorage.getItem('token');
 
   const handleSubmit = async (e) => {

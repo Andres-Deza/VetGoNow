@@ -3,9 +3,9 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import io from 'socket.io-client';
 import { requestNotificationPermission } from '../utils/permissions';
 
-const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+const API_BASE = import.meta.env.VITE_API_BASE || '';
 
-// Obtener URL de Socket.io de forma segura (evita permiso de red local en producción)
+// Obtener URL de Socket.io de forma segura (solo usa variables de entorno)
 const getSocketURL = () => {
   if (import.meta.env.VITE_SOCKET_URL) {
     return import.meta.env.VITE_SOCKET_URL;
@@ -13,10 +13,7 @@ const getSocketURL = () => {
   if (import.meta.env.VITE_API_BASE) {
     return import.meta.env.VITE_API_BASE;
   }
-  // Solo usar localhost en desarrollo local
-  if (import.meta.env.DEV || window.location.hostname === 'localhost') {
-    return 'http://localhost:5555';
-  }
+  console.warn('Socket.io: No se configuró VITE_SOCKET_URL o VITE_API_BASE. Socket deshabilitado.');
   return null;
 };
 

@@ -123,7 +123,7 @@ const CardCapture = ({ onTokenGenerated, onError, publicKey }) => {
 
     try {
       // Crear token de tarjeta a través del backend (más seguro)
-      const API_BASE = import.meta.env.VITE_API_BASE || 'http://localhost:5555';
+      const API_BASE = import.meta.env.VITE_API_BASE || '';
       const token = localStorage.getItem('token');
       
       const tokenResponse = await fetch(`${API_BASE}/api/payment/mercadopago/card-token`, {

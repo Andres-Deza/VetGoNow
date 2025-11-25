@@ -231,177 +231,9 @@ export const saveCard = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // Asegurar que el usuario tenga un customerId en Mercado Pago
-    if (!user.mercadoPagoCustomerId) {
-      try {
-        // Validar y formatear datos antes de crear el cliente
-        const email = user.email || 'usuario@example.com';
-        if (!email || !email.includes('@')) {
-          throw new Error('Email inválido o faltante');
-        }
-
-        // Separar nombre y apellido
-        const nameParts = (user.name || 'Usuario').trim().split(' ');
-        const firstName = nameParts[0] || 'Usuario';
-        const lastName = nameParts.slice(1).join(' ') || '';
-
-        // Formatear teléfono correctamente para Mercado Pago
-        // Mercado Pago requiere: area_code (string de 2 dígitos) y number (string de 8-9 dígitos)
-        let phoneFormatted = null;
-        if (user.phoneNumber) {
-          // Limpiar el número de teléfono (remover espacios, guiones, +, etc.)
-          const cleanPhone = user.phoneNumber.replace(/[\s\-\(\)\+]/g, '');
-          
-          // Si empieza con 56 (código de país de Chile), removerlo
-          let phoneNumber = cleanPhone.startsWith('56') ? cleanPhone.substring(2) : cleanPhone;
-          
-          // Si empieza con 9 (móvil chileno), el área es 9 y el número es el resto
-          if (phoneNumber.length >= 8) {
-            if (phoneNumber.startsWith('9')) {
-              // Móvil chileno: área debe ser "09" (2 dígitos), número es el resto (8 dígitos)
-              const mobileNumber = phoneNumber.substring(1);
-              if (mobileNumber.length === 8) {
-                phoneFormatted = {
-                  area_code: '09', // Mercado Pago requiere 2 dígitos
-                  number: mobileNumber
-                };
-              } else {
-                // Si no tiene exactamente 8 dígitos después del 9, usar formato alternativo
-                phoneFormatted = {
-                  area_code: '09',
-                  number: phoneNumber.substring(phoneNumber.length - 8) || phoneNumber
-                };
-              }
-            } else if (phoneNumber.length >= 9) {
-              // Fijo: primeros 2 dígitos son área, resto es número
-              phoneFormatted = {
-                area_code: phoneNumber.substring(0, 2),
-                number: phoneNumber.substring(2)
-              };
-            } else {
-              // Si tiene menos de 8 dígitos, intentar formatear
-              if (phoneNumber.length >= 6) {
-                // Tomar los últimos 8 dígitos o el número completo si es menor
-                const lastDigits = phoneNumber.substring(phoneNumber.length - 8) || phoneNumber;
-                phoneFormatted = {
-                  area_code: '09', // Usar área móvil por defecto
-                  number: lastDigits.padStart(8, '0') // Asegurar 8 dígitos
-                };
-              } else {
-                // Si tiene muy pocos dígitos, no incluir teléfono
-                phoneFormatted = null;
-                console.warn('Número de teléfono muy corto, omitiendo teléfono del cliente');
-              }
-            }
-            
-            // Validar formato final
-            if (phoneFormatted) {
-              // Validar que el número tenga entre 8 y 9 dígitos y área tenga 2 dígitos
-              if (phoneFormatted.number.length < 8 || phoneFormatted.number.length > 9 || 
-                  phoneFormatted.area_code.length !== 2) {
-                console.warn('Formato de teléfono inválido después de procesamiento, omitiendo');
-                phoneFormatted = null;
-              }
-            }
-          }
-        }
-
-        // Construir el body del cliente con validación estricta
-        // Mercado Pago requiere: email, first_name (mínimo)
-        const customerBody = {
-          email: email
-        };
-        
-        // Agregar nombre (requerido)
-        if (firstName && firstName.trim() !== '') {
-          customerBody.first_name = firstName.trim();
-        } else {
-          // Si no hay nombre, usar "Usuario" como fallback
-          customerBody.first_name = 'Usuario';
-        }
-        
-        // Agregar apellido solo si existe (opcional pero recomendado)
-        if (lastName && lastName.trim() !== '') {
-          customerBody.last_name = lastName.trim();
-        } else {
-          // Si no hay apellido, usar un espacio o el mismo nombre
-          customerBody.last_name = ' ';
-        }
-        
-        // Solo agregar phone si está formateado correctamente
-        // Mercado Pago requiere: area_code (2 dígitos) y number (8-9 dígitos)
-        if (phoneFormatted && phoneFormatted.area_code && phoneFormatted.number) {
-          // Validar formato del área (debe ser string de 2 dígitos)
-          const areaCode = phoneFormatted.area_code.toString().padStart(2, '0');
-          const phoneNumber = phoneFormatted.number.toString();
-          
-          // Validar que el número tenga entre 8 y 9 dígitos
-          if (phoneNumber.length >= 8 && phoneNumber.length <= 9 && areaCode.length === 2) {
-            customerBody.phone = {
-              area_code: areaCode,
-              number: phoneNumber
-            };
-          } else {
-            console.warn('Formato de teléfono inválido, omitiendo:', {
-              area_code: areaCode,
-              number: phoneNumber,
-              numberLength: phoneNumber.length
-            });
-          }
-        }
-
-        console.log('Creando cliente de Mercado Pago con datos:', {
-          email: customerBody.email,
-          first_name: customerBody.first_name,
-          last_name: customerBody.last_name,
-          hasPhone: !!customerBody.phone,
-          phone: customerBody.phone
-        });
-
-        // Crear customer directamente aquí
-        const customer = new Customer(mercadoPagoClient);
-        const customerData = await customer.create({
-          body: customerBody
-        });
-        
-        user.mercadoPagoCustomerId = customerData.id;
-        await user.save();
-        console.log('Cliente de Mercado Pago creado exitosamente:', customerData.id);
-      } catch (customerError) {
-        console.error('Error al crear cliente en Mercado Pago:', customerError);
-        console.error('Detalles del error:', {
-          message: customerError.message,
-          cause: customerError.cause,
-          response: customerError.response?.data || customerError.response,
-          stack: customerError.stack
-        });
-        
-        // Extraer mensaje de error más específico
-        let errorMessage = customerError.message || 'Error desconocido';
-        if (customerError.response?.data) {
-          const mpError = customerError.response.data;
-          if (mpError.message) {
-            errorMessage = mpError.message;
-          } else if (mpError.cause && Array.isArray(mpError.cause)) {
-            errorMessage = mpError.cause.map(c => c.description || c.message).join(', ');
-          }
-        }
-        
-        return res.status(500).json({ 
-          success: false,
-          message: 'Error al crear cliente en Mercado Pago',
-          error: errorMessage,
-          details: process.env.NODE_ENV === 'development' ? {
-            userData: {
-              email: user.email,
-              name: user.name,
-              phoneNumber: user.phoneNumber
-            },
-            mpError: customerError.response?.data
-          } : undefined
-        });
-      }
-    }
+    // NO crear Customer automáticamente - usar solo el tarjetero
+    // El Customer solo se creará cuando sea realmente necesario (por ejemplo, para guardar tarjeta en MercadoPago)
+    // Por ahora, guardamos la tarjeta solo en nuestra BD usando el token
 
     let cardData = null;
 
@@ -432,46 +264,23 @@ export const saveCard = async (req, res) => {
     if (cardToken && !cardData && !paymentId) {
       // Verificar si se proporcionó información de tarjeta en el body
       if (cardDataFromBody && cardDataFromBody.last4) {
-        // Usar la información proporcionada directamente
+        // Usar la información proporcionada directamente desde el tarjetero
         cardData = {
           last4: cardDataFromBody.last4,
           brand: cardDataFromBody.brand || 'credit_card',
           expMonth: cardDataFromBody.expMonth || null,
           expYear: cardDataFromBody.expYear || null
         };
-        console.log('Usando información de tarjeta proporcionada desde frontend:', cardData);
+        console.log('Usando información de tarjeta proporcionada desde frontend (tarjetero):', cardData);
       } else {
-        // Si no hay información de tarjeta, intentar crear un CustomerCard en Mercado Pago
-        // El usuario ya debe tener un customerId (se verifica antes)
-        try {
-          const customerCard = new CustomerCard(mercadoPagoClient);
-          const cardInfo = await customerCard.create({
-            customerId: user.mercadoPagoCustomerId,
-            body: {
-              token: cardToken
-            }
-          });
-          
-          cardData = {
-            last4: cardInfo.last_four_digits || '',
-            brand: cardInfo.payment_method?.id || 'credit_card',
-            expMonth: cardInfo.expiration_month || null,
-            expYear: cardInfo.expiration_year || null
-          };
-          
-          // Usar el card ID como referencia
-          if (cardInfo.id) {
-            cardToken = cardInfo.id;
-          }
-          
-          console.log('Tarjeta creada en Mercado Pago:', cardInfo);
-        } catch (cardError) {
-          console.error('Error al crear CustomerCard en Mercado Pago:', cardError);
-          return res.status(400).json({ 
-            message: 'No se pudo guardar la tarjeta. Por favor, proporciona información de la tarjeta (last4, brand) o realiza un pago primero.',
-            error: cardError.message || 'Error desconocido al crear tarjeta en Mercado Pago'
-          });
-        }
+        // Si no hay información de tarjeta, no podemos guardar la tarjeta
+        // El tarjetero siempre debe proporcionar cardData con last4 y brand
+        console.error('No se proporcionó información de tarjeta (cardData) desde el frontend');
+        return res.status(400).json({ 
+          success: false,
+          message: 'No se pudo guardar la tarjeta. Se requiere información de la tarjeta (last4, brand) desde el tarjetero.',
+          error: 'cardData faltante'
+        });
       }
     }
 
@@ -511,25 +320,30 @@ export const saveCard = async (req, res) => {
     // Usar paymentId o cardToken como identificador único
     const paymentMethodIdentifier = cardToken || paymentId;
     
-    // Verificar si ya existe esta tarjeta guardada
+    // Verificar si ya existe esta tarjeta guardada (por last4 y brand para evitar duplicados)
     const existingCard = await SavedCard.findOne({
       userId,
       provider: 'mercadopago',
-      paymentMethodId: paymentMethodIdentifier,
+      'cardInfo.last4': cardData.last4,
+      'cardInfo.brand': cardData.brand,
       isActive: true
     });
 
     if (existingCard) {
       return res.status(200).json({
+        success: true,
         message: 'Tarjeta ya guardada',
         card: existingCard
       });
     }
 
     // Guardar la tarjeta en la base de datos
-    console.log('Guardando tarjeta en base de datos:', {
+    // Usar el token como customerId si no hay Customer en MercadoPago
+    const customerIdForCard = user.mercadoPagoCustomerId || `token_${paymentMethodIdentifier.substring(0, 20)}`;
+    
+    console.log('Guardando tarjeta en base de datos (solo tarjetero, sin Customer):', {
       userId,
-      customerId: user.mercadoPagoCustomerId,
+      customerId: customerIdForCard,
       paymentMethodId: paymentMethodIdentifier,
       cardData: {
         last4: cardData.last4,
@@ -537,14 +351,15 @@ export const saveCard = async (req, res) => {
         expMonth: cardData.expMonth,
         expYear: cardData.expYear
       },
-      isDefault
+      isDefault,
+      hasMercadoPagoCustomer: !!user.mercadoPagoCustomerId
     });
 
     try {
       const savedCard = new SavedCard({
         userId,
         provider: 'mercadopago',
-        customerId: user.mercadoPagoCustomerId,
+        customerId: customerIdForCard, // Usar token como referencia si no hay Customer
         paymentMethodId: paymentMethodIdentifier,
         cardInfo: {
           last4: cardData.last4,
@@ -901,13 +716,7 @@ export const createPayment = async (req, res) => {
       return res.status(404).json({ message: 'Usuario no encontrado' });
     }
 
-    // Asegurar que el usuario tenga un customerId en Mercado Pago
-    if (!user.mercadoPagoCustomerId) {
-      const customerResponse = await getOrCreateMercadoPagoCustomer(req, res);
-      if (customerResponse.statusCode !== 200) {
-        return res.status(500).json({ message: 'Error al crear cliente en Mercado Pago' });
-      }
-    }
+    // NO crear Customer automáticamente - usar solo el token del tarjetero para pagos
 
     // Crear pago con Mercado Pago
     const payment = new Payment(mercadoPagoClient);

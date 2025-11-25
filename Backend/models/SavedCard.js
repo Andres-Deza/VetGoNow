@@ -14,9 +14,10 @@ const savedCardSchema = new mongoose.Schema({
     default: 'mercadopago'
   },
   // ID del cliente en el proveedor (Stripe Customer ID o MercadoPago Customer ID)
+  // Opcional: cuando se usa solo tarjetero sin Customer, se puede usar el token como referencia
   customerId: {
     type: String,
-    required: true,
+    required: false,
     index: true
   },
   // ID del método de pago en el proveedor

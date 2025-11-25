@@ -28,7 +28,7 @@ export const initiateWebpayPayment = async (req, res) => {
       .populate('petId', 'name species breed');
 
     if (!appointment) {
-      console.warn('⚠️ Appointment not found for ID:', bookingId);
+      console.warn('Appointment not found for ID:', bookingId);
       return res.status(404).json({ success: false, message: 'Appointment not found' });
     }
 
@@ -52,7 +52,7 @@ export const initiateWebpayPayment = async (req, res) => {
       new URL(returnUrl);
       new URL(finalUrl);
     } catch (urlError) {
-      console.error('❌ Invalid URL format:', urlError.message);
+      console.error('Invalid URL format:', urlError.message);
       return res.status(500).json({
         success: false,
         message: 'Payment initiation failed',
@@ -62,7 +62,7 @@ export const initiateWebpayPayment = async (req, res) => {
 
     // Verificar que sean HTTPS (Webpay lo requiere)
     if (!returnUrl.startsWith('https://') || !finalUrl.startsWith('https://')) {
-      console.warn('⚠️ Webpay requires HTTPS URLs for production and ngrok for development');
+      console.warn('Webpay requires HTTPS URLs for production and ngrok for development');
       console.warn('💡 Para desarrollo local: usa ngrok (https://ngrok.com) para crear túnel HTTPS');
       console.warn('💡 Comando ejemplo: ngrok http 5555');
       return res.status(500).json({
@@ -80,7 +80,7 @@ export const initiateWebpayPayment = async (req, res) => {
     // Crear transacción en Webpay
     const createResponse = await webpay.create(buyOrder, sessionId, amount, returnUrl);
 
-    console.log('✅ Webpay transaction created:', createResponse);
+    console.log('Webpay transaction created:', createResponse);
 
     // Guardar información de la transacción
     await WebpayTransaction.create({
@@ -103,7 +103,7 @@ export const initiateWebpayPayment = async (req, res) => {
     });
 
   } catch (err) {
-    console.error('❌ Error initiating Webpay payment:', err);
+    console.error('Error initiating Webpay payment:', err);
     return res.status(500).json({
       success: false,
       message: 'Payment initiation failed',
@@ -139,7 +139,7 @@ export const handleWebpayReturn = async (req, res) => {
     );
 
     if (!transaction) {
-      console.warn('⚠️ Webpay transaction not found for token:', token_ws);
+      console.warn('Webpay transaction not found for token:', token_ws);
       return res.redirect(`${process.env.FRONTEND_URL}/payment-failure`);
     }
 
@@ -150,17 +150,17 @@ export const handleWebpayReturn = async (req, res) => {
         status: 'scheduled'
       });
 
-      console.log('✅ Payment successful for appointment:', transaction.appointmentId);
+      console.log('Payment successful for appointment:', transaction.appointmentId);
       return res.redirect(`${process.env.FRONTEND_URL}/payment-success?token=${token_ws}`);
     } else {
       // Eliminar cita si el pago falló
       await Appointment.findByIdAndDelete(transaction.appointmentId);
-      console.log('❌ Payment failed, appointment deleted:', transaction.appointmentId);
+      console.log('Payment failed, appointment deleted:', transaction.appointmentId);
       return res.redirect(`${process.env.FRONTEND_URL}/payment-failure`);
     }
 
   } catch (err) {
-    console.error('❌ Error handling Webpay return:', err);
+    console.error('Error handling Webpay return:', err);
     return res.redirect(`${process.env.FRONTEND_URL}/payment-failure`);
   }
 };
@@ -193,7 +193,7 @@ export const handleWebpayFinal = async (req, res) => {
     });
 
   } catch (err) {
-    console.error('❌ Error in Webpay final:', err);
+    console.error('Error in Webpay final:', err);
     res.status(500).json({ success: false, message: 'Server error' });
   }
 };
@@ -270,7 +270,7 @@ export const refundWebpayPayment = async (req, res) => {
     });
 
   } catch (err) {
-    console.error('❌ Error refunding Webpay payment:', err);
+    console.error('Error refunding Webpay payment:', err);
     res.status(500).json({ success: false, message: 'Refund failed' });
   }
 };

@@ -1,10 +1,23 @@
 import express from 'express';
-import { login } from '../controllers/authController.js';
+import { 
+  login, 
+  forgotPassword, 
+  resetPassword,
+  sendVerificationToken,
+  verifyToken as verifyTokenHandler
+} from '../controllers/authController.js';
 
-const authRouter = express.Router(); // ✅ Changed from `router` to `authRouter`
+const authRouter = express.Router();
 
-// Login route
-authRouter.post('/login', login); // ✅ Use `authRouter` instead of `router`
+// Rutas de autenticación
+authRouter.post('/login', login);
 
+// Rutas de verificación de correo electrónico
+authRouter.post('/send-token', sendVerificationToken);
+authRouter.post('/verify-token', verifyTokenHandler);
 
-export default authRouter; // ✅ Export it with the new name
+// Rutas de restablecimiento de contraseña
+authRouter.post('/forgot-password', forgotPassword);
+authRouter.post('/reset-password', resetPassword);
+
+export default authRouter;

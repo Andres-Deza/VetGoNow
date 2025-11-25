@@ -4,8 +4,8 @@ import jwt from "jsonwebtoken";
 import validator from "validator";
 import { JWT_SECRET } from "../config.js";
 
-// ✅ API to Register User
-// ✅ API to Register User (with image)
+// API to Register User
+// API to Register User (with image)
 export const registerUser = async (req, res) => {
   try {
     console.log("Incoming request body:", req.body);
@@ -40,17 +40,17 @@ export const registerUser = async (req, res) => {
       return res.status(400).json({ success: false, message: "User already exists" });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+    // No hashear manualmente - el pre-save hook del modelo User lo hará
+    // Esto evita doble hash
     const image = req.file
       ? `${req.protocol}://${req.get("host")}/uploads/${req.file.filename}`
-      : "http://localhost:5555/uploads/default-avatar.png";
+      : "https://ui-avatars.com/api/?name=Usuario&background=6366F1&color=FFFFFF";
 
     const newUser = new User({
       name,
       email,
       phoneNumber,
-      password: hashedPassword,
+      password, // El pre-save hook hasheará la contraseña
       image,
       role: role || "user", // use role from req.body or default
       isApproved: false,
@@ -89,7 +89,7 @@ export const getUsers = async (req, res) => {
 
 
 
-// ✅ API to Approve User
+// API to Approve User
 export const approveUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -108,7 +108,7 @@ export const approveUser = async (req, res) => {
     }
 };
 
-// ✅ API to Remove User
+// API to Remove User
 export const removeUser = async (req, res) => {
     try {
         const { id } = req.params;
@@ -152,6 +152,72 @@ export const getUserDetail = async (req, res) => {
     res.json(user);
   } catch (err) {
     console.error("Error fetching user:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+// GET /api/users/profile - Get current user profile
+export const getCurrentUserProfile = async (req, res) => {
+  try {
+    const userId = req.userId || req.user?.id;
+    
+    if (!userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const user = await User.findById(userId).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
+  } catch (err) {
+    console.error("Error fetching user profile:", err);
+    res.status(500).json({ message: "Server error", error: err.message });
+  }
+};
+
+// PUT /api/users/profile - Update current user profile
+export const updateUserProfile = async (req, res) => {
+  try {
+    const userId = req.userId || req.user?.id;
+    
+    if (!userId) {
+      return res.status(401).json({ message: "Not authenticated" });
+    }
+
+    const { name, email, phoneNumber, password } = req.body;
+
+    const updateData = {};
+    if (name) updateData.name = name;
+    if (email) {
+      if (!validator.isEmail(email)) {
+        return res.status(400).json({ message: "Invalid email format" });
+      }
+      updateData.email = email;
+    }
+    if (phoneNumber) updateData.phoneNumber = phoneNumber;
+    if (password) {
+      if (password.length < 8) {
+        return res.status(400).json({ message: "Password must be at least 8 characters long" });
+      }
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    ).select('-password');
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ message: "Profile updated successfully", user });
+  } catch (err) {
+    console.error("Error updating user profile:", err);
     res.status(500).json({ message: "Server error", error: err.message });
   }
 };

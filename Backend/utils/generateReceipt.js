@@ -7,7 +7,7 @@ export function generateReceipt(appointment, user, vet, outputPath) {
   const doc = new PDFDocument();
   doc.pipe(fs.createWriteStream(outputPath));
 
-  doc.fontSize(20).text('VetGestion Payment Receipt', { align: 'center' });
+  doc.fontSize(20).text('VetGoNow Payment Receipt', { align: 'center' });
   doc.moveDown();
   doc.fontSize(12).text(`Appointment ID: ${appointment._id}`);
   doc.text(`User: ${user.name}`);

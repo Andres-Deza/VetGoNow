@@ -1,6 +1,7 @@
 import Prescribe from "../models/Prescription.js";
-
 import Appointment from "../models/Appointment.js";
+import Pet from "../models/Pet.js";
+import { createMedicalRecordsFromPrescription } from "../utils/createMedicalRecordsFromPrescription.js";
 
 
 export const upsertPrescription = async (req, res) => {
@@ -15,9 +16,12 @@ export const upsertPrescription = async (req, res) => {
     vetId,
     appointmentDate,
     scheduledTime,
+    vaccinesApplied,
+    dewormingsApplied,
+    weightAtConsultation,
   } = req.body;
 
-  // console.log("📥 Incoming Prescription Data:", req.body);
+  // console.log("Incoming Prescription Data:", req.body);
 
   // Validate required fields
   if (!medication || !dosage || !instructions || !symptoms) {
@@ -32,19 +36,36 @@ export const upsertPrescription = async (req, res) => {
 
 
     let prescription = await Prescribe.findOne({ appointmentId });
-    // console.log("🔍 Existing Prescription Fetched:", prescription);
+      // console.log("Existing Prescription Fetched:", prescription);
 
+
+    // Obtener la mascota para usar en la creación de registros
+    const pet = await Pet.findById(petId);
+    if (!pet) {
+      return res.status(404).json({ message: "Pet not found." });
+    }
 
     if (prescription) {
-      // 🔁 Update existing prescription
+      // Update existing prescription
       prescription.prescription.symptoms = symptoms;
       prescription.prescription.medication = medication;
       prescription.prescription.dosage = dosage;
       prescription.prescription.instructions = instructions;
+      
+      // Actualizar vacunas y desparasitaciones solo si se proporcionaron
+      if (vaccinesApplied !== undefined) {
+        prescription.vaccinesApplied = vaccinesApplied;
+      }
+      if (dewormingsApplied !== undefined) {
+        prescription.dewormingsApplied = dewormingsApplied;
+      }
+      if (weightAtConsultation !== undefined) {
+        prescription.weightAtConsultation = weightAtConsultation;
+      }
+      
       await prescription.save();
-      // console.log("📝 Updated existing prescription:", prescription);
     } else {
-      // 🆕 Create new prescription
+      // Create new prescription
       prescription = new Prescribe({
         appointmentId,
         petId,
@@ -58,15 +79,36 @@ export const upsertPrescription = async (req, res) => {
           dosage,
           instructions,
         },
+        vaccinesApplied: vaccinesApplied || [],
+        dewormingsApplied: dewormingsApplied || [],
+        weightAtConsultation: weightAtConsultation || null,
       });
 
       await prescription.save();
-      // console.log("✅ Created new prescription:", prescription);
+
+      // Crear registros médicos (vacunas, desparasitaciones, registro médico) si se aplicaron
+      if ((vaccinesApplied && vaccinesApplied.length > 0) || 
+          (dewormingsApplied && dewormingsApplied.length > 0)) {
+        try {
+          await createMedicalRecordsFromPrescription(prescription, appointment, pet);
+          console.log('Registros médicos creados exitosamente desde la prescripción');
+        } catch (error) {
+          console.error('Error al crear registros médicos (no crítico):', error);
+          // No fallar la creación de la prescripción si hay error en los registros médicos
+        }
+      } else {
+        // Siempre crear un registro médico básico aunque no haya vacunas/desparasitaciones
+        try {
+          await createMedicalRecordsFromPrescription(prescription, appointment, pet);
+        } catch (error) {
+          console.error('Error al crear registro médico básico (no crítico):', error);
+        }
+      }
     }
 
     res.status(200).json({ message: "Prescription saved successfully", prescription });
   } catch (error) {
-    console.error("❌ Error saving prescription:", error);
+    console.error("Error saving prescription:", error);
     res.status(500).json({ message: "Server error while saving prescription." });
   }
 };
@@ -76,7 +118,7 @@ export const upsertPrescription = async (req, res) => {
 export const getPrescriptionByAppointmentId = async (req, res) => {
     const { appointmentId } = req.params;
   
-    // console.log("📥 Incoming request to fetch prescription for Appointment ID:", appointmentId);
+    // console.log("Incoming request to fetch prescription for Appointment ID:", appointmentId);
   
     try {
       const prescription = await Prescribe.findOne({ appointmentId })
@@ -85,15 +127,15 @@ export const getPrescriptionByAppointmentId = async (req, res) => {
         .populate("vetId");
   
       if (!prescription) {
-        // console.log("❌ No prescription found for appointment:", appointmentId);
-        return res.status(404).json({ message: "Prescription not found" });
+        // No es un error si no hay receta, simplemente devolvemos null
+        return res.status(200).json({ prescription: null, message: "No prescription found for this appointment" });
       }
   
-      // console.log("✅ Prescription with populated data found:", prescription);
+      // console.log("Prescription with populated data found:", prescription);
   
       res.status(200).json({ prescription });
     } catch (error) {
-      console.error("🚨 Error fetching prescription:", error);
+      console.error("Error fetching prescription:", error);
       res.status(500).json({ message: "Server error" });
     }
   };

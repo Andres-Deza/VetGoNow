@@ -7,11 +7,12 @@ const adminSchema = new mongoose.Schema({
   phoneNumber: { type: String, required: true },
   password: { type: String, required: true },
   role: { type: String, default: "admin" },
-image: {
-  type: String,
-  default: "http://localhost:5555/uploads/default-avatar.png"
-}
-
+  image: {
+    type: String,
+    default: "https://ui-avatars.com/api/?name=Admin&background=6366F1&color=FFFFFF"
+  },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date }
 });
 
 adminSchema.pre("save", async function (next) {

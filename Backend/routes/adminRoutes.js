@@ -1,12 +1,16 @@
 import express from "express";
-import { registerAdmin, loginAdmin } from "../controllers/adminController.js";
-import { getAdminProfile } from "../controllers/adminController.js";
-import { protect } from "../middleware/authmiddleware.js";
+import { registerAdmin, loginAdmin, getAdminProfile, getVetReliabilityStats, getDashboardStats, getEmergencyTimeStats } from "../controllers/adminController.js";
+import { getRevenueStats } from "../controllers/revenueController.js";
+import { protect, authorize } from "../middleware/authmiddleware.js";
 
 const AdminRouter = express.Router();
 
 AdminRouter.post("/register", registerAdmin);
 AdminRouter.post("/login", loginAdmin);
-AdminRouter.get('/profile', protect, getAdminProfile);
+AdminRouter.get('/profile', protect, authorize(['admin']), getAdminProfile);
+AdminRouter.get('/vets/reliability-stats', protect, authorize(['admin']), getVetReliabilityStats);
+AdminRouter.get('/dashboard/stats', protect, authorize(['admin']), getDashboardStats);
+AdminRouter.get('/emergencies/time-stats', protect, authorize(['admin']), getEmergencyTimeStats);
+AdminRouter.get('/revenue/stats', protect, authorize(['admin']), getRevenueStats);
 
 export default AdminRouter;

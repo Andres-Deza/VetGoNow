@@ -1,12 +1,16 @@
 import express from 'express';
-import { registerUser, getUsers, approveUser, removeUser,getOwnerNameById } from '../controllers/userController.js';
+import { registerUser, getUsers, approveUser, removeUser, getOwnerNameById, getUserDetail, getCurrentUserProfile, updateUserProfile } from '../controllers/userController.js';
 import { authenticate, authorize } from '../middleware/authmiddleware.js';
-import { getUserDetail } from '../controllers/userController.js';
-
 
 const userRouter = express.Router();
 
 userRouter.get('/userdetail/:id', getUserDetail);
+
+// Get current user profile (authenticated)
+userRouter.get('/profile', authenticate, getCurrentUserProfile);
+
+// Update current user profile (authenticated)
+userRouter.put('/profile', authenticate, updateUserProfile);
 
 // Register User Route (public)
 userRouter.post("/", registerUser);

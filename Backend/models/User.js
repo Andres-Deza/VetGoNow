@@ -13,7 +13,15 @@ const UserSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: "http://localhost:5555/uploads/default-avatar.png"
+    default: "https://ui-avatars.com/api/?name=Usuario&background=6366F1&color=FFFFFF"
+  },
+  resetPasswordToken: { type: String },
+  resetPasswordExpires: { type: Date },
+  // Mercado Pago Customer ID para billetera digital
+  mercadoPagoCustomerId: {
+    type: String,
+    default: null,
+    index: true
   }
 });
 

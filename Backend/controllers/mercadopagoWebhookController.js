@@ -16,8 +16,17 @@ export const handleMercadoPagoWebhook = async (req, res) => {
     console.log('=== WEBHOOK RECIBIDO ===');
     console.log('Method:', req.method);
     console.log('URL:', req.url);
-    console.log('Headers:', req.headers);
-    console.log('Body:', req.body);
+    console.log('Path:', req.path);
+    console.log('Original URL:', req.originalUrl);
+    console.log('Headers:', JSON.stringify(req.headers, null, 2));
+    console.log('Body:', JSON.stringify(req.body, null, 2));
+    console.log('Content-Type:', req.headers['content-type']);
+    
+    // Asegurar que el body esté parseado correctamente
+    if (!req.body || Object.keys(req.body).length === 0) {
+      console.warn('Body vacío o no parseado. Verificando raw body...');
+      console.log('Raw body:', req.rawBody || 'No disponible');
+    }
 
     // Mercado Pago envía notificaciones con información del pago
     const { type, data } = req.body;

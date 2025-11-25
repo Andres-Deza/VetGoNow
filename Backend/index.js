@@ -39,6 +39,7 @@ const allowedOrigins = [
   'http://localhost:5175', // admin client (dev)
   'http://localhost:5174', // frontend client (dev)
   'http://localhost:5555', // maybe if using another port/server
+  
   process.env.FRONTEND_URL, // Frontend production URL
   process.env.ADMIN_URL, // Admin production URL
 ].filter(Boolean); // Remove undefined values
@@ -58,8 +59,19 @@ setupConversationSocket(io);
 console.log('Socket.IO initialized (VideoCall + Emergency + Chat)');
 
 // Middleware
+// Body parser - IMPORTANTE: Debe estar antes de las rutas
+// Configurar para aceptar JSON y URL-encoded
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ limit: '10mb', extended: true }));
+
+// Middleware para logging de webhooks (solo para debugging)
+app.use('/api/payment/mercadopago/webhook', (req, res, next) => {
+  if (req.method === 'POST') {
+    console.log('Webhook POST recibido en:', req.originalUrl);
+    console.log('Content-Type:', req.headers['content-type']);
+  }
+  next();
+});
 // Express CORS middleware
 app.use(cors({
   origin: allowedOrigins,

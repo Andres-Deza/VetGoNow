@@ -24,6 +24,16 @@ mercadopagoWebhookRouter.use((req, res, next) => {
 
 // IMPORTANTE: Este endpoint NO debe tener autenticación
 // Mercado Pago envía las notificaciones directamente a este endpoint
+
+// Manejar preflight (OPTIONS) para CORS
+mercadopagoWebhookRouter.options('/webhook', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, X-Requested-With');
+  res.sendStatus(200);
+});
+
+// Endpoint principal del webhook
 mercadopagoWebhookRouter.post('/webhook', handleMercadoPagoWebhook);
 
 // Endpoint para verificar manualmente el estado de un pago (útil para desarrollo)

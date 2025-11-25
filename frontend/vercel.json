@@ -3,6 +3,10 @@
     {
       "source": "/api/(.*)",
       "destination": "https://vetgonow-backend.onrender.com/api/$1"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }

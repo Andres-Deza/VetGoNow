@@ -177,7 +177,7 @@ const ClientVideoCall = () => {
             jitsiApi.executeCommand('hangup');
       }
           alert('La consulta ha sido finalizada por el veterinario.');
-          navigate('/my-appointments');
+          navigate('/client/history');
         }
       } catch (err) {
         console.error('Error checking appointment status:', err);

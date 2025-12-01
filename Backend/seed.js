@@ -84,30 +84,42 @@ async function seed() {
     // Crear configuración inicial de precios
     const pricingConfig = await PricingConfig.create({
       emergency: {
+        // Veterinarios independientes: solo a domicilio
         independent: {
-          normalHours: 19990,
-          peakHours: 24990
+          home: {
+            normalHours: 34000,  // Urgencia a domicilio - Horario normal
+            peakHours: 40000     // Urgencia a domicilio - Hora punta
+          }
         },
+        // Clínicas veterinarias: presencial y a domicilio
         clinic: {
-          normalHours: 24990,
-          peakHours: 29990
+          clinic: {
+            normalHours: 31000,  // Urgencia presencial en clínica - Horario normal
+            peakHours: 38000     // Urgencia presencial en clínica - Hora punta
+          },
+          home: {
+            normalHours: 50000,  // Urgencia a domicilio - Horario normal
+            peakHours: 60000     // Urgencia a domicilio - Hora punta
+          }
         },
         peakHoursRange: {
-          start: 20,
-          end: 8
+          start: 20,  // 20:00 (8 PM)
+          end: 8      // 08:00 (8 AM)
         },
-        distanceSurchargePerKm: 4500
+        distanceSurchargePerKm: 0  // Ya no se usa recargo por distancia, está incluido en precio base
       },
       appointments: {
+        // Veterinarios independientes
         independent: {
-          clinicVisit: 20000,
-          homeVisit: 35000,
-          teleconsultation: 0
+          clinicVisit: 0,           // No aplica para independientes
+          homeVisit: 27000,         // Consulta a domicilio
+          teleconsultation: 15000   // Teleconsulta
         },
+        // Clínicas veterinarias
         clinic: {
-          clinicVisit: 25000,
-          homeVisit: 40000,
-          teleconsultation: 0
+          clinicVisit: 25000,       // Consulta en clínica
+          homeVisit: 40000,         // Consulta a domicilio
+          teleconsultation: 17000  // Teleconsulta
         }
       },
       updatedBy: admin._id

@@ -1,8 +1,36 @@
-# React + Vite
+# Admin Panel - VetGoNow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Panel administrativo de VetGoNow para gestión de usuarios, veterinarios, citas y métricas.
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 18
+- Vite 6
+- Chart.js 4
+- Material-UI 7
+- Axios
+
+## Desarrollo Local
+
+```bash
+npm install
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5175`
+
+## Variables de Entorno
+
+Crear archivo `.env` en la raíz de `admin/`:
+
+```env
+VITE_API_BASE=http://localhost:5555
+```
+
+## Build para Producción
+
+```bash
+npm run build
+```
+
+Los archivos compilados se generan en la carpeta `dist/`.

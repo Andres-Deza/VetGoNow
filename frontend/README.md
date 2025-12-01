@@ -1,8 +1,41 @@
-# React + Vite
+# Frontend - VetGoNow
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web principal de VetGoNow desarrollada con React y Vite. Proporciona interfaces para tutores de mascotas y veterinarios.
 
-Currently, two official plugins are available:
+## Tecnologías
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 18
+- Vite 6
+- React Router 7
+- TailwindCSS 3
+- Google Maps API
+- Jitsi Meet SDK
+- Socket.io Client
+- Axios
+
+## Desarrollo Local
+
+```bash
+npm install
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:5173`
+
+## Variables de Entorno
+
+Crear archivo `.env` en la raíz de `frontend/`:
+
+```env
+VITE_API_BASE=http://localhost:5555
+VITE_SOCKET_URL=http://localhost:5555
+VITE_GOOGLE_MAPS_API_KEY=tu_api_key
+```
+
+## Build para Producción
+
+```bash
+npm run build
+```
+
+Los archivos compilados se generan en la carpeta `dist/`.

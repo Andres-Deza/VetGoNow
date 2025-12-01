@@ -12,7 +12,9 @@
     "dev:ngrok": "concurrently \"npm run dev\" \"npm run ngrok\"",
     "test:webpay": "node scripts/test-webpay.js",
     "test:gemini": "node scripts/test-gemini.js",
-    "seed": "node seed.js"
+    "seed": "node seed.js",
+    "seed:production": "node scripts/seedProduction.js",
+    "update:pricing": "node scripts/updatePricing.js"
   },
   "keywords": [],
   "author": "",

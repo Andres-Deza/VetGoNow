@@ -15,7 +15,6 @@ const VetLoginPage = () => (
       label: "Inicia sesión aquí",
       to: "/login/user",
     }}
-    bottomNote="Para mantener la confianza de nuestros tutores, verificamos automáticamente tu RUT, título profesional y selfie de reconocimiento facial. Si tu validación está en proceso, te avisaremos por correo."
   />
 );
 

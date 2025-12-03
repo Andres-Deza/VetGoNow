@@ -117,11 +117,24 @@ ui-debug.log
 # Development tools
 /tools/
 
-# Documentation - Non-essential markdown files
-ANALISIS-INTEGRACION-GEMINI.md
-GUIA-CREDITOS-GOOGLE-CLOUD.md
-GUIA-GEMINI-SETUP.md
-HABILITAR-GEMINI-API.md
-RESUMEN-CONFIGURACION-GEMINI.md
-RESUMEN-IMPLEMENTACION-IA-IMAGENES.md
-SOLUCION-GEMINI-404.md
+# AI Code Generation Tools (Cursor, Copilot, etc.)
+.cursorignore
+.cursorrules
+.cursor/
+**/.cursor*
+**/.copilot*
+**/.github-copilot*
+**/.aider*
+**/.codeium*
+**/.windsurf*
+**/.continue*
+**/.tabby*
+**/.cody*
+**/.cursor-tutor*
+**/.cursor-chat*
+**/.cursor-settings*
+setup-*-mcp.*
+*render-mcp.*
+*setup-mcp.*
+CONFIGURAR-*-MCP.md
+*MCP*.md

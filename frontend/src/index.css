@@ -23,10 +23,10 @@
   --vet-accent-light: #FFA64D;       /* Naranja más claro */
 
   /* ========== PALETA DEL PORTAL DEL TUTOR ========== */
-  /* Sidebar y navegación del tutor */
-  --tutor-sidebar: #2E7D70;         /* Azul Oceánico - Sidebar del tutor */
-  --tutor-sidebar-hover: #3A9283;   /* Hover del sidebar más claro */
-  --tutor-sidebar-active: #4ECDC4;  /* Estado activo con color secundario */
+  /* Sidebar y navegación del tutor - Verde Esmeralda */
+  --tutor-sidebar: #059669;         /* Verde Esmeralda - Sidebar del tutor */
+  --tutor-sidebar-hover: #10B981;   /* Verde Esmeralda más claro - Hover */
+  --tutor-sidebar-active: #34D399;  /* Verde Menta - Estado activo */
   
   /* Fondo y contenido del tutor */
   --tutor-bg-primary: #F8F9FA;      /* Fondo principal (Gris Claro) */
@@ -39,8 +39,8 @@
   /* Botones y acciones del tutor */
   --tutor-btn-primary: #F7941D;     /* Botón primario (Naranja "GoNow") */
   --tutor-btn-primary-hover: #E8850B; /* Hover del botón primario */
-  --tutor-btn-secondary: #4ECDC4;   /* Botón secundario (Azul Aqua "GoNow") */
-  --tutor-btn-secondary-hover: #3FB8B0; /* Hover del botón secundario */
+  --tutor-btn-secondary: #10B981;   /* Botón secundario (Verde Esmeralda) */
+  --tutor-btn-secondary-hover: #059669; /* Hover del botón secundario */
   
   /* Estados y alertas del tutor */
   --tutor-danger: #DC3545;          /* Rojo Alerta/Peligro */

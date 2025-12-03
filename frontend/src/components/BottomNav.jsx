@@ -70,14 +70,14 @@ const BottomNav = () => {
               onClick={() => navigate(item.path)}
               className={`flex flex-col items-center justify-center gap-1 px-3 py-2 min-w-[60px] transition-colors ${
                 active
-                  ? "text-vet-secondary"
+                  ? "text-tutor-sidebar"
                   : "text-gray-500"
               }`}
             >
-              <div className={active ? "text-vet-secondary" : "text-gray-500"}>
+              <div className={active ? "text-tutor-sidebar" : "text-gray-500"}>
                 {item.icon}
               </div>
-              <span className={`text-xs font-medium ${active ? "text-vet-secondary" : "text-gray-500"}`}>
+              <span className={`text-xs font-medium ${active ? "text-tutor-sidebar" : "text-gray-500"}`}>
                 {item.label}
               </span>
             </button>

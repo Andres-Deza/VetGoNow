@@ -127,11 +127,11 @@ const RoleLoginPage = ({
   };
 
   return (
-    <div className="min-h-screen bg-vet-secondary flex flex-col text-white">
-      <header className="bg-vet-secondary px-4 md:px-6 py-6 md:py-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <header className="bg-vet-primary px-4 md:px-6 py-6 md:py-8 text-white">
         <div className="max-w-3xl mx-auto">
-          {heroEyebrow && <p className="text-vet-secondary-light text-sm md:text-base">{heroEyebrow}</p>}
-          <h1 className="text-2xl md:text-3xl font-bold mt-2">{heroTitle}</h1>
+          {heroEyebrow && <p className="text-vet-secondary-light text-sm md:text-base opacity-90">{heroEyebrow}</p>}
+          <h1 className="text-2xl md:text-3xl font-bold mt-2 text-white">{heroTitle}</h1>
           {heroDescription && (
             <p className="text-vet-secondary-light opacity-90 mt-3 text-sm md:text-base leading-relaxed">
               {heroDescription}

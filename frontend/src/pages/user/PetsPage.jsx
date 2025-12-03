@@ -703,7 +703,7 @@ const PetsPage = () => {
                                 <span className="text-sm md:text-base font-semibold text-gray-900">Ficha incompleta</span>
                           </div>
                               <p className="text-sm text-gray-600 mb-4 text-center px-4">
-                                Completa su información <span className="text-vet-secondary underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
+                                Completa su información <span className="text-tutor-sidebar underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
                               </p>
                             </>
                           )}
@@ -731,7 +731,7 @@ const PetsPage = () => {
                         </button>
                         <button
                           onClick={() => navigate(`/videoconsulta?petId=${p._id}`)}
-                          className="w-full px-6 py-3 bg-vet-secondary text-white rounded-xl font-semibold hover:bg-vet-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
+                          className="w-full px-6 py-3 bg-tutor-btn-secondary text-white rounded-xl font-semibold hover:bg-tutor-btn-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
                       >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -883,7 +883,7 @@ const PetsPage = () => {
                                 <span className="text-sm md:text-base font-semibold text-gray-900">Ficha incompleta</span>
                         </div>
                               <p className="text-sm text-gray-600 mb-4 text-center px-4">
-                                Completa su información <span className="text-vet-secondary underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
+                                Completa su información <span className="text-tutor-sidebar underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
                               </p>
                             </>
                           )}
@@ -911,7 +911,7 @@ const PetsPage = () => {
                         </button>
                         <button
                           onClick={() => navigate(`/videoconsulta?petId=${p._id}`)}
-                          className="w-full px-6 py-3 bg-vet-secondary text-white rounded-xl font-semibold hover:bg-vet-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
+                          className="w-full px-6 py-3 bg-tutor-btn-secondary text-white rounded-xl font-semibold hover:bg-tutor-btn-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />

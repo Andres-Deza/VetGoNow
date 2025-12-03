@@ -547,9 +547,9 @@ const UserHome = () => {
   return (
     <div className="min-h-screen bg-gray-50 -mt-14 md:mt-0">
       {/* Header de bienvenida - Solo en móvil - Pegado al navbar */}
-      <div className="md:hidden bg-vet-primary text-white px-4 py-4 pt-[4.5rem]">
+      <div className="md:hidden bg-tutor-sidebar text-white px-4 py-4 pt-[4.5rem]">
         <div>
-          <p className="text-sm text-vet-secondary-light opacity-90">¡Bienvenid@!</p>
+          <p className="text-sm text-tutor-sidebar-active opacity-90">¡Bienvenid@!</p>
           <h1 className="text-xl font-bold">{user?.name || 'Usuario'}</h1>
         </div>
       </div>
@@ -558,16 +558,16 @@ const UserHome = () => {
       <div className="max-w-4xl mx-auto px-4 pt-6 pb-6 md:pt-8 md:pb-10">
 
         {!loadingEmergency && activeEmergency && (
-          <div className="mb-6 bg-vet-primary text-white rounded-2xl p-5 md:p-6 shadow-lg">
+          <div className="mb-6 bg-tutor-sidebar text-white rounded-2xl p-5 md:p-6 shadow-lg">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div>
-                <p className="text-sm uppercase tracking-wide text-vet-secondary-light opacity-90">
+                <p className="text-sm uppercase tracking-wide text-tutor-sidebar-active opacity-90">
                   Urgencia en curso
                 </p>
                 <h2 className="text-xl md:text-2xl font-semibold mt-1">
                   {activeEmergency.pet?.name || 'Mascota'}
                 </h2>
-                <p className="text-sm text-vet-secondary-light opacity-90 mt-2">
+                <p className="text-sm text-tutor-sidebar-light opacity-90 mt-2">
                   Seguimiento disponible. Confirma la llegada del veterinario o comparte más información mientras esperas.
                 </p>
               </div>
@@ -580,7 +580,7 @@ const UserHome = () => {
                         activeEmergency._id
                     )
                   }
-                  className="px-4 py-2 bg-white text-vet-primary font-semibold rounded-xl shadow hover:bg-vet-gray-light transition"
+                  className="px-4 py-2 bg-white text-tutor-sidebar font-semibold rounded-xl shadow hover:bg-vet-gray-light transition"
                 >
                   Ver seguimiento
                 </button>
@@ -596,7 +596,7 @@ const UserHome = () => {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-6 text-sm">
               <div>
-                <p className="text-vet-secondary-light opacity-90 uppercase tracking-wide text-xs">
+                <p className="text-tutor-sidebar-light opacity-90 uppercase tracking-wide text-xs">
                   Estado
                 </p>
                 <p className="font-medium">
@@ -612,7 +612,7 @@ const UserHome = () => {
                 </p>
               </div>
               <div>
-                <p className="text-vet-secondary-light opacity-90 uppercase tracking-wide text-xs">
+                <p className="text-tutor-sidebar-light opacity-90 uppercase tracking-wide text-xs">
                   Costo estimado
                 </p>
                 <p className="font-medium">
@@ -620,7 +620,7 @@ const UserHome = () => {
                 </p>
               </div>
               <div>
-                <p className="text-vet-secondary-light opacity-90 uppercase tracking-wide text-xs">
+                <p className="text-tutor-sidebar-light opacity-90 uppercase tracking-wide text-xs">
                   Veterinario asignado
                 </p>
                 <p className="font-medium">
@@ -639,7 +639,7 @@ const UserHome = () => {
             {pets.length > 0 && (
               <button 
                 onClick={openAddPetModal}
-                className="text-vet-secondary text-sm md:text-base font-medium hover:text-vet-secondary-dark"
+                className="text-tutor-sidebar text-sm md:text-base font-medium hover:text-tutor-sidebar-dark"
               >
                 Agregar otra mascota
               </button>
@@ -649,7 +649,7 @@ const UserHome = () => {
           {pets.length === 0 ? (
             <button 
               onClick={openAddPetModal}
-              className="w-full bg-white rounded-xl shadow-sm p-6 md:p-8 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-vet-secondary transition-all active:scale-95"
+              className="w-full bg-white rounded-xl shadow-sm p-6 md:p-8 flex flex-col items-center justify-center border-2 border-dashed border-gray-300 hover:border-tutor-sidebar transition-all active:scale-95"
             >
               <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gray-200 text-gray-600 text-3xl md:text-4xl flex items-center justify-center mb-3">+</div>
               <span className="text-sm md:text-base text-gray-600 font-medium">Agregar mascota</span>
@@ -755,7 +755,7 @@ const UserHome = () => {
                               <span className="text-sm font-semibold text-gray-900">Ficha incompleta</span>
                             </div>
                             <p className="text-sm text-gray-600 mb-4 text-center px-4">
-                              Completa su información <span className="text-vet-secondary underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
+                              Completa su información <span className="text-tutor-sidebar underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
                             </p>
                           </>
                         )}
@@ -781,7 +781,7 @@ const UserHome = () => {
                           </button>
                           <button
                             onClick={() => navigate(`/videoconsulta?petId=${p._id}`)}
-                            className="w-full px-6 py-3 bg-vet-secondary text-white rounded-xl font-semibold hover:bg-vet-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
+                            className="w-full px-6 py-3 bg-tutor-btn-secondary text-white rounded-xl font-semibold hover:bg-tutor-btn-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
                           >
                             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -892,7 +892,7 @@ const UserHome = () => {
                             <span className="text-sm md:text-base font-semibold text-gray-900">Ficha incompleta</span>
                           </div>
                           <p className="text-sm text-gray-600 mb-4 text-center px-4">
-                            Completa su información <span className="text-vet-secondary underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
+                            Completa su información <span className="text-tutor-sidebar underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
                           </p>
                         </>
                         )}
@@ -918,7 +918,7 @@ const UserHome = () => {
                         </button>
                         <button
                           onClick={() => navigate(`/videoconsulta?petId=${p._id}`)}
-                          className="w-full px-6 py-3 bg-vet-secondary text-white rounded-xl font-semibold hover:bg-vet-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
+                          className="w-full px-6 py-3 bg-tutor-btn-secondary text-white rounded-xl font-semibold hover:bg-tutor-btn-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
                         >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -956,10 +956,10 @@ const UserHome = () => {
       {isModalOpen && (
         <div className="fixed inset-0 z-[60] flex flex-col bg-white overflow-y-auto">
           {/* Header estilo referencia */}
-          <div className="bg-vet-primary text-white px-4 md:px-6 py-4 flex items-center justify-between sticky top-0 z-10">
+          <div className="bg-tutor-sidebar text-white px-4 md:px-6 py-4 flex items-center justify-between sticky top-0 z-10">
             <button
               onClick={closeAddPetModal}
-              className="text-white p-2 hover:bg-vet-primary-light rounded-lg transition-colors"
+              className="text-white p-2 hover:bg-tutor-sidebar-hover rounded-lg transition-colors"
             >
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -1008,8 +1008,8 @@ const UserHome = () => {
                     onClick={() => handleSpeciesSelect('Perro')}
                     className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
                       newPet.species === 'Perro'
-                        ? 'border-vet-secondary bg-vet-gray-light text-vet-primary'
-                        : 'border-gray-300 bg-white text-gray-900 hover:border-vet-secondary'
+                        ? 'border-tutor-sidebar bg-vet-gray-light text-tutor-sidebar'
+                        : 'border-gray-300 bg-white text-gray-900 hover:border-tutor-sidebar'
                     }`}
                   >
                     Perro 🐶
@@ -1019,8 +1019,8 @@ const UserHome = () => {
                     onClick={() => handleSpeciesSelect('Gato')}
                     className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
                       newPet.species === 'Gato'
-                        ? 'border-vet-secondary bg-vet-gray-light text-vet-primary'
-                        : 'border-gray-300 bg-white text-gray-900 hover:border-vet-secondary'
+                        ? 'border-tutor-sidebar bg-vet-gray-light text-tutor-sidebar'
+                        : 'border-gray-300 bg-white text-gray-900 hover:border-tutor-sidebar'
                     }`}
                   >
                     Gato 🐱
@@ -1039,8 +1039,8 @@ const UserHome = () => {
                     onClick={() => setNewPet({...newPet, gender: 'Macho'})}
                     className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
                       newPet.gender === 'Macho'
-                        ? 'border-vet-secondary bg-vet-gray-light text-vet-primary'
-                        : 'border-gray-300 bg-white text-gray-900 hover:border-vet-secondary'
+                        ? 'border-tutor-sidebar bg-vet-gray-light text-tutor-sidebar'
+                        : 'border-gray-300 bg-white text-gray-900 hover:border-tutor-sidebar'
                     }`}
                   >
                     Macho ♂
@@ -1050,8 +1050,8 @@ const UserHome = () => {
                     onClick={() => setNewPet({...newPet, gender: 'Hembra'})}
                     className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
                       newPet.gender === 'Hembra'
-                        ? 'border-vet-secondary bg-vet-gray-light text-vet-primary'
-                        : 'border-gray-300 bg-white text-gray-900 hover:border-vet-secondary'
+                        ? 'border-tutor-sidebar bg-vet-gray-light text-tutor-sidebar'
+                        : 'border-gray-300 bg-white text-gray-900 hover:border-tutor-sidebar'
                     }`}
                   >
                     Hembra ♀
@@ -1087,7 +1087,7 @@ const UserHome = () => {
                         key={index}
                         type="button"
                         onClick={() => handleBreedSelect(breed)}
-                        className="w-full px-4 py-2 text-left hover:bg-vet-gray-light hover:text-vet-primary transition-colors border-b border-gray-100 last:border-b-0"
+                        className="w-full px-4 py-2 text-left hover:bg-vet-gray-light hover:text-tutor-sidebar transition-colors border-b border-gray-100 last:border-b-0"
                       >
                         {breed}
                       </button>
@@ -1136,7 +1136,7 @@ const UserHome = () => {
                   />
                   {/* Icono de calendario decorativo para móvil */}
                   <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none z-10">
-                    <svg className="w-6 h-6 text-vet-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className="w-6 h-6 text-tutor-sidebar" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                     </svg>
                   </div>
@@ -1170,7 +1170,7 @@ const UserHome = () => {
                 </label>
                 <div className="flex items-center gap-3">
                   {newPet.image && (
-                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-vet-secondary/30 flex-shrink-0">
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-tutor-sidebar/30 flex-shrink-0">
                       <img src={newPet.image} alt="Preview" className="w-full h-full object-cover" />
                     </div>
                   )}
@@ -1181,7 +1181,7 @@ const UserHome = () => {
                       onChange={handleFileChange}
                       className="hidden"
                     />
-                    <div className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-vet-secondary transition-colors text-center text-gray-600 hover:text-vet-secondary">
+                    <div className="w-full px-4 py-3 border-2 border-dashed border-gray-300 rounded-lg hover:border-tutor-sidebar transition-colors text-center text-gray-600 hover:text-tutor-sidebar">
                       {newPet.image ? 'Cambiar foto' : 'Seleccionar foto'}
                     </div>
                   </label>

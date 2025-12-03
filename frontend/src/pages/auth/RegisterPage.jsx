@@ -24,14 +24,14 @@ const registerOptions = [
 
 const RegisterPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-violet-700 via-violet-600 to-violet-500 text-white flex flex-col">
+    <div className="min-h-screen bg-gradient-to-b from-vet-primary via-vet-secondary to-vet-secondary-light text-white flex flex-col">
       <header className="px-4 md:px-8 py-6 md:py-10">
         <div className="max-w-4xl mx-auto">
-          <p className="text-violet-200 text-sm md:text-base">Selecciona el tipo de cuenta</p>
+          <p className="text-vet-secondary-light text-sm md:text-base">Selecciona el tipo de cuenta</p>
           <h1 className="text-3xl md:text-4xl font-bold mt-2">
             ¿Cómo quieres comenzar en VetGoNow?
           </h1>
-          <p className="text-violet-100 mt-3 md:mt-4 text-sm md:text-base">
+          <p className="text-vet-secondary-light opacity-90 mt-3 md:mt-4 text-sm md:text-base">
             Crea una cuenta pensada para tus necesidades: como tutor o tutora de mascotas, o como
             profesional veterinario verificado en Chile.
           </p>
@@ -47,11 +47,11 @@ const RegisterPage = () => {
             >
               <div>
                 <div className="flex items-center gap-4 mb-4">
-                  <div className="w-14 h-14 rounded-full bg-violet-100 flex items-center justify-center">
+                  <div className="w-14 h-14 rounded-full bg-vet-gray-light flex items-center justify-center">
                     <img src={option.icon} alt="" className="w-10 h-10 object-contain" />
                   </div>
                   <div>
-                    <p className="text-xs uppercase tracking-wider font-semibold text-violet-500">
+                    <p className="text-xs uppercase tracking-wider font-semibold text-vet-secondary">
                       {option.accent}
                     </p>
                     <h2 className="text-xl font-semibold">{option.title}</h2>
@@ -64,7 +64,7 @@ const RegisterPage = () => {
 
               <Link
                 to={option.to}
-                className="mt-6 inline-flex items-center justify-center px-4 py-3 md:py-3.5 bg-violet-600 text-white font-medium rounded-xl hover:bg-violet-700 transition-colors"
+                className="mt-6 inline-flex items-center justify-center px-4 py-3 md:py-3.5 bg-vet-secondary text-white font-medium rounded-xl hover:bg-vet-secondary-dark transition-colors"
               >
                 {option.actionLabel}
               </Link>
@@ -74,7 +74,7 @@ const RegisterPage = () => {
 
         <div className="max-w-4xl mx-auto mt-10 bg-white/10 rounded-2xl p-6 md:p-8 backdrop-blur">
           <h3 className="text-lg font-semibold">¿Ya tienes una cuenta?</h3>
-          <p className="text-sm md:text-base text-violet-100 mt-2">
+          <p className="text-sm md:text-base text-vet-secondary-light opacity-90 mt-2">
             Si eres tutor o tutora, puedes{" "}
             <Link to="/login/user" className="underline font-medium">
               iniciar sesión aquí

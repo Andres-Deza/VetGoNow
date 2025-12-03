@@ -127,13 +127,13 @@ const RoleLoginPage = ({
   };
 
   return (
-    <div className="min-h-screen bg-violet-600 flex flex-col text-white">
-      <header className="bg-gradient-to-r from-violet-700 to-violet-500 px-4 md:px-6 py-6 md:py-8">
+    <div className="min-h-screen bg-vet-secondary flex flex-col text-white">
+      <header className="bg-gradient-to-r from-vet-primary to-vet-secondary px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-3xl mx-auto">
-          {heroEyebrow && <p className="text-violet-200 text-sm md:text-base">{heroEyebrow}</p>}
+          {heroEyebrow && <p className="text-vet-secondary-light text-sm md:text-base">{heroEyebrow}</p>}
           <h1 className="text-2xl md:text-3xl font-bold mt-2">{heroTitle}</h1>
           {heroDescription && (
-            <p className="text-violet-100 mt-3 text-sm md:text-base leading-relaxed">
+            <p className="text-vet-secondary-light opacity-90 mt-3 text-sm md:text-base leading-relaxed">
               {heroDescription}
             </p>
           )}
@@ -169,7 +169,7 @@ const RoleLoginPage = ({
               id="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-violet-300"
+              className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-vet-secondary"
               placeholder="tu@email.com"
               required
             />
@@ -187,7 +187,7 @@ const RoleLoginPage = ({
               id="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-violet-300"
+              className="w-full px-3 md:px-4 py-2.5 md:py-3 text-sm md:text-base border border-gray-300 rounded-lg text-black focus:outline-none focus:ring-2 focus:ring-vet-secondary"
               placeholder="Ingresa tu contraseña"
               required
             />
@@ -196,7 +196,7 @@ const RoleLoginPage = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-violet-600 text-white px-4 md:px-6 py-3 md:py-3.5 rounded-lg font-medium text-sm md:text-base hover:bg-violet-700 active:bg-violet-800 disabled:opacity-60 transition-all active:scale-[0.98]"
+            className="w-full bg-vet-secondary text-white px-4 md:px-6 py-3 md:py-3.5 rounded-lg font-medium text-sm md:text-base hover:bg-vet-secondary-dark active:bg-vet-primary disabled:opacity-60 transition-all active:scale-[0.98]"
           >
             {loading ? "Ingresando..." : "Iniciar sesión"}
           </button>
@@ -208,7 +208,7 @@ const RoleLoginPage = ({
           <div className="mt-4 md:mt-5 text-center text-xs md:text-sm">
             <p className="text-gray-700">
               ¿No tienes cuenta?{" "}
-              <Link to={registerLink} className="text-violet-700 hover:underline font-medium">
+              <Link to={registerLink} className="text-vet-secondary hover:underline font-medium">
                 {registerLinkLabel}
               </Link>
             </p>
@@ -216,7 +216,7 @@ const RoleLoginPage = ({
               <button
                 type="button"
                 onClick={() => navigate("/forgot-password")}
-                className="text-violet-700 hover:underline font-medium"
+                className="text-vet-secondary hover:underline font-medium"
               >
                 ¿Olvidaste tu contraseña?
               </button>
@@ -224,7 +224,7 @@ const RoleLoginPage = ({
             {secondaryLink && (
               <div className="mt-3 text-gray-600">
                 {secondaryLink.prefix}{" "}
-                <Link to={secondaryLink.to} className="text-violet-700 hover:underline font-medium">
+                <Link to={secondaryLink.to} className="text-vet-secondary hover:underline font-medium">
                   {secondaryLink.label}
                 </Link>
               </div>

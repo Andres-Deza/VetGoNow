@@ -650,8 +650,8 @@ const VetRegisterPage = () => {
         <div className="flex items-center justify-between mb-6">
           {[1,2,3].map((i) => (
             <div key={i} className="flex-1 flex items-center">
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${currentStep>=i ? 'bg-violet-600 text-white' : 'bg-gray-200 text-gray-600'}`}>{i}</div>
-              {i<3 && <div className={`h-1 flex-1 mx-2 rounded ${currentStep>i ? 'bg-violet-600' : 'bg-gray-200'}`}></div>}
+              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold ${currentStep>=i ? 'bg-vet-secondary text-white' : 'bg-gray-200 text-gray-600'}`}>{i}</div>
+              {i<3 && <div className={`h-1 flex-1 mx-2 rounded ${currentStep>i ? 'bg-vet-secondary' : 'bg-gray-200'}`}></div>}
             </div>
           ))}
         </div>
@@ -1168,7 +1168,7 @@ const VetRegisterPage = () => {
                   type="text"
                   value={firstName}
                   onChange={(event) => setFirstName(event.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="Ej: Valentina Andrea"
                   required
                 />
@@ -1181,7 +1181,7 @@ const VetRegisterPage = () => {
                   type="text"
                   value={lastNameFather}
                   onChange={(event) => setLastNameFather(event.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="Ej: Rojas"
                   required
                 />
@@ -1192,7 +1192,7 @@ const VetRegisterPage = () => {
                   type="text"
                   value={lastNameMother}
                   onChange={(event) => setLastNameMother(event.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="Ej: González"
                 />
               </div>
@@ -1206,14 +1206,14 @@ const VetRegisterPage = () => {
                     type="email"
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
-                    className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                    className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                     placeholder="tu@email.com"
                     required
                   />
                   <button
                     type="button"
                     onClick={handleSendToken}
-                    className="bg-violet-600 text-white px-4 py-2.5 rounded-lg hover:bg-violet-700 active:bg-violet-800 transition-all"
+                    className="bg-vet-secondary text-white px-4 py-2.5 rounded-lg hover:bg-vet-secondary-dark active:bg-vet-primary transition-all"
                   >
                     Obtener código
                   </button>
@@ -1240,7 +1240,7 @@ const VetRegisterPage = () => {
                         ? "border-green-300 focus:ring-green-300 bg-green-50 cursor-not-allowed"
                         : tokenError 
                           ? "border-red-300 focus:ring-red-300" 
-                          : "border-gray-300 focus:ring-violet-300"
+                          : "border-gray-300 focus:ring-vet-secondary"
                     } ${isVerifyingToken ? "opacity-60 cursor-wait" : ""}`}
                     placeholder="Ingresa el código que llegó a tu correo"
                     required
@@ -1315,7 +1315,7 @@ const VetRegisterPage = () => {
                       setRutError("RUT chileno inválido");
                     }
                   }}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="12.345.678-9"
                   required
                 />
@@ -1351,7 +1351,7 @@ const VetRegisterPage = () => {
                         setPhoneError("");
                       }
                     }}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                     placeholder="9XXXXXXXX"
                     inputMode="numeric"
                     required
@@ -1368,7 +1368,7 @@ const VetRegisterPage = () => {
                   type="password"
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="Ingresa tu contraseña"
                   required
                 />
@@ -1382,7 +1382,7 @@ const VetRegisterPage = () => {
                   type="password"
                   value={confirmPassword}
                   onChange={(event) => setConfirmPassword(event.target.value)}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="Vuelve a ingresar tu contraseña"
                   required
                 />
@@ -1587,7 +1587,7 @@ const VetRegisterPage = () => {
                           setCoverageCommunes([]);
                         }
                       }}
-                      className="w-4 h-4 text-violet-600 rounded"
+                      className="w-4 h-4 text-vet-secondary rounded"
                     />
                     Atención a domicilio
                   </label>
@@ -1602,14 +1602,14 @@ const VetRegisterPage = () => {
                           setServiceModalities(serviceModalities.filter(m => m !== 'teleconsulta'));
                         }
                       }}
-                      className="w-4 h-4 text-violet-600 rounded"
+                      className="w-4 h-4 text-vet-secondary rounded"
                     />
                     Teleconsulta
                   </label>
                 </div>
               </div>
               {serviceModalities.includes('domicilio') && (
-                <div className="mt-4 p-4 bg-violet-50 rounded-lg">
+                <div className="mt-4 p-4 bg-vet-gray-light rounded-lg">
                   <label className="block text-sm font-medium mb-2">
                     Comunas de cobertura <span className="text-red-500">*</span>
                   </label>
@@ -1620,7 +1620,7 @@ const VetRegisterPage = () => {
                       {coverageCommunes.map((commune) => (
                         <span
                           key={commune}
-                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-violet-600 text-white text-sm rounded-full font-medium"
+                          className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-vet-secondary text-white text-sm rounded-full font-medium"
                         >
                           {commune}
                           <button
@@ -1632,7 +1632,7 @@ const VetRegisterPage = () => {
                                 setCoverageCommunes(coverageCommunes.filter(c => c !== commune));
                               }
                             }}
-                            className="ml-1 hover:bg-violet-700 rounded-full p-0.5 transition-colors"
+                            className="ml-1 hover:bg-vet-secondary-dark rounded-full p-0.5 transition-colors"
                             aria-label={`Eliminar ${commune}`}
                           >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1649,7 +1649,7 @@ const VetRegisterPage = () => {
                     <button
                       type="button"
                       onClick={() => setIsCommuneDropdownOpen(!isCommuneDropdownOpen)}
-                      className="w-full px-3 py-2.5 text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 flex items-center justify-between text-black"
+                      className="w-full px-3 py-2.5 text-left bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary flex items-center justify-between text-black"
                     >
                       <span className={coverageCommunes.length === 0 ? "text-gray-500" : "text-black"}>
                         {coverageCommunes.length === 0 
@@ -1679,13 +1679,13 @@ const VetRegisterPage = () => {
                             setIsCommuneDropdownOpen(false);
                             setCommuneSearchTerm("");
                           }}
-                          className={`w-full px-4 py-2.5 text-left hover:bg-violet-50 transition-colors flex items-center justify-between ${
+                          className={`w-full px-4 py-2.5 text-left hover:bg-vet-gray-light transition-colors flex items-center justify-between ${
                             coverageCommunes.includes("Toda la Región Metropolitana") ? "bg-violet-100 font-semibold" : ""
                           }`}
                         >
-                          <span className="text-violet-700 font-medium">🌐 Toda la Región Metropolitana</span>
+                          <span className="text-vet-secondary-dark font-medium">🌐 Toda la Región Metropolitana</span>
                           {coverageCommunes.includes("Toda la Región Metropolitana") && (
-                            <svg className="w-5 h-5 text-violet-600" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-5 h-5 text-vet-secondary" fill="currentColor" viewBox="0 0 20 20">
                               <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                             </svg>
                           )}
@@ -1701,7 +1701,7 @@ const VetRegisterPage = () => {
                             value={communeSearchTerm}
                             onChange={(e) => setCommuneSearchTerm(e.target.value)}
                             onClick={(e) => e.stopPropagation()}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black text-sm"
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black text-sm"
                           />
           </div>
 
@@ -1725,13 +1725,13 @@ const VetRegisterPage = () => {
                                     setCoverageCommunes([...coverageCommunes, comuna]);
                                   }
                                 }}
-                                className={`w-full px-4 py-2 text-left hover:bg-violet-50 transition-colors flex items-center justify-between ${
+                                className={`w-full px-4 py-2 text-left hover:bg-vet-gray-light transition-colors flex items-center justify-between ${
                                   isSelected ? "bg-violet-100 font-semibold" : ""
                                 }`}
                               >
                                 <span>{comuna}</span>
                                 {isSelected && (
-                                  <svg className="w-5 h-5 text-violet-600" fill="currentColor" viewBox="0 0 20 20">
+                                  <svg className="w-5 h-5 text-vet-secondary" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                                   </svg>
                                 )}
@@ -1764,7 +1764,7 @@ const VetRegisterPage = () => {
               type="file"
               accept=".jpg,.jpeg,.png"
               onChange={(event) => setProfileImage(event.target.files?.[0] || null)}
-              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-vet-gray-light file:text-vet-secondary-dark hover:file:bg-violet-100"
             />
           </div>
 
@@ -1772,11 +1772,11 @@ const VetRegisterPage = () => {
           {!isClinic && (
             <>
               <div className="md:col-span-2 border-t pt-4 mt-4">
-                <h3 className="text-lg font-semibold mb-4 text-violet-700">Datos de Contacto Profesional</h3>
+                <h3 className="text-lg font-semibold mb-4 text-vet-secondary-dark">Datos de Contacto Profesional</h3>
               </div>
               <div className="md:col-span-2">
-                <div className="p-3 bg-violet-50 border border-violet-200 rounded-lg">
-                  <p className="text-sm text-violet-800">
+                <div className="p-3 bg-vet-gray-light border border-violet-200 rounded-lg">
+                  <p className="text-sm text-vet-primary">
                     <strong>Nota:</strong> Tu nombre profesional se generará automáticamente como "Dr(a). [Nombre] [Apellido Paterno]". Tu teléfono y email de contacto profesional serán los mismos que registraste en el Paso 1 (tu cuenta).
                   </p>
                 </div>
@@ -1791,7 +1791,7 @@ const VetRegisterPage = () => {
                     const specs = e.target.value.split(',').map(s => s.trim()).filter(Boolean);
                     setSpecialties(specs);
                   }}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                 />
               </div>
               <div className="md:col-span-2">
@@ -1800,7 +1800,7 @@ const VetRegisterPage = () => {
                   value={profileDescription}
                   onChange={(e) => setProfileDescription(e.target.value)}
                   rows={3}
-                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                   placeholder="Breve descripción sobre tu experiencia y servicios..."
                 />
               </div>
@@ -1825,7 +1825,7 @@ const VetRegisterPage = () => {
               type="file"
               accept=".pdf,.jpg,.jpeg,.png"
               onChange={(event) => setCertificateFile(event.target.files?.[0] || null)}
-              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-vet-gray-light file:text-vet-secondary-dark hover:file:bg-violet-100"
               required
             />
           </div>
@@ -1840,7 +1840,7 @@ const VetRegisterPage = () => {
               onChange={(event) =>
                 setNationalIdDocument(event.target.files?.[0] || null)
               }
-              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-vet-gray-light file:text-vet-secondary-dark hover:file:bg-violet-100"
               required
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -1858,7 +1858,7 @@ const VetRegisterPage = () => {
               type="file"
                 accept=".pdf,.jpg,.jpeg,.png"
                 onChange={(event) => setSiiActivityStartDocument(event.target.files?.[0] || null)}
-              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-violet-50 file:text-violet-700 hover:file:bg-violet-100"
+              className="block w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-vet-gray-light file:text-vet-secondary-dark hover:file:bg-violet-100"
               required
             />
             <p className="text-xs text-gray-500 mt-1">
@@ -2007,11 +2007,11 @@ const VetRegisterPage = () => {
                 type="checkbox"
                 checked={declarations.acceptedTerms}
                 onChange={(e) => setDeclarations({...declarations, acceptedTerms: e.target.checked})}
-                className="mt-1 w-4 h-4 text-violet-600 rounded"
+                className="mt-1 w-4 h-4 text-vet-secondary rounded"
                 required
               />
               <span className="text-sm">
-                Acepto los <a href="/terms" target="_blank" className="text-violet-600 hover:underline">Términos y Condiciones</a> de VetGoNow <span className="text-red-500">*</span>
+                Acepto los <a href="/terms" target="_blank" className="text-vet-secondary hover:underline">Términos y Condiciones</a> de VetGoNow <span className="text-red-500">*</span>
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
@@ -2019,11 +2019,11 @@ const VetRegisterPage = () => {
                 type="checkbox"
                 checked={declarations.acceptedPrivacy}
                 onChange={(e) => setDeclarations({...declarations, acceptedPrivacy: e.target.checked})}
-                className="mt-1 w-4 h-4 text-violet-600 rounded"
+                className="mt-1 w-4 h-4 text-vet-secondary rounded"
                 required
               />
               <span className="text-sm">
-                Acepto la <a href="/privacy" target="_blank" className="text-violet-600 hover:underline">Política de Privacidad</a> <span className="text-red-500">*</span>
+                Acepto la <a href="/privacy" target="_blank" className="text-vet-secondary hover:underline">Política de Privacidad</a> <span className="text-red-500">*</span>
               </span>
             </label>
             <label className="flex items-start gap-3 cursor-pointer">
@@ -2031,7 +2031,7 @@ const VetRegisterPage = () => {
                 type="checkbox"
                 checked={declarations.informationIsTruthful}
                 onChange={(e) => setDeclarations({...declarations, informationIsTruthful: e.target.checked})}
-                className="mt-1 w-4 h-4 text-violet-600 rounded"
+                className="mt-1 w-4 h-4 text-vet-secondary rounded"
                 required
               />
               <span className="text-sm">
@@ -2088,7 +2088,7 @@ const VetRegisterPage = () => {
                   setError(""); // Limpiar errores al avanzar
                   goNext();
                 }}
-                className="px-4 py-2 rounded-lg bg-violet-600 hover:bg-violet-700 text-white"
+                className="px-4 py-2 rounded-lg bg-vet-secondary hover:bg-vet-secondary-dark text-white"
               >
                 Continuar
               </button>
@@ -2097,7 +2097,7 @@ const VetRegisterPage = () => {
           <button
             type="submit"
             disabled={loading}
-              className={`w-full ${isClinic ? 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800' : 'bg-violet-600 hover:bg-violet-700 active:bg-violet-800'} text-white px-4 py-3 md:py-3.5 rounded-xl font-medium text-sm md:text-base disabled:opacity-60 transition-all active:scale-[0.97]`}
+              className={`w-full ${isClinic ? 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800' : 'bg-vet-secondary hover:bg-vet-secondary-dark active:bg-vet-primary'} text-white px-4 py-3 md:py-3.5 rounded-xl font-medium text-sm md:text-base disabled:opacity-60 transition-all active:scale-[0.97]`}
             >
               {loading 
                 ? "Procesando registro..." 
@@ -2112,7 +2112,7 @@ const VetRegisterPage = () => {
             <button
               type="button"
               onClick={() => navigate("/login/vet")}
-              className="text-violet-700 hover:underline font-medium"
+              className="text-vet-secondary-dark hover:underline font-medium"
             >
               Inicia sesión
             </button>

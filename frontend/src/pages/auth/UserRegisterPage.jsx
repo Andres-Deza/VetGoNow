@@ -90,7 +90,7 @@ const UserRegisterPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex justify-center items-center px-3 sm:px-4 py-6 md:py-8">
+    <div className="min-h-screen bg-vet-gray-light flex justify-center items-center px-3 sm:px-4 py-6 md:py-8">
       <form
         onSubmit={handleSubmit}
         className="bg-white p-4 md:p-6 lg:p-8 rounded-2xl shadow-lg w-full max-w-md"
@@ -114,7 +114,7 @@ const UserRegisterPage = () => {
               type="text"
               value={name}
               onChange={(event) => setName(event.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
               placeholder="Tu nombre completo"
               required
             />
@@ -127,14 +127,14 @@ const UserRegisterPage = () => {
                 type="email"
                 value={email}
                 onChange={(event) => setEmail(event.target.value)}
-                className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                 placeholder="tu@email.com"
                 required
               />
               <button
                 type="button"
                 onClick={handleSendToken}
-                className="bg-violet-600 text-white px-4 py-2.5 rounded-lg hover:bg-violet-700 active:bg-violet-800 transition-all"
+                className="bg-vet-secondary text-white px-4 py-2.5 rounded-lg hover:bg-vet-secondary-dark active:bg-vet-primary transition-all"
               >
                 Obtener código
               </button>
@@ -148,7 +148,7 @@ const UserRegisterPage = () => {
                 type="text"
                 value={token}
                 onChange={(event) => setToken(event.target.value)}
-                className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+                className="flex-1 px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
                 placeholder="Ingresa el código enviado a tu correo"
                 required
               />
@@ -171,7 +171,7 @@ const UserRegisterPage = () => {
               type="text"
               value={phoneNumber}
               onChange={(event) => setPhoneNumber(event.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
               placeholder="+56 9 1234 5678"
               required
             />
@@ -183,7 +183,7 @@ const UserRegisterPage = () => {
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
               placeholder="Elige una contraseña segura"
               required
             />
@@ -195,7 +195,7 @@ const UserRegisterPage = () => {
               type="password"
               value={confirmPassword}
               onChange={(event) => setConfirmPassword(event.target.value)}
-              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-300 text-black"
+              className="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-vet-secondary text-black"
               placeholder="Vuelve a ingresar tu contraseña"
               required
             />
@@ -206,7 +206,7 @@ const UserRegisterPage = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-violet-600 text-white px-4 py-3 rounded-xl font-medium text-sm md:text-base hover:bg-violet-700 active:bg-violet-800 disabled:opacity-60 transition-all active:scale-[0.97]"
+            className="w-full bg-vet-secondary text-white px-4 py-3 rounded-xl font-medium text-sm md:text-base hover:bg-vet-secondary-dark active:bg-vet-primary disabled:opacity-60 transition-all active:scale-[0.97]"
           >
             {loading ? "Creando cuenta..." : "Crear cuenta"}
           </button>
@@ -220,7 +220,7 @@ const UserRegisterPage = () => {
             <button
               type="button"
               onClick={() => navigate("/register/vet")}
-              className="text-violet-700 hover:underline font-medium"
+              className="text-vet-secondary hover:underline font-medium"
             >
               Completa tu registro profesional
             </button>

@@ -75,7 +75,7 @@ const ResetPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-violet-700 flex flex-col items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-vet-secondary flex flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -126,7 +126,7 @@ const ResetPasswordPage = () => {
                 id="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-vet-secondary focus:border-transparent"
                 placeholder="Mínimo 6 caracteres"
                 required
               />
@@ -144,7 +144,7 @@ const ResetPasswordPage = () => {
                 id="confirmPassword"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-vet-secondary focus:border-transparent"
                 placeholder="Vuelve a escribir tu nueva contraseña"
                 required
               />
@@ -154,7 +154,7 @@ const ResetPasswordPage = () => {
               <button
                 type="submit"
                 disabled={loading}
-                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-violet-500 ${
+                className={`w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-vet-secondary hover:bg-vet-secondary-dark focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-vet-secondary ${
                   loading ? "opacity-70 cursor-not-allowed" : ""
                 }`}
               >
@@ -167,7 +167,7 @@ const ResetPasswordPage = () => {
         <div className="mt-6 text-center">
           <button
             onClick={() => navigate("/login")}
-            className="text-sm font-medium text-violet-600 hover:text-violet-500"
+            className="text-sm font-medium text-vet-secondary hover:text-vet-secondary-dark"
           >
             Volver al inicio de sesión
           </button>

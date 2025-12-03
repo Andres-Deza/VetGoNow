@@ -65,7 +65,7 @@ const LoginPage = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-vet-primary via-vet-primary-light to-vet-secondary text-white flex flex-col">
+    <div className="min-h-screen bg-vet-secondary text-white flex flex-col">
       <header className="px-4 md:px-8 py-6 md:py-10">
         <div className="max-w-4xl mx-auto">
           <p className="text-vet-secondary-light opacity-90 text-sm md:text-base">Elige tu experiencia</p>

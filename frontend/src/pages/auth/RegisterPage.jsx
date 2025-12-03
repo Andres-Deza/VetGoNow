@@ -24,7 +24,7 @@ const registerOptions = [
 
 const RegisterPage = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-vet-primary via-vet-secondary to-vet-secondary-light text-white flex flex-col">
+    <div className="min-h-screen bg-vet-secondary text-white flex flex-col">
       <header className="px-4 md:px-8 py-6 md:py-10">
         <div className="max-w-4xl mx-auto">
           <p className="text-vet-secondary-light text-sm md:text-base">Selecciona el tipo de cuenta</p>

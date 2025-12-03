@@ -128,7 +128,7 @@ const RoleLoginPage = ({
 
   return (
     <div className="min-h-screen bg-vet-secondary flex flex-col text-white">
-      <header className="bg-gradient-to-r from-vet-primary to-vet-secondary px-4 md:px-6 py-6 md:py-8">
+      <header className="bg-vet-secondary px-4 md:px-6 py-6 md:py-8">
         <div className="max-w-3xl mx-auto">
           {heroEyebrow && <p className="text-vet-secondary-light text-sm md:text-base">{heroEyebrow}</p>}
           <h1 className="text-2xl md:text-3xl font-bold mt-2">{heroTitle}</h1>

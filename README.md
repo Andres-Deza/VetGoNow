@@ -1,6 +1,8 @@
 # VetGoNow
 
-Plataforma web de servicios veterinarios on-demand que conecta tutores de mascotas con veterinarios disponibles en tiempo real. El sistema permite solicitar urgencias veterinarias, consultas presenciales y telemedicina, con asignación automática por geolocalización, pagos en línea, chat en tiempo real y videollamadas.
+Plataforma web de servicios veterinarios on-demand que conecta tutores de mascotas con veterinarios independientes y clínicas veterinarias. El sistema permite agendar tres tipos de servicios: consultas presenciales en clínica, teleconsultas por videollamada y servicios a domicilio para urgencias. 
+
+Mediante un sistema de geolocalización integrado con Google Maps, la aplicación muestra en tiempo real los veterinarios y clínicas más cercanos a la ubicación del usuario, facilitando la búsqueda y selección del profesional adecuado. El sistema incluye asignación automática de veterinarios para urgencias, seguimiento en tiempo real durante servicios a domicilio, chat directo, videollamadas integradas y un sistema completo de pagos en línea.
 
 ## Arquitectura
 

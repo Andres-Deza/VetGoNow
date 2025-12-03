@@ -69,7 +69,6 @@ Thumbs.db
 **/*.ipynb
 /ejemplo_Pages
 /.windsurf
-.cursorrules
 
 # Test files and screenshots (keep test files in tests/ directory)
 **/cypress/screenshots/**

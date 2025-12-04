@@ -596,7 +596,7 @@ const PetsPage = () => {
                         <button 
                               onClick={() => {
                                 setShowOptionsMenu(null);
-                                navigate('/mis-citas');
+                                navigate('/appointments');
                               }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2"
                             >
@@ -608,7 +608,7 @@ const PetsPage = () => {
                             <button
                               onClick={() => {
                                 setShowOptionsMenu(null);
-                                // Implementar navegación a resultados
+                                navigate('/client/history', { state: { petId: p._id } });
                               }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2"
                             >
@@ -776,7 +776,7 @@ const PetsPage = () => {
                           <button
                             onClick={() => {
                               setShowOptionsMenu(null);
-                              navigate('/mis-citas');
+                              navigate('/appointments');
                             }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2"
                           >
@@ -788,7 +788,7 @@ const PetsPage = () => {
                           <button
                             onClick={() => {
                               setShowOptionsMenu(null);
-                              // Implementar navegación a resultados
+                              navigate('/client/history', { state: { petId: p._id } });
                             }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2"
                           >

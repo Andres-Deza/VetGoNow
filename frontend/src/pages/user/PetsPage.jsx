@@ -85,13 +85,13 @@ const PetsPage = () => {
   const [showImageModal, setShowImageModal] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
   const [showOptionsMenu, setShowOptionsMenu] = useState(null);
-  const [newPet, setNewPet] = useState({ 
-    name: "", 
-    image: "", 
-    species: "Perro", 
-    breed: "", 
-    gender: "Macho", 
-    color: "", 
+  const [newPet, setNewPet] = useState({
+    name: "",
+    image: "",
+    species: "Perro",
+    breed: "",
+    gender: "Macho",
+    color: "",
     description: "",
     birthDate: "",
     ageYears: "",
@@ -249,17 +249,17 @@ const PetsPage = () => {
 
   const calculateAgeFromBirthDate = (birthDate) => {
     if (!birthDate) return { years: null, months: null };
-    
+
     const today = new Date();
     const birth = new Date(birthDate);
     let years = today.getFullYear() - birth.getFullYear();
     let months = today.getMonth() - birth.getMonth();
-    
+
     if (months < 0) {
       years--;
       months += 12;
     }
-    
+
     // Si el día del mes aún no ha llegado, ajustar
     if (today.getDate() < birth.getDate()) {
       months--;
@@ -268,19 +268,19 @@ const PetsPage = () => {
         months += 12;
       }
     }
-    
+
     return { years, months };
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     if (name === 'name') setNameTouched(true);
-    
+
     // Si cambia la fecha de nacimiento, calcular edad automáticamente
     if (name === 'birthDate' && value) {
       const { years, months } = calculateAgeFromBirthDate(value);
-      setNewPet({ 
-        ...newPet, 
+      setNewPet({
+        ...newPet,
         [name]: value,
         ageYears: years || '',
         ageMonths: months || ''
@@ -362,7 +362,7 @@ const PetsPage = () => {
   // Función de validación
   const validateForm = () => {
     const newErrors = {};
-    
+
     if (!newPet.name || newPet.name.trim() === '') {
       newErrors.name = 'El nombre es obligatorio';
     } else if (newPet.name.length < 2) {
@@ -370,31 +370,31 @@ const PetsPage = () => {
     } else if (newPet.name.length > 30) {
       newErrors.name = 'El nombre no puede exceder 30 caracteres';
     }
-    
+
     if (!newPet.species) {
       newErrors.species = 'La especie es obligatoria';
     }
-    
+
     if (!newPet.breed || newPet.breed.trim() === '') {
       newErrors.breed = 'La raza es obligatoria';
     }
-    
+
     if (!newPet.gender) {
       newErrors.gender = 'El género es obligatorio';
     }
-    
+
     if (newPet.weight && (isNaN(newPet.weight) || Number(newPet.weight) <= 0)) {
       newErrors.weight = 'El peso debe ser un número positivo';
     }
-    
+
     if (newPet.ageYears && (isNaN(newPet.ageYears) || Number(newPet.ageYears) < 0)) {
       newErrors.ageYears = 'Los años deben ser un número válido';
     }
-    
+
     if (newPet.ageMonths && (isNaN(newPet.ageMonths) || Number(newPet.ageMonths) < 0 || Number(newPet.ageMonths) > 11)) {
       newErrors.ageMonths = 'Los meses deben estar entre 0 y 11';
     }
-    
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -423,18 +423,18 @@ const PetsPage = () => {
         weight: newPet.weight && newPet.weight.toString().trim() !== '' ? newPet.weight : undefined,
         birthDate: newPet.birthDate && newPet.birthDate.trim() !== '' ? newPet.birthDate : undefined,
         // Permitir 0 como valor válido (mascota de menos de un año)
-        ageYears: newPet.ageYears !== '' && newPet.ageYears !== null && newPet.ageYears !== undefined 
-          ? (newPet.ageYears === 0 ? 0 : parseFloat(newPet.ageYears)) 
+        ageYears: newPet.ageYears !== '' && newPet.ageYears !== null && newPet.ageYears !== undefined
+          ? (newPet.ageYears === 0 ? 0 : parseFloat(newPet.ageYears))
           : undefined,
-        ageMonths: newPet.ageMonths !== '' && newPet.ageMonths !== null && newPet.ageMonths !== undefined 
-          ? (newPet.ageMonths === 0 ? 0 : parseInt(newPet.ageMonths)) 
+        ageMonths: newPet.ageMonths !== '' && newPet.ageMonths !== null && newPet.ageMonths !== undefined
+          ? (newPet.ageMonths === 0 ? 0 : parseInt(newPet.ageMonths))
           : undefined,
         // Campos opcionales: solo incluir si tienen valor
         ...(newPet.image && newPet.image.trim() !== '' && { image: newPet.image }),
         ...(newPet.color && newPet.color.trim() !== '' && { color: newPet.color }),
         ...(newPet.description && newPet.description.trim() !== '' && { description: newPet.description }),
       };
-      
+
       const res = await axios.post(
         `${API_BASE}/api/pets`,
         petData,
@@ -443,13 +443,13 @@ const PetsPage = () => {
       if (res.data?.pet) {
         const created = res.data.pet;
         setPets((prevPets) => [...prevPets, created]);
-        setNewPet({ 
-          name: "", 
-          image: "", 
-          species: "Perro", 
-          breed: "", 
-          gender: "Macho", 
-          color: "", 
+        setNewPet({
+          name: "",
+          image: "",
+          species: "Perro",
+          breed: "",
+          gender: "Macho",
+          color: "",
           description: "",
           birthDate: "",
           ageYears: "",
@@ -547,7 +547,7 @@ const PetsPage = () => {
         {/* Sección de Mascotas */}
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl md:text-2xl font-bold text-gray-900">Tus mascotas</h3>
-          <button 
+          <button
             className="text-violet-600 hover:text-violet-700 font-semibold text-sm md:text-base transition-colors"
             onClick={() => { setIsModalOpen(true); clearAllErrors(); }}
           >
@@ -568,95 +568,95 @@ const PetsPage = () => {
             {/* Versión móvil: lista vertical */}
             <div className="md:hidden space-y-4">
               {pets.map(p => {
-              // Verificar si la ficha está incompleta
+                // Verificar si la ficha está incompleta
                 const hasAge = p.ageYears !== undefined || p.ageMonths !== undefined;
                 const hasBirthOrAge = p.birthDate || hasAge;
                 const isIncomplete = !hasBirthOrAge || !p.weight || !p.gender;
-              
-              return (
-            <div
+
+                return (
+                  <div
                     key={p._id}
                     className="bg-white rounded-xl shadow-sm p-4 md:p-6 relative"
                   >
                     {/* Menú de opciones - Dropdown */}
-                    <div className="absolute top-4 right-4">
-                          <button 
-                            onClick={(e) => { 
-                              e.stopPropagation(); 
+                    <div className="absolute top-4 right-4 options-menu-container">
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
                           setShowOptionsMenu(showOptionsMenu === p._id ? null : p._id);
-                            }}
+                        }}
                         className="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition-colors"
-                          >
+                      >
                         <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                            </svg>
-                          </button>
+                        </svg>
+                      </button>
                       {showOptionsMenu === p._id && (
                         <div className="fixed md:absolute right-4 md:right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 z-50">
-                        <button 
-                              onClick={() => {
-                                setShowOptionsMenu(null);
-                                navigate('/appointments');
-                              }}
+                          <button
+                            onClick={() => {
+                              setShowOptionsMenu(null);
+                              navigate('/appointments');
+                            }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2"
-                            >
+                          >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                             </svg>
-                              Citas
-                            </button>
-                            <button
-                              onClick={() => {
-                                setShowOptionsMenu(null);
-                                navigate('/client/history', { state: { petId: p._id } });
-                              }}
+                            Citas
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowOptionsMenu(null);
+                              navigate('/client/history', { state: { petId: p._id } });
+                            }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2"
-                            >
+                          >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                             </svg>
-                              Resultados
-                            </button>
-                            <button
-                              onClick={() => {
-                                setShowOptionsMenu(null);
+                            Resultados
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowOptionsMenu(null);
                               navigate('/pet-details', { state: { pet: p } });
-                              }}
+                            }}
                             className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-100 transition-colors flex items-center gap-2 border-t border-gray-200"
-                            >
+                          >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                             </svg>
                             Editar datos
-                            </button>
-                            <button
-                              onClick={() => {
-                                setShowOptionsMenu(null);
+                          </button>
+                          <button
+                            onClick={() => {
+                              setShowOptionsMenu(null);
                               setDeletePetId(p._id);
-                              }}
+                            }}
                             className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-gray-100 transition-colors flex items-center gap-2 border-t border-gray-200"
-                            >
+                          >
                             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                             </svg>
-                              Marcar fallecido
-                            </button>
-                          </div>
-                        )}
-                      </div>
+                            Marcar fallecido
+                          </button>
+                        </div>
+                      )}
+                    </div>
 
                     {/* Avatar de mascota */}
                     <div className="flex flex-col items-center mb-4">
                       <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-yellow-100 border-4 border-white shadow-md -mt-8 mb-3">
-                        <PetAvatar 
-                          image={p.image} 
-                          species={p.species} 
-                          name={p.name} 
-                          className="w-full h-full object-cover" 
+                        <PetAvatar
+                          image={p.image}
+                          species={p.species}
+                          name={p.name}
+                          className="w-full h-full object-cover"
                         />
-                    </div>
+                      </div>
                       <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{p.name}</h3>
-                      
+
                       {/* Información completa */}
                       {p.species && p.weight && (p.birthDate || p.ageYears !== undefined || p.ageMonths !== undefined) ? (
                         <div className="w-full text-left px-4 mb-4 space-y-1">
@@ -666,17 +666,17 @@ const PetsPage = () => {
                               // Calcular edad desde birthDate si no están ageYears/ageMonths
                               let ageYears = p.ageYears;
                               let ageMonths = p.ageMonths;
-                              
-                              if ((ageYears === undefined || ageYears === null) && 
-                                  (ageMonths === undefined || ageMonths === null) && 
-                                  p.birthDate) {
+
+                              if ((ageYears === undefined || ageYears === null) &&
+                                (ageMonths === undefined || ageMonths === null) &&
+                                p.birthDate) {
                                 const calculated = calculateAgeFromBirthDate(p.birthDate);
                                 ageYears = calculated.years;
                                 ageMonths = calculated.months;
                               }
-                              
-                              if (ageYears !== undefined && ageYears !== null && 
-                                  ageMonths !== undefined && ageMonths !== null) {
+
+                              if (ageYears !== undefined && ageYears !== null &&
+                                ageMonths !== undefined && ageMonths !== null) {
                                 const ageParts = [];
                                 if (ageYears > 0) {
                                   ageParts.push(`${ageYears} ${ageYears === 1 ? 'año' : 'años'}`);
@@ -690,7 +690,7 @@ const PetsPage = () => {
                             })()}
                           </p>
                           {p.gender && <p className="text-sm md:text-base text-gray-700">{p.gender}</p>}
-                      </div>
+                        </div>
                       ) : (
                         <>
                           {/* Ficha incompleta warning */}
@@ -698,10 +698,10 @@ const PetsPage = () => {
                             <>
                               <div className="flex items-center gap-2 mb-2">
                                 <svg className="w-5 h-5 text-orange-500" fill="currentColor" viewBox="0 0 20 20">
-                              <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-                            </svg>
+                                  <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                                </svg>
                                 <span className="text-sm md:text-base font-semibold text-gray-900">Ficha incompleta</span>
-                          </div>
+                              </div>
                               <p className="text-sm text-gray-600 mb-4 text-center px-4">
                                 Completa su información <span className="text-tutor-sidebar underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
                               </p>
@@ -732,19 +732,19 @@ const PetsPage = () => {
                         <button
                           onClick={() => navigate(`/videoconsulta?petId=${p._id}`)}
                           className="w-full px-6 py-3 bg-tutor-btn-secondary text-white rounded-xl font-semibold hover:bg-tutor-btn-secondary-dark transition-all active:scale-95 flex items-center justify-center gap-2"
-                      >
+                        >
                           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
                           </svg>
                           Agendar videoconsulta
-                      </button>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                        </div>
                 );
               })}
-                        </div>
-                        
+            </div>
+
             {/* Versión desktop: Grid de 2 columnas */}
             <div className="hidden md:grid md:grid-cols-2 gap-4">
               {pets.map(p => {
@@ -752,14 +752,14 @@ const PetsPage = () => {
                 const hasAge = p.ageYears !== undefined || p.ageMonths !== undefined;
                 const hasBirthOrAge = p.birthDate || hasAge;
                 const isIncomplete = !hasBirthOrAge || !p.weight || !p.gender;
-                
+
                 return (
                   <div
                     key={p._id}
                     className="bg-white rounded-xl shadow-sm p-4 md:p-6 relative"
                   >
                     {/* Menú de opciones - Dropdown */}
-                    <div className="absolute top-4 right-4">
+                    <div className="absolute top-4 right-4 options-menu-container">
                       <button
                         onClick={(e) => {
                           e.stopPropagation();
@@ -823,20 +823,20 @@ const PetsPage = () => {
                           </button>
                         </div>
                       )}
-                        </div>
-                        
+                    </div>
+
                     {/* Avatar de mascota */}
                     <div className="flex flex-col items-center mb-4">
                       <div className="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden bg-yellow-100 border-4 border-white shadow-md -mt-8 mb-3">
-                        <PetAvatar 
-                          image={p.image} 
-                          species={p.species} 
-                          name={p.name} 
-                          className="w-full h-full object-cover" 
+                        <PetAvatar
+                          image={p.image}
+                          species={p.species}
+                          name={p.name}
+                          className="w-full h-full object-cover"
                         />
-                        </div>
+                      </div>
                       <h3 className="text-xl md:text-2xl font-bold text-gray-900 mb-3">{p.name}</h3>
-                      
+
                       {/* Información completa */}
                       {p.species && p.weight && (p.birthDate || p.ageYears !== undefined || p.ageMonths !== undefined) ? (
                         <div className="w-full text-left px-4 mb-4 space-y-1">
@@ -846,17 +846,17 @@ const PetsPage = () => {
                               // Calcular edad desde birthDate si no están ageYears/ageMonths
                               let ageYears = p.ageYears;
                               let ageMonths = p.ageMonths;
-                              
-                              if ((ageYears === undefined || ageYears === null) && 
-                                  (ageMonths === undefined || ageMonths === null) && 
-                                  p.birthDate) {
+
+                              if ((ageYears === undefined || ageYears === null) &&
+                                (ageMonths === undefined || ageMonths === null) &&
+                                p.birthDate) {
                                 const calculated = calculateAgeFromBirthDate(p.birthDate);
                                 ageYears = calculated.years;
                                 ageMonths = calculated.months;
                               }
-                              
-                              if (ageYears !== undefined && ageYears !== null && 
-                                  ageMonths !== undefined && ageMonths !== null) {
+
+                              if (ageYears !== undefined && ageYears !== null &&
+                                ageMonths !== undefined && ageMonths !== null) {
                                 const ageParts = [];
                                 if (ageYears > 0) {
                                   ageParts.push(`${ageYears} ${ageYears === 1 ? 'año' : 'años'}`);
@@ -881,7 +881,7 @@ const PetsPage = () => {
                                   <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
                                 </svg>
                                 <span className="text-sm md:text-base font-semibold text-gray-900">Ficha incompleta</span>
-                        </div>
+                              </div>
                               <p className="text-sm text-gray-600 mb-4 text-center px-4">
                                 Completa su información <span className="text-tutor-sidebar underline cursor-pointer" onClick={() => navigate('/pet-details', { state: { pet: p } })}>acá</span>
                               </p>
@@ -889,7 +889,7 @@ const PetsPage = () => {
                           )}
                         </>
                       )}
-                      
+
                       <div className="w-full space-y-2">
                         <button
                           onClick={() => navigate(`/emergency/request?petId=${p._id}`)}
@@ -918,12 +918,12 @@ const PetsPage = () => {
                           </svg>
                           Agendar videoconsulta
                         </button>
-                        </div>
-              </div>
-                </div>
-              );
-            })}
-        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </>
         )}
 
@@ -946,7 +946,7 @@ const PetsPage = () => {
           </div>
         )}
       </div>
-      
+
       {deletePetId && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
@@ -1007,11 +1007,10 @@ const PetsPage = () => {
                   }}
                   onBlur={() => setNameTouched(true)}
                   ref={nameInputRef}
-                  className={`w-full px-4 py-3 text-base border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    errors.name
-                      ? 'border-red-400 focus:ring-red-300' 
+                  className={`w-full px-4 py-3 text-base border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.name
+                      ? 'border-red-400 focus:ring-red-300'
                       : 'border-gray-300 focus:ring-violet-300'
-                  }`}
+                    }`}
                 />
                 {errors.name && (
                   <div className="flex items-center gap-1 mt-1.5">
@@ -1030,22 +1029,20 @@ const PetsPage = () => {
                   <button
                     type="button"
                     onClick={() => handleSpeciesSelect('Perro')}
-                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
-                      newPet.species === 'Perro'
+                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${newPet.species === 'Perro'
                         ? 'border-violet-600 bg-violet-50 text-violet-700'
                         : 'border-gray-300 bg-white text-gray-900 hover:border-violet-300'
-                    }`}
+                      }`}
                   >
                     Perro 🐶
                   </button>
                   <button
                     type="button"
                     onClick={() => handleSpeciesSelect('Gato')}
-                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
-                      newPet.species === 'Gato'
+                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${newPet.species === 'Gato'
                         ? 'border-violet-600 bg-violet-50 text-violet-700'
                         : 'border-gray-300 bg-white text-gray-900 hover:border-violet-300'
-                    }`}
+                      }`}
                   >
                     Gato 🐱
                   </button>
@@ -1058,23 +1055,21 @@ const PetsPage = () => {
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
-                    onClick={() => setNewPet({...newPet, gender: 'Macho'})}
-                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
-                      newPet.gender === 'Macho'
+                    onClick={() => setNewPet({ ...newPet, gender: 'Macho' })}
+                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${newPet.gender === 'Macho'
                         ? 'border-violet-600 bg-violet-50 text-violet-700'
                         : 'border-gray-300 bg-white text-gray-900 hover:border-violet-300'
-                    }`}
+                      }`}
                   >
                     Macho ♂
                   </button>
                   <button
                     type="button"
-                    onClick={() => setNewPet({...newPet, gender: 'Hembra'})}
-                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${
-                      newPet.gender === 'Hembra'
+                    onClick={() => setNewPet({ ...newPet, gender: 'Hembra' })}
+                    className={`px-4 py-3 rounded-lg border-2 font-semibold transition-all active:scale-95 ${newPet.gender === 'Hembra'
                         ? 'border-violet-600 bg-violet-50 text-violet-700'
                         : 'border-gray-300 bg-white text-gray-900 hover:border-violet-300'
-                    }`}
+                      }`}
                   >
                     Hembra ♀
                   </button>
@@ -1096,11 +1091,10 @@ const PetsPage = () => {
                   onFocus={handleBreedInputFocus}
                   autoComplete="off"
                   ref={breedInputRef}
-                  className={`w-full px-4 py-3 text-base border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    errors.breed
+                  className={`w-full px-4 py-3 text-base border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.breed
                       ? 'border-red-400 focus:ring-red-300'
                       : 'border-gray-300 focus:ring-violet-300'
-                  }`}
+                    }`}
                   required
                 />
                 {breedDropdownOpen && (
@@ -1161,11 +1155,10 @@ const PetsPage = () => {
                     handleChange(e);
                     clearFieldError('weight');
                   }}
-                  className={`w-full px-4 py-3 text-base border rounded-lg focus:outline-none focus:ring-2 transition-all ${
-                    errors.weight
+                  className={`w-full px-4 py-3 text-base border rounded-lg focus:outline-none focus:ring-2 transition-all ${errors.weight
                       ? 'border-red-400 focus:ring-red-300'
                       : 'border-gray-300 focus:ring-violet-300'
-                  }`}
+                    }`}
                 />
                 {errors.weight && (
                   <div className="flex items-center gap-1 mt-1.5">
@@ -1223,11 +1216,10 @@ const PetsPage = () => {
             <div className="mt-8 pb-6">
               <button
                 disabled={!newPet.name || !newPet.species || !newPet.breed || !newPet.gender}
-                className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all ${
-                  newPet.name && newPet.species && newPet.breed && newPet.gender
+                className={`w-full py-4 rounded-xl font-bold text-white text-lg transition-all ${newPet.name && newPet.species && newPet.breed && newPet.gender
                     ? 'bg-violet-600 hover:bg-violet-700 active:bg-violet-800 active:scale-95'
                     : 'bg-gray-300 cursor-not-allowed'
-                }`}
+                  }`}
                 onClick={() => handleAddPet('continue')}
               >
                 Continuar
@@ -1239,7 +1231,7 @@ const PetsPage = () => {
 
       {/* Modal para ver imagen en grande */}
       {showImageModal && selectedImage && (
-        <div 
+        <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-90 p-4"
           onClick={() => setShowImageModal(false)}
         >
@@ -1253,7 +1245,7 @@ const PetsPage = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
-            
+
             {/* Imagen */}
             <img
               src={selectedImage}
